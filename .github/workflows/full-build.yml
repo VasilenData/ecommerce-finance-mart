@@ -1,0 +1,17 @@
+name: full-build
+# Manual run: downloads the 45 MB UCI file, rebuilds everything on the real data and runs the reconciliation checks.
+on: workflow_dispatch
+jobs:
+  full:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements-dev.txt
+      - run: python -m mart.cli data
+      - run: python -m mart.cli build
+      - run: python -m pytest -q
