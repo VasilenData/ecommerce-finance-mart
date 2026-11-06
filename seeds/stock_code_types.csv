@@ -1,0 +1,27 @@
+stock_code,line_type
+POST,shipping
+DOT,shipping
+C2,shipping
+CARRIAGE,shipping
+M,manual
+D,discount
+S,samples
+BANK CHARGES,fee
+AMAZONFEE,fee
+CRUK,fee
+ADJUST,adjustment
+ADJUST2,adjustment
+B,bad_debt
+TEST001,test
+TEST002,test
+GIFT,gift_voucher
+C3,adjustment
+GIFT_0001_10,gift_voucher
+GIFT_0001_20,gift_voucher
+GIFT_0001_30,gift_voucher
+GIFT_0001_40,gift_voucher
+GIFT_0001_50,gift_voucher
+GIFT_0001_60,gift_voucher
+GIFT_0001_70,gift_voucher
+GIFT_0001_80,gift_voucher
+GIFT_0001_90,gift_voucher
