@@ -1,0 +1,17 @@
+[tool.ruff]
+line-length = 140
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff.lint.per-file-ignores]
+# These files hold long SQL and report strings; wrapping them would hurt readability.
+"mart/report.py" = ["E501"]
+"mart/excel.py" = ["E501"]
+"mart/charts.py" = ["E501"]
+"mart/explorer.py" = ["E501"]
+"mart/checks.py" = ["E501"]
