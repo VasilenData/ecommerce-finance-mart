@@ -67,6 +67,7 @@ Full table and the 14 blocking checks: [docs/data_quality.md](docs/data_quality.
 - **Returns are timing, not cohorts.** A month's return rate is credit notes issued that month over sales that month. It is not the share of that month's sales that came back.
 - **RFM edges are approximate.** Many customers share the same order count, so quintile boundaries are broken by spend and id. Treat segment sizes as a ranking aid.
 - **Practice data, not employer data.** This is the public UCI Online Retail II dataset (CC BY 4.0) for one UK wholesaler, in GBP. No figure here comes from any company I have worked for.
+- **BigQuery check.** The monthly sales table (643 rows) was loaded by hand into a BigQuery sandbox project in the EU region and reconciles to the mart: net sales GBP 18,927,399. The project is private, there is no Terraform deployment for it, and the Terraform elsewhere in my repos stays validated, not deployed.
 - **Explorer scope.** The product table follows the period only, not country or customer type. Active customers are counted per month and cannot be summed across months, so the explorer shows a monthly average.
 
 ## Run it
