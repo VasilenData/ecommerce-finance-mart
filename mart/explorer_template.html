@@ -15,7 +15,7 @@ html{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
 body{margin:0}
 a{color:var(--mint)}
 :focus-visible{outline:2px solid var(--mint);outline-offset:2px}
-.wrap{max-width:1180px;margin:0 auto;padding:40px 24px 64px}
+.wrap{max-width:1180px;margin:0 auto;padding:40px 24px 64px}main.wrap{padding-bottom:0}
 h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,4vw,40px);line-height:1.1;margin:0 0 8px;letter-spacing:-.01em}
 .lede{color:var(--muted);max-width:62ch;margin:0 0 32px}
 h2{font-family:var(--display);font-weight:500;font-size:20px;margin:0 0 4px}
@@ -63,7 +63,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--rule)}
 </style>
 </head>
 <body>
-<div class="wrap">
+<main class="wrap">
 <h1>Sales explorer</h1>
 <p class="lede">A UK online wholesaler, December 2009 to December 2011. Pick a question and get the answer, the table behind it and the CSV. Every number comes from the same SQL marts as the Excel workbook.</p>
 
@@ -91,8 +91,8 @@ to <select id="to" aria-label="To month"></select>.
 <section style="margin-top:48px"><h2>Who buys: customer segments</h2>
 <p class="sub">Registered customers only, scored on recency, frequency and spend (quintiles). Not affected by the filters above.</p>
 <div class="scroll"><table id="segments"></table></div></section>
-
-<footer>
+</main>
+<div class="wrap" style="padding-top:0"><footer>
 <p class="note" id="trust"></p>
 <p class="note"><b>Limits.</b> Public practice data for one UK retailer, not data from any employer. The product table follows the period only; it is not split by country or customer type. Active customers are counted per month and cannot be added across months, so the facts row shows a monthly average. Return rate excludes returns that exactly mirror a sale by the same customer within an hour (order-entry reversals); the as-reported rate is shown beside it.</p>
 <p class="note">Source code, SQL, tests and metric definitions: <a href="https://github.com/VasilenData/ecommerce-finance-mart">github.com/VasilenData/ecommerce-finance-mart</a>. Dataset: UCI Online Retail II (CC BY 4.0).</p>
