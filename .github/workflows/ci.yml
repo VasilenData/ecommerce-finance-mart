@@ -13,5 +13,9 @@ jobs:
           cache: pip
       - run: pip install -r requirements-dev.txt
       - run: python -m ruff check .
-      # Runs the 31 fixture tests. The real-data test skips itself when data/ is absent.
+      # The real-data test skips itself when data/ is absent.
       - run: python -m pytest -q
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node --test tests_js/*.test.mjs
