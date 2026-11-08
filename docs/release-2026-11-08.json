@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "revision": "5371e3c40dfaa65b66b057a079002fc01777fc33",
+  "generated_at": "2026-11-08T20:50:53.633105+00:00",
+  "source": {
+    "file": "raw_online_retail_II.csv",
+    "bytes": 93181428,
+    "sha256": "05086ff204eaa3333090a82e6a02cd3eee881ebbb0264eff4a8730cdf81b3dd1"
+  },
+  "packages": {
+    "duckdb": "2.0.0",
+    "pandas": "3.1.1",
+    "openpyxl": "3.1.5",
+    "matplotlib": "3.11.2"
+  },
+  "row_counts": {
+    "raw_lines": 1067371,
+    "fact_lines": 1027008,
+    "quarantine_lines": 40363
+  },
+  "checks": [
+    {
+      "name": "row_reconciliation",
+      "description": "Every raw row is either kept or quarantined, none lost or duplicated",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "amount_reconciliation",
+      "description": "Raw quantity x price equals kept amount plus quarantined amount (to the penny)",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "line_id_unique",
+      "description": "line_id is unique in the fact table",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "sale_lines_positive",
+      "description": "Sale lines have positive quantity and price",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "return_lines_negative",
+      "description": "Return lines are credit notes with negative quantity",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "product_fk",
+      "description": "Every sale and return line has a product in dim_product",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "customer_fk",
+      "description": "Every customer id on a fact line exists in dim_customer",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "stock_code_normalized",
+      "description": "Stock codes are trimmed and upper case",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "one_description_per_product",
+      "description": "dim_product has one row per stock code",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "invoice_totals",
+      "description": "fact_invoice net equals fact_lines net",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "invoice_single_customer",
+      "description": "An invoice belongs to one customer",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "monthly_reconciles",
+      "description": "mart_monthly net product revenue equals sale plus return lines",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "cohort_month0_full",
+      "description": "Every cohort has 100% retention in month 0",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "rfm_one_row_per_customer",
+      "description": "mart_customer_rfm has one row per customer",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "invoice_has_one_timestamp",
+      "description": "Invoices with more than one distinct timestamp (informational)",
+      "blocking": false,
+      "violations": 83.0,
+      "passed": false
+    }
+  ],
+  "workbook_validation": {
+    "sql_compared_cells": 124,
+    "formula_errors": 0
+  },
+  "artifacts": [
+    {
+      "path": "finance_workbook.xlsx",
+      "bytes": 312741,
+      "sha256": "d4c530688040b5954b3a117b6dd772da82e3fce5aae0e799942ad9b4e291699a"
+    },
+    {
+      "path": "explorer/index.html",
+      "bytes": 343321,
+      "sha256": "e1db69bf3554bd30b24bb439312fa1753bb62797013cca692283876f5f128435"
+    },
+    {
+      "path": "data_quality.md",
+      "bytes": 3325,
+      "sha256": "c17f80fe4df61f287f4d26cab8668b48678c336492da9999500e9d346e22c78f"
+    },
+    {
+      "path": "img/revenue.png",
+      "bytes": 82787,
+      "sha256": "8e27fee343bd236dead7f4c3280fec8737d45a52d6249713d77ae7702ae86ce4"
+    },
+    {
+      "path": "img/return_rate.png",
+      "bytes": 81993,
+      "sha256": "a932e5a1c15e9533b27fcdd39c505b460b26a2e2e82bd3e3d2307ef4ec713a97"
+    },
+    {
+      "path": "img/cohorts.png",
+      "bytes": 85147,
+      "sha256": "86a5f72085619f0607cd313ce782e400790448d9efc4722baa17df60cdfd5a7e"
+    }
+  ]
+}
