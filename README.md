@@ -89,7 +89,19 @@ The SQL layers alone rebuild 1.07 million rows in about 7 seconds on a laptop-cl
 
 `tests/` builds a 21-line fixture that covers every line class and checks each rule against hand-computed values: duplicate, missing key, test product, bad debt, non-product code, return, credit note with positive quantity, zero quantity, same-hour reversal versus a real return two days later, guest customers, cohorts, RFM and the monthly finance table. Writing the fixture exposed a real bug: a month with no returns produced a NULL net revenue. The full-data test confirms the checks pass on all 1,067,371 rows. A separate test deletes one fact row and proves the reconciliation check fails.
 
-CI (`.github/workflows/ci.yml`) runs lint, fixture tests and explorer regressions on every push. The manual `full-build.yml` downloads the data, rebuilds the DuckDB marts and quality report, and runs the full-data tests. Use `python -m mart.cli all` to also regenerate the workbook, explorer and charts. The [8 November 2026 rebuild record](docs/rebuild-2026-11-08.json) records 38 Python tests, six Node tests and 14 blocking checks, with source provenance and artifact checksums.
+CI (`.github/workflows/ci.yml`) runs lint, fixture tests and explorer regressions on every push. The [8 November 2026 rebuild record](docs/rebuild-2026-11-08.json) records the historical run of 38 Python tests, six Node tests and 14 blocking checks, with source provenance and artifact checksums.
+
+### Validated artifact bundle
+
+The manual `full-build.yml` downloads the source, runs full-data and browser regressions, then builds the workbook, explorer, three charts and quality report together. LibreOffice recalculates workbook formulas; the release fails on formula errors or a mismatch between cached monthly finance/summary/segment cells and SQL. A successful run uploads one versioned Actions artifact for 30 days. It does not automatically overwrite the published website or create a GitHub Release.
+
+For the same local bundle (requires LibreOffice on PATH):
+
+```bash
+python -m mart.release --output dist/release
+```
+
+The output directory must be new. Generation takes place in a temporary directory and is promoted only after validation. `manifest.json` records the source CSV SHA-256, code revision, package versions, row counts, all reconciliation results, number of SQL-compared workbook cells, and the byte size/SHA-256 of every downloadable artifact. Source edits in an uncommitted local working tree are not identified by the Git revision; reproducible release evidence should come from the clean CI checkout. This workflow validates DuckDB artifacts and does not rerun the Databricks port.
 
 ## Layout
 
