@@ -34,7 +34,7 @@ def write_report(con: duckdb.DuckDBPyConnection, path: str | Path) -> None:
         f"| Customers recorded in more than one country | {q('select count(*) from (select customer_id from line_classified where customer_id is not null group by 1 having count(distinct country_raw) > 1)'):,} customers | Assigned the country with most lines |",
         f"| Lines with no customer id (guest checkouts) | {q('select count(*) from fact_lines where customer_id is null'):,} rows | Kept for revenue, excluded from customer metrics |",
         f"| Non-product lines (postage, fees, discounts, adjustments, bad debt) | {q(NONPRODUCT):,} rows | Typed by `seeds/stock_code_types.csv`, kept out of product revenue |",
-        f"| Same-hour order reversals (credit note mirrors a sale within 60 minutes) | {q('select count(*) from fact_lines where is_quick_reversal'):,} lines | Flagged; excluded from the real return rate and product revenue |",
+        f"| Same-hour order reversals (credit note mirrors a sale within 60 minutes) | {q('select count(*) from fact_lines where is_quick_reversal'):,} lines | Flagged; excluded from the adjusted return rate and product revenue |",
     ]
     out += ["", "## Checks", "", "| Check | Result | What it proves |", "|---|---|---|"]
     for r in run_checks(con):

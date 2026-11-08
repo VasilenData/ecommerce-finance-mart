@@ -6,6 +6,8 @@ This is a port of plain SQL scripts, not dbt models. The repo's pipeline is `mar
 
 ## Result: matches DuckDB exactly
 
+The table below records the original full-dataset comparison. Later fixes retain returns-only months, guard zero denominators and include observed zero-activity cohort months. Those changes are fixture-tested in DuckDB and mirrored in the SQL port; rerun the verification scripts on Databricks before claiming renewed parity for those edge cases.
+
 I ran the DuckDB build first and recorded the numbers, then ran the port and compared. All 20 table counts and money totals are identical, including the totals to 3 decimals.
 
 | Table | DuckDB | Databricks |

@@ -41,8 +41,8 @@ CHECKS = [
     Check("invoice_single_customer", "An invoice belongs to one customer",
           "select count(*) from (select invoice_no from fact_lines group by 1 having count(distinct customer_id) > 1)"),
     Check("monthly_reconciles", "mart_monthly net product revenue equals sale plus return lines",
-          "select abs((select sum(net_product_revenue) from mart_monthly)"
-          " - (select sum(amount) from fact_lines where line_type in ('sale', 'return')))"),
+          "select abs(coalesce((select sum(net_product_revenue) from mart_monthly), 0)"
+          " - coalesce((select sum(amount) from fact_lines where line_type in ('sale', 'return')), 0))"),
     Check("cohort_month0_full", "Every cohort has 100% retention in month 0",
           "select count(*) from mart_cohort where month_index = 0 and abs(retention - 1) > 1e-9"),
     Check("rfm_one_row_per_customer", "mart_customer_rfm has one row per customer",

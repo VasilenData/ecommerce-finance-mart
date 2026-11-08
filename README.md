@@ -20,7 +20,7 @@ Messy retail transactions go in. A normalized star schema, finance and customer 
 
 ## What the data showed
 
-**Two order-entry mistakes distorted the return rate.** On 18 January 2011 one customer entered 74,215 ceramic jars (GBP 77,184) and a credit note for the same quantity followed 16 minutes later. On 9 December 2011 another entered 80,995 paper crafts (GBP 168,470) and reversed it after 12 minutes. A rule flags any return that mirrors a sale by the same customer within 60 minutes. It finds 989 such lines worth GBP 312,458, which is 44% of all credit-note value. The reported return rate is 3.65%. Without them it is 2.09%. January 2011 drops from 13.7% to 2.3%.
+**Two rapid reversals account for a large share of credit-note value.** On 18 January 2011 one customer entered 74,215 ceramic jars (GBP 77,184) and a credit note for the same quantity followed 16 minutes later. On 9 December 2011 another entered 80,995 paper crafts (GBP 168,470) and reversed it after 12 minutes. A rule flags any return that mirrors a sale by the same customer within 60 minutes. It finds 989 such lines worth GBP 312,458, which is 44% of all credit-note value. The reported return rate is 3.65%. Excluding those reversals from both credit notes and sales gives 2.09%. January 2011 drops from 13.7% to 2.3%. The timestamps suggest corrections, but do not prove why each order was reversed.
 
 ![Return rate as reported versus excluding same-hour reversals](docs/img/return_rate.png)
 
@@ -30,7 +30,7 @@ Messy retail transactions go in. A normalized star schema, finance and customer 
 
 **Revenue is concentrated.** 85.5% of gross sales are UK. Among the 5,852 registered customers with a purchase, the 1,470 "Champions" (25%) account for 70.6% of their revenue. 1,040 of 4,720 products (22%) make 80% of product revenue. About 13% of sales come from guest checkouts that have no customer id.
 
-**Most customers do not come back.** Across monthly cohorts from 2010 on, an average of 20.4% buy again the following month and 16.7% are still buying twelve months later.
+**Repeat purchasing is less common in later months.** Across observable monthly cohorts from 2010 on, an average of 20.4% buy in the following month and 16.7% buy in month twelve. These are month-specific retention rates, not the share that ever returns.
 
 ![Cohort retention](docs/img/cohorts.png)
 
@@ -64,9 +64,11 @@ Full table and the 14 blocking checks: [docs/data_quality.md](docs/data_quality.
 ## Decisions and limits
 
 - **Exact duplicates are treated as double-posted.** The 34,335 rows carry GBP 431,717, about 2.2% of gross sales. If they were real repeat lines, gross sales would be that much higher. They stay in `quarantine_lines`, so the assumption can be reversed in one place.
-- **The 60-minute reversal rule is a judgment.** It needs the same customer, product, quantity and unit price. Returns that come days later count as real returns. Reversed orders stay in the fact table, flagged, never deleted.
+- **The 60-minute reversal rule is a judgment.** It needs the same customer, product, quantity and unit price. Later returns remain in the adjusted rate; the rule cannot establish the underlying reason for a credit note. Reversed orders stay in the fact table, flagged, never deleted.
 - **December 2011 is 9 days.** Charts and the workbook mark it as partial. The first data month cannot separate new from existing customers, so new-customer counts start in January 2010.
 - **Returns are timing, not cohorts.** A month's return rate is credit notes issued that month over sales that month. It is not the share of that month's sales that came back.
+- **Zero-sales months remain visible.** Returns-only months keep their negative net revenue in the monthly mart. Ratios with zero denominators are NULL, and observed cohort months with no purchases have zero retention rather than disappearing.
+- **Rebuild safety.** SQL layers and blocking checks run in one transaction, so a failed rebuild preserves the previous database. Explorer charts include negative revenue within their axes.
 - **RFM edges are approximate.** Many customers share the same order count, so quintile boundaries are broken by spend and id. Treat segment sizes as a ranking aid.
 - **Practice data, not employer data.** This is the public UCI Online Retail II dataset (CC BY 4.0) for one UK wholesaler, in GBP. No figure here comes from any company I have worked for.
 - **Explorer scope.** The product table follows the period only, not country or customer type. Active customers are counted per month and cannot be summed across months, so the explorer shows a monthly average.
@@ -77,7 +79,8 @@ Full table and the 14 blocking checks: [docs/data_quality.md](docs/data_quality.
 pip install -r requirements-dev.txt
 python -m mart.cli data      # downloads the 45 MB UCI file and flattens it (about 2 minutes)
 python -m mart.cli all       # SQL layers, checks, report, workbook, explorer, charts (about 15 seconds)
-python -m pytest -q          # 31 fixture tests, plus 1 end-to-end test on the real file
+python -m pytest -q          # fixture tests; the real-data test skips if data is absent
+node --test tests_js/*.test.mjs  # explorer axis regressions (Node.js 22)
 ```
 
 The SQL layers alone rebuild 1.07 million rows in about 7 seconds on a laptop-class machine. LibreOffice, if installed, recalculates the workbook so the formula results show in any viewer; without it Excel recalculates on open.
@@ -100,7 +103,7 @@ docs/       explorer, workbook, metrics, data quality report, charts
 
 ## Also on Databricks Free Edition
 
-The four SQL layers are ported to Spark SQL in [`databricks/`](databricks/) and reproduce the DuckDB build exactly (20 of 20 counts and totals match). See [databricks/README.md](databricks/README.md) for the dialect changes, run times and limits.
+The four SQL layers are ported to Spark SQL in [`databricks/`](databricks/). The original verification matched 20 of 20 counts and totals against DuckDB. The subsequent zero-denominator and cohort-grid fixes are mirrored in the port but have not been rerun on Databricks. See [databricks/README.md](databricks/README.md) for the recorded evidence, dialect changes and limits.
 
 ## Open-source tools used
 

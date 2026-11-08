@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "review_date_utc": "2026-11-08",
+  "data_kind": "Public historical UCI Online Retail II dataset",
+  "source": {
+    "official_dataset_url": "https://archive.ics.uci.edu/dataset/502/online+retail+ii",
+    "actual_download_url": "https://raw.githubusercontent.com/KristerMartinez/online_retail_ii/main/online_retail_II.xlsx",
+    "retrieved_on_utc": "2026-11-08",
+    "xlsx_sha256": "bcbe73b35f5b7babf197fb0cb983a11f5d9ff929078d4aa53d171b1f2df2e980",
+    "xlsx_bytes": 45622278,
+    "csv_sha256": "834ba7c3c25bcd1d4fdc20b969b6f4f6da5e84b611036bbd18ba47ce3569e542",
+    "sheets": {
+      "Year 2009-2010": 525461,
+      "Year 2010-2011": 541910
+    },
+    "columns": [
+      "Invoice",
+      "StockCode",
+      "Description",
+      "Quantity",
+      "InvoiceDate",
+      "Price",
+      "Customer ID",
+      "Country"
+    ],
+    "first_timestamp": "2009-12-01T07:45:00",
+    "last_timestamp": "2011-12-09T12:50:00",
+    "provenance_limit": "Public mirror retrieval after repeated official-host download failures; not a byte comparison with a fresh UCI download."
+  },
+  "rebuild_command": "python -m mart.cli all",
+  "counts": {
+    "raw_lines": 1067371,
+    "fact_lines": 1027008,
+    "quarantine_lines": 40363,
+    "mart_monthly": 25,
+    "mart_customer_rfm": 5852,
+    "mart_cohort": 325,
+    "mart_product": 4720,
+    "mart_country": 42,
+    "mart_explorer": 643,
+    "mart_explorer_product": 4369
+  },
+  "checks": [
+    {
+      "name": "row_reconciliation",
+      "description": "Every raw row is either kept or quarantined, none lost or duplicated",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "amount_reconciliation",
+      "description": "Raw quantity x price equals kept amount plus quarantined amount (to the penny)",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "line_id_unique",
+      "description": "line_id is unique in the fact table",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "sale_lines_positive",
+      "description": "Sale lines have positive quantity and price",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "return_lines_negative",
+      "description": "Return lines are credit notes with negative quantity",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "product_fk",
+      "description": "Every sale and return line has a product in dim_product",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "customer_fk",
+      "description": "Every customer id on a fact line exists in dim_customer",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "stock_code_normalized",
+      "description": "Stock codes are trimmed and upper case",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "one_description_per_product",
+      "description": "dim_product has one row per stock code",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "invoice_totals",
+      "description": "fact_invoice net equals fact_lines net",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "invoice_single_customer",
+      "description": "An invoice belongs to one customer",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "monthly_reconciles",
+      "description": "mart_monthly net product revenue equals sale plus return lines",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "cohort_month0_full",
+      "description": "Every cohort has 100% retention in month 0",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "rfm_one_row_per_customer",
+      "description": "mart_customer_rfm has one row per customer",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "invoice_has_one_timestamp",
+      "description": "Invoices with more than one distinct timestamp (informational)",
+      "blocking": false,
+      "violations": 83.0,
+      "passed": false
+    }
+  ],
+  "blocking_checks_passed": 14,
+  "tests": [
+    {
+      "command": "python -m pytest -q",
+      "result": "38 passed, including the full-data reconciliation test"
+    },
+    {
+      "command": "node --test tests_js/*.test.mjs",
+      "result": "6 passed"
+    },
+    {
+      "command": "python -m ruff check .",
+      "result": "passed"
+    }
+  ],
+  "metric_grain": {
+    "monthly": "calendar month; invoice lines typed and exact duplicates quarantined",
+    "orders": "distinct sale invoice numbers per month",
+    "retention": "unweighted mean across observable monthly acquisition cohorts from January 2010, measured in the specified month",
+    "explorer": "month, country, customer type"
+  },
+  "totals": {
+    "gross_sales_gbp": 19643861.637,
+    "returns_gbp": -716462.57,
+    "net_product_revenue_gbp": 18927399.067,
+    "orders": 39516.0,
+    "same_hour_reversals_gbp": -312457.8
+  },
+  "excel_verification": {
+    "sheets": 7,
+    "native_charts": 3,
+    "monthly_values_and_formula_results_compared_to_sql": 325,
+    "artifact_tool_version": "2.8.129",
+    "artifact_tool_recalculation": "passed with zero formula-error matches",
+    "zero_denominator_boundary_test": "passed in disposable in-memory workbook; linked Summary updated after input change",
+    "summary_and_monthly_render_review": "passed after quoting currency format literals",
+    "native_recalculation": "Not performed: LibreOffice absent, Excel COM access denied, and the CUA app launch approval timed out. The generated workbook retains formulas with fullCalcOnLoad enabled; Excel recalculates on open. Cached results were not populated by a native spreadsheet engine."
+  },
+  "regenerated_artifacts": {
+    "docs/data_quality.md": {
+      "bytes": 3384,
+      "sha256": "981f3b15d9420c7f72683117e72178df4653b3d6ccdf4475eac6b977cae349e7"
+    },
+    "docs/explorer/index.html": {
+      "bytes": 343649,
+      "sha256": "8c5c38bb540c15b16d068eb10aecb4dd5345b6156470d4e0e3d3f485adafd945"
+    },
+    "docs/finance_workbook.xlsx": {
+      "bytes": 303187,
+      "sha256": "88d20b720071995be7f4b0c9c4a50348361d8d5b185a94a167940293a18a95e1"
+    },
+    "docs/img/cohorts.png": {
+      "bytes": 79209,
+      "sha256": "ef6fd9288529f4eb68a24f72d32ac04828ce4b805e6706334dc4ee4998cf0ca2"
+    },
+    "docs/img/return_rate.png": {
+      "bytes": 76252,
+      "sha256": "cb2d75ee8c162563168f009c25ec3ac36d3690a8c7699dbe3b84e19e5c997ea5"
+    },
+    "docs/img/revenue.png": {
+      "bytes": 77415,
+      "sha256": "a6f46c7dfd83dccc40ca5b0a349cca17d20b37165cec6315cf129d328294b61a"
+    }
+  },
+  "limits": [
+    "The download came from the named public mirror after repeated UCI download failures, not a fresh byte comparison against the official host.",
+    "Databricks fixes are mirrored but have not been rerun there.",
+    "The external Tableau Public workbook was not refreshed."
+  ]
+}

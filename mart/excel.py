@@ -12,7 +12,7 @@ from openpyxl.utils import get_column_letter
 INK, MINT, PAPER, MUTED = "1B1F23", "0B7A5A", "F4F6F7", "5C6770"
 HEAD_FILL = PatternFill("solid", fgColor=INK)
 HEAD_FONT = Font(bold=True, color="FFFFFF", name="Calibri")
-GBP, GBP2, PCT, INT = '£#,##0;[Red]-£#,##0', '£#,##0.00', '0.0%', '#,##0'
+GBP, GBP2, PCT, INT = '"£"#,##0;[Red]-"£"#,##0', '"£"#,##0.00', '0.0%', '#,##0'
 
 
 def _header(ws, row: int, labels: list[str]) -> None:
@@ -62,10 +62,10 @@ def build_workbook(con: duckdb.DuckDBPyConnection, path: str | Path) -> dict:
         ws.cell(i, 2, float(g)); ws.cell(i, 3, float(r)); ws.cell(i, 5, float(q))  # noqa: E702
         ws.cell(i, 4, f"=B{i}+C{i}")
         ws.cell(i, 6, int(o)); ws.cell(i, 7, int(u))  # noqa: E702
-        ws.cell(i, 8, f"=B{i}/F{i}")
-        ws.cell(i, 9, f"=-C{i}/B{i}")
-        ws.cell(i, 10, f"=-(C{i}-E{i})/(B{i}+E{i})")
-        ws.cell(i, 11, f"=D{i}/D{i-1}-1" if i > 2 else None)
+        ws.cell(i, 8, f'=IF(F{i}=0,"",B{i}/F{i})')
+        ws.cell(i, 9, f'=IF(B{i}=0,"",-C{i}/B{i})')
+        ws.cell(i, 10, f'=IF(B{i}+E{i}=0,"",-(C{i}-E{i})/(B{i}+E{i}))')
+        ws.cell(i, 11, f'=IF(D{i-1}=0,"",D{i}/D{i-1}-1)' if i > 2 else None)
         ws.cell(i, 12, int(a)); ws.cell(i, 13, float(sh)); ws.cell(i, 14, float(di)); ws.cell(i, 15, float(ot))  # noqa: E702
         for col, fmt in zip("BCDEHMNO", [GBP] * 4 + [GBP2] + [GBP] * 3, strict=True):
             ws[f"{col}{i}"].number_format = fmt
@@ -82,7 +82,7 @@ def build_workbook(con: duckdb.DuckDBPyConnection, path: str | Path) -> dict:
     ch.title, ch.height, ch.width = "Net product revenue by month, GBP (Dec 2011 has 9 days, left out)", 8.5, 20
     ch.add_data(Reference(ws, min_col=4, min_row=1, max_row=last - 1), titles_from_data=True)
     ch.set_categories(Reference(ws, min_col=1, min_row=2, max_row=last - 1))
-    ch.y_axis.number_format = '£#,##0'
+    ch.y_axis.number_format = '"£"#,##0'
     ch.x_axis.number_format = "mmm yy"
     ch.legend = None
     ch.series[0].graphicalProperties.line.solidFill = MINT
@@ -120,7 +120,7 @@ def build_workbook(con: duckdb.DuckDBPyConnection, path: str | Path) -> dict:
     pc.add_data(Reference(wp, min_col=4, min_row=1, max_row=26), titles_from_data=True)
     pc.set_categories(Reference(wp, min_col=2, min_row=2, max_row=26))
     pc.legend = None
-    pc.y_axis.number_format = '£#,##0'
+    pc.y_axis.number_format = '"£"#,##0'
     pc.series[0].graphicalProperties.solidFill = MINT
     pc.x_axis.delete = pc.y_axis.delete = False
     wp.add_chart(pc, "K5")
@@ -170,7 +170,7 @@ def build_workbook(con: duckdb.DuckDBPyConnection, path: str | Path) -> dict:
     sc.set_categories(Reference(wsg, min_col=1, min_row=2, max_row=9))
     sc.legend = None
     sc.x_axis.scaling.orientation = "maxMin"
-    sc.y_axis.number_format = '£#,##0'
+    sc.y_axis.number_format = '"£"#,##0'
     sc.series[0].graphicalProperties.solidFill = MINT
     sc.x_axis.delete = sc.y_axis.delete = False
     wsg.add_chart(sc, "I2")
@@ -241,7 +241,7 @@ def build_workbook(con: duckdb.DuckDBPyConnection, path: str | Path) -> dict:
         "Gross sales: sum of quantity x price on sale lines (positive quantity and price, numeric invoice).",
         "Returns: credit-note lines (invoice starts with C, negative quantity). Negative numbers.",
         "Net revenue: gross sales plus returns. Shipping, fees, discounts and adjustments are kept out of it.",
-        "Same-hour reversals: a return that exactly mirrors a sale by the same customer within 60 minutes (an order-entry error).",
+        "Same-hour reversals: a return that exactly mirrors a sale by the same customer within 60 minutes; the reason is not recorded.",
         "Product Pareto revenue is net of same-hour reversals, so an order entered and cancelled in minutes does not rank as a best seller.",
         "RFM: recency, frequency and monetary quintiles per registered customer; segments follow rules in docs/metrics.md.",
         "",

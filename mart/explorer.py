@@ -29,8 +29,10 @@ def build_explorer(con: duckdb.DuckDBPyConnection, out_dir: str | Path) -> dict:
              "partial_month": last_month, "partial_days": days_in_last, "last_day": str(last_day),
              "first_day": str(con.execute("select min(invoice_date) from fact_lines").fetchone()[0])}
     data = {"cube": cube, "prod": prod, "seg": segs, "stats": stats}
-    html = TEMPLATE.read_text().replace("/*__DATA__*/", json.dumps(data, separators=(",", ":"), ensure_ascii=False))
+    # A source description containing </script> must remain JSON text, not close the HTML element.
+    embedded = json.dumps(data, separators=(",", ":"), ensure_ascii=False, allow_nan=False).replace("<", "\\u003c")
+    html = TEMPLATE.read_text(encoding="utf-8").replace("/*__DATA__*/", embedded)
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
-    (out / "index.html").write_text(html)
+    (out / "index.html").write_text(html, encoding="utf-8")
     return {"cube_rows": len(cube), "product_rows": len(prod), "bytes": len(html)}

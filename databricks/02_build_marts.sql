@@ -17,7 +17,7 @@ with m as (
         count(distinct customer_id) filter (where line_type = 'sale') as active_customers,
         coalesce(sum(amount) filter (where line_type = 'sale' and customer_type = 'Guest'), 0) as guest_sales
     from fact_lines group by 1
-    having count(*) filter (where line_type = 'sale') > 0
+    having count(*) filter (where line_type in ('sale', 'return')) > 0
 ),
 n as (
     select cohort_month as month, count(*) as new_customers from dim_customer
@@ -25,14 +25,14 @@ n as (
 )
 select m.month, m.gross_sales, m.returns, m.gross_sales + m.returns as net_product_revenue,
        m.shipping, m.discounts, m.other_items, m.orders, m.units,
-       cast(m.gross_sales as double) / m.orders as avg_order_value,
-       cast(-m.returns as double) / m.gross_sales as return_rate,
+       cast(m.gross_sales as double) / nullif(m.orders, 0) as avg_order_value,
+       cast(-m.returns as double) / nullif(m.gross_sales, 0) as return_rate,
        m.quick_reversals,
-       cast(-(m.returns - m.quick_reversals) as double) / (m.gross_sales + m.quick_reversals) as return_rate_ex_reversals,
+       cast(-(m.returns - m.quick_reversals) as double) / nullif(m.gross_sales + m.quick_reversals, 0) as return_rate_ex_reversals,
        m.active_customers,
        case when m.month = (select min(month) from m) then null else coalesce(n.new_customers, 0) end as new_customers,
        case when m.month = (select min(month) from m) then null else m.active_customers - coalesce(n.new_customers, 0) end as returning_customers,
-       cast(m.guest_sales as double) / m.gross_sales as guest_share
+       cast(m.guest_sales as double) / nullif(m.gross_sales, 0) as guest_share
 from m left join n on n.month = m.month order by m.month;
 
 create or replace table mart_customer_rfm as
@@ -76,15 +76,24 @@ j as (
            (year(a.month) - year(fm.cohort_month)) * 12 + (month(a.month) - month(fm.cohort_month)) as month_index
     from act a join first_m fm on fm.customer_id = a.customer_id
 ),
-cohort_sizes as (select cohort_month, count(*) as cohort_size from first_m group by 1)
-select cohort_month, month_index, cohort_size, active_customers,
-       cast(active_customers as double) / cohort_size as retention, revenue
-from (
+cohort_sizes as (select cohort_month, count(*) as cohort_size from first_m group by 1),
+observed as (
     select j.cohort_month, j.month_index, s.cohort_size,
            count(distinct j.customer_id) as active_customers, sum(j.revenue) as revenue
     from j join cohort_sizes s on s.cohort_month = j.cohort_month
     group by j.cohort_month, j.month_index, s.cohort_size
-) order by 1, 2;
+),
+periods as (
+    select s.*, explode(sequence(0, (year(l.last_month) - year(s.cohort_month)) * 12
+        + month(l.last_month) - month(s.cohort_month))) as month_index
+    from cohort_sizes s cross join (select max(invoice_month) as last_month from fact_lines) l
+)
+select p.cohort_month, p.month_index, p.cohort_size,
+       coalesce(o.active_customers, 0) as active_customers,
+       cast(coalesce(o.active_customers, 0) as double) / p.cohort_size as retention,
+       coalesce(o.revenue, 0) as revenue
+from periods p left join observed o on p.cohort_month = o.cohort_month and p.month_index = o.month_index
+order by 1, 2;
 
 create or replace table mart_product as
 with p as (
