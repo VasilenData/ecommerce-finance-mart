@@ -15,7 +15,7 @@ with m as (
         count(distinct customer_id) filter (where line_type = 'sale') as active_customers,
         coalesce(sum(amount) filter (where line_type = 'sale' and customer_type = 'Guest'), 0) as guest_sales
     from fact_lines group by 1
-    having count(*) filter (where line_type = 'sale') > 0
+    having count(*) filter (where line_type in ('sale', 'return')) > 0
 ),
 n as (
     select cohort_month as month, count(*) as new_customers from dim_customer
@@ -23,15 +23,15 @@ n as (
 )
 select m.month, m.gross_sales, m.returns, m.gross_sales + m.returns as net_product_revenue,
        m.shipping, m.discounts, m.other_items, m.orders, m.units,
-       m.gross_sales / m.orders as avg_order_value,
-       -m.returns / m.gross_sales as return_rate,
+       m.gross_sales / nullif(m.orders, 0) as avg_order_value,
+       -m.returns / nullif(m.gross_sales, 0) as return_rate,
        m.quick_reversals,
-       -(m.returns - m.quick_reversals) / (m.gross_sales + m.quick_reversals) as return_rate_ex_reversals,
+       -(m.returns - m.quick_reversals) / nullif(m.gross_sales + m.quick_reversals, 0) as return_rate_ex_reversals,
        m.active_customers,
        -- The first data month cannot separate new from existing customers (left-censored), so it is NULL.
        case when m.month = (select min(month) from m) then null else coalesce(n.new_customers, 0) end as new_customers,
        case when m.month = (select min(month) from m) then null else m.active_customers - coalesce(n.new_customers, 0) end as returning_customers,
-       m.guest_sales / m.gross_sales as guest_share
+       m.guest_sales / nullif(m.gross_sales, 0) as guest_share
 from m left join n using (month) order by m.month;
 
 create or replace table mart_customer_rfm as
@@ -75,15 +75,23 @@ j as (
            date_diff('month', fm.cohort_month, a.month) as month_index
     from act a join first_m fm using (customer_id)
 ),
-size as (select cohort_month, count(*) as cohort_size from first_m group by 1)
-select cohort_month, month_index, cohort_size, active_customers,
-       active_customers::double / cohort_size as retention, revenue
-from (
+size as (select cohort_month, count(*) as cohort_size from first_m group by 1),
+observed as (
     select j.cohort_month, j.month_index, s.cohort_size,
            count(distinct j.customer_id) as active_customers, sum(j.revenue) as revenue
     from j join size s using (cohort_month)
     group by j.cohort_month, j.month_index, s.cohort_size
-) order by 1, 2;
+),
+periods as (
+    select s.*, i as month_index from size s,
+    range(date_diff('month', s.cohort_month, (select max(invoice_month) from fact_lines)) + 1) t(i)
+)
+select p.cohort_month, p.month_index, p.cohort_size,
+       coalesce(o.active_customers, 0) as active_customers,
+       coalesce(o.active_customers, 0)::double / p.cohort_size as retention,
+       coalesce(o.revenue, 0) as revenue
+from periods p left join observed o using (cohort_month, month_index)
+order by 1, 2;
 
 -- Product revenue is net of same-hour reversals (an entered-then-cancelled order is not a sale of that product).
 create or replace table mart_product as
