@@ -93,6 +93,8 @@ CI (`.github/workflows/ci.yml`) runs lint, fixture tests and explorer regression
 
 ### Validated artifact bundle
 
+The current workbook, explorer, charts and quality report were published together from [the successful full-source build](https://github.com/VasilenData/ecommerce-finance-mart/actions/runs/42522011265). All 14 blocking checks passed and 124 cached workbook values matched SQL. [The release manifest](docs/release-2026-11-08.json) records the exact code/source/runtime and checksums. This is a DuckDB release; the Databricks port was not rerun.
+
 The manual `full-build.yml` downloads the source, runs full-data and browser regressions, then builds the workbook, explorer, three charts and quality report together. LibreOffice recalculates workbook formulas; the release fails on formula errors or a mismatch between cached monthly finance/summary/segment cells and SQL. A successful run uploads one versioned Actions artifact for 30 days. It does not automatically overwrite the published website or create a GitHub Release.
 
 For the same local bundle (requires LibreOffice on PATH):
