@@ -4,6 +4,8 @@ Messy retail transactions go in. A normalized star schema, finance and customer 
 
 **Try it:** [sales explorer](https://vasilendata.github.io/ecommerce-finance-mart/explorer/) (filter by period, country and customer type, export CSV) · [Excel workbook](docs/finance_workbook.xlsx) (live formulas, native charts) · [Tableau Public dashboard](https://public.tableau.com/app/profile/vasilen.kanchev/viz/E-CommerceFinanceMartSalesDashboard/E-CommerceFinanceMartsalesdashboard) · [metric definitions](docs/metrics.md) · [data quality report](docs/data_quality.md)
 
+**Implementation scope:** Python and DuckDB run the complete pipeline. The [Databricks SQL port](databricks/README.md) reproduces the transformation layers. The BigQuery experiment described there loads the already-built monthly mart; it is not a port of the full pipeline. The checked-in implementation and verification SQL cover DuckDB and Databricks.
+
 ## What it demonstrates
 
 | Skill | Where to look |
