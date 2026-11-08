@@ -9,9 +9,9 @@ Currency is GBP, as in the source data.
 | Gross sales | Sum of quantity x price on sale lines | `mart_monthly.gross_sales` |
 | Return | Credit-note line: invoice starts with `C`, quantity < 0. Stored negative | `mart_monthly.returns` |
 | Net product revenue | Gross sales + returns | `mart_monthly.net_product_revenue` |
-| Same-hour reversal | A return that exactly mirrors a sale (same customer, product, quantity, unit price) made 0 to 60 minutes earlier. An order-entry reversal, not a customer return | `fact_lines.is_quick_reversal` |
+| Same-hour reversal | A return that exactly mirrors a sale (same customer, product, quantity, unit price) made 0 to 60 minutes earlier. A matching rule used for adjustment; the source does not establish why it was reversed | `fact_lines.is_quick_reversal` |
 | Return rate (reported) | -returns / gross sales | `mart_monthly.return_rate` |
-| Return rate (real) | -(returns - reversals) / (gross sales + reversals), with reversals stored negative. Removes the reversed order from both sides | `mart_monthly.return_rate_ex_reversals` |
+| Return rate (excluding same-hour reversals) | -(returns - reversals) / (gross sales + reversals), with reversals stored negative. Removes the reversed order from both sides | `mart_monthly.return_rate_ex_reversals` |
 | Orders | Distinct invoice numbers that contain at least one sale line | `mart_monthly.orders` |
 | Average order value | Gross sales / orders | `mart_monthly.avg_order_value` |
 | Units | Sum of quantity on sale lines | `mart_monthly.units` |
@@ -37,7 +37,7 @@ These are kept in the fact table but kept out of product revenue. They are liste
 
 ## RFM segments
 
-Registered customers with at least one sale. Each of recency (days since last order), frequency (orders) and monetary (net spend) is split into quintiles, 5 is best. Ties are broken by customer id so the result is repeatable.
+Registered customers with at least one sale. Each of recency (days since last order), frequency (orders) and monetary (net spend) is split into quintiles, 5 is best. Recency and monetary ties are broken by customer id; frequency ties are broken by monetary value and then customer id so the result is repeatable.
 
 | Segment | Rule |
 |---|---|

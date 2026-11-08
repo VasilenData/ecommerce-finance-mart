@@ -63,7 +63,7 @@ Full table and the 14 blocking checks: [docs/data_quality.md](docs/data_quality.
 
 ## Decisions and limits
 
-- **Exact duplicates are treated as double-posted.** The 34,335 rows carry GBP 431,717, about 2.2% of gross sales. If they were real repeat lines, gross sales would be that much higher. They stay in `quarantine_lines`, so the assumption can be reversed in one place.
+- **Exact duplicates are treated as double-posted.** The 34,335 rows carry a net amount of GBP 431,717 across sales, credit notes and other line types. That net amount is not the increase in gross product sales that retaining the rows would produce. They stay in `quarantine_lines`, so the assumption can be reversed in one place.
 - **The 60-minute reversal rule is a judgment.** It needs the same customer, product, quantity and unit price. Later returns remain in the adjusted rate; the rule cannot establish the underlying reason for a credit note. Reversed orders stay in the fact table, flagged, never deleted.
 - **December 2011 is 9 days.** Charts and the workbook mark it as partial. The first data month cannot separate new from existing customers, so new-customer counts start in January 2010.
 - **Returns are timing, not cohorts.** A month's return rate is credit notes issued that month over sales that month. It is not the share of that month's sales that came back.
@@ -89,7 +89,7 @@ The SQL layers alone rebuild 1.07 million rows in about 7 seconds on a laptop-cl
 
 `tests/` builds a 21-line fixture that covers every line class and checks each rule against hand-computed values: duplicate, missing key, test product, bad debt, non-product code, return, credit note with positive quantity, zero quantity, same-hour reversal versus a real return two days later, guest customers, cohorts, RFM and the monthly finance table. Writing the fixture exposed a real bug: a month with no returns produced a NULL net revenue. The full-data test confirms the checks pass on all 1,067,371 rows. A separate test deletes one fact row and proves the reconciliation check fails.
 
-CI (`.github/workflows/ci.yml`) runs lint and the fixture tests on every push. `full-build.yml` is a manual run that downloads the data and rebuilds everything.
+CI (`.github/workflows/ci.yml`) runs lint, fixture tests and explorer regressions on every push. The manual `full-build.yml` downloads the data, rebuilds the DuckDB marts and quality report, and runs the full-data tests. Use `python -m mart.cli all` to also regenerate the workbook, explorer and charts. The [8 November 2026 rebuild record](docs/rebuild-2026-11-08.json) records 38 Python tests, six Node tests and 14 blocking checks, with source provenance and artifact checksums.
 
 ## Layout
 

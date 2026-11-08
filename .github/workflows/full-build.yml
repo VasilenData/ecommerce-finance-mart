@@ -1,5 +1,5 @@
 name: full-build
-# Manual run: downloads the 45 MB UCI file, rebuilds everything on the real data and runs the reconciliation checks.
+# Manual run: downloads the UCI data, rebuilds DuckDB marts and the quality report, and runs full-data tests.
 on: workflow_dispatch
 jobs:
   full:
