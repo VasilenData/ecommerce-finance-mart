@@ -1,6 +1,8 @@
 name: full-build
-# Manual run: downloads the UCI data, rebuilds DuckDB marts and the quality report, and runs full-data tests.
+# Manual release: rebuild and validate all downloadable artifacts from one source.
 on: workflow_dispatch
+permissions:
+  contents: read
 jobs:
   full:
     runs-on: ubuntu-latest
@@ -11,7 +13,21 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install workbook calculation engine
+        run: sudo apt-get update && sudo apt-get install -y libreoffice-calc
       - run: pip install -r requirements-dev.txt
       - run: python -m mart.cli data
       - run: python -m mart.cli build
       - run: python -m pytest -q
+      - run: node --test tests_js/*.test.mjs
+      - name: Build and validate workbook, explorer, charts and manifest together
+        run: python -m mart.release --output dist/release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: finance-mart-${{ github.sha }}-${{ github.run_attempt }}
+          path: dist/release/
+          if-no-files-found: error
+          retention-days: 30
