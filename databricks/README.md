@@ -63,8 +63,9 @@ One run each, so treat these as rough.
 
 ## BigQuery vs Databricks, from what I observed
 
-- Both free tiers run this SQL without a card. In the BigQuery Cost Lab I measured bytes scanned per query; I did not measure anything comparable on Databricks, so I make no cost comparison.
-- The Databricks port needed more rewrites (the list above) than the BigQuery load, because the transformation logic lives here and BigQuery only holds the final monthly table.
+- Databricks Free Edition ran the SQL transformation port shown here. The BigQuery experiment only loaded the final monthly table built by DuckDB; the transformation pipeline was not ported to BigQuery.
+- The BigQuery load SQL and job results are not checked into this repository. The reproducible platform comparison here is the DuckDB/Databricks SQL and its count/total checks.
+- In the separate [BigQuery Cost Lab](https://github.com/VasilenData/bigquery-cost-lab), I measured bytes scanned per query. I did not measure anything comparable on Databricks, so I make no cost comparison between the platforms.
 
 ## Limits
 
