@@ -1,7 +1,5 @@
 # E-commerce finance mart
 
-[![ci](https://github.com/VasilenData/ecommerce-finance-mart/actions/workflows/ci.yml/badge.svg)](https://github.com/VasilenData/ecommerce-finance-mart/actions/workflows/ci.yml)
-
 Messy retail transactions go in. A normalized star schema, finance and customer marts, an Excel workbook and a self-serve sales explorer come out. Everything runs on one public dataset of 1,067,371 invoice lines from a UK online wholesaler (December 2009 to 9 December 2011).
 
 **Try it:** [sales explorer](https://vasilendata.github.io/ecommerce-finance-mart/explorer/) (filter by period, country and customer type, export CSV) · [Excel workbook](docs/finance_workbook.xlsx) (live formulas, native charts) · [Tableau Public dashboard](https://public.tableau.com/app/profile/vasilen.kanchev/viz/E-CommerceFinanceMartSalesDashboard/E-CommerceFinanceMartsalesdashboard) · [metric definitions](docs/metrics.md) · [data quality report](docs/data_quality.md)
@@ -69,14 +67,6 @@ Full table and the 14 blocking checks: [docs/data_quality.md](docs/data_quality.
 - **Returns are timing, not cohorts.** A month's return rate is credit notes issued that month over sales that month. It is not the share of that month's sales that came back.
 - **RFM edges are approximate.** Many customers share the same order count, so quintile boundaries are broken by spend and id. Treat segment sizes as a ranking aid.
 - **Practice data, not employer data.** This is the public UCI Online Retail II dataset (CC BY 4.0) for one UK wholesaler, in GBP. No figure here comes from any company I have worked for.
-- **BigQuery check.** The monthly sales table (643 rows) was loaded by hand into a BigQuery sandbox project in the EU region and reconciles to the mart: net sales GBP 18,927,399. The dataset is readable by any signed-in Google account (public practice data, not employer data). Run this in the BigQuery console (it picks the EU location itself) and expect 643 rows and 18,927,399:
-
-  ```sql
-  SELECT COUNT(*) AS months_rows, ROUND(SUM(net_sales)) AS net_sales_gbp
-  FROM `finance-mart-demo.finance_mart.sales_monthly`;
-  ```
-
-  There is no Terraform deployment for it, and the Terraform elsewhere in my repos stays validated, not deployed.
 - **Explorer scope.** The product table follows the period only, not country or customer type. Active customers are counted per month and cannot be summed across months, so the explorer shows a monthly average.
 
 ## Run it
@@ -105,6 +95,10 @@ mart/       pipeline, checks, Excel, explorer, charts, CLI
 tests/      fixture tests and the real-data test
 docs/       explorer, workbook, metrics, data quality report, charts
 ```
+
+## Also on Databricks Free Edition
+
+The four SQL layers are ported to Spark SQL in [`databricks/`](databricks/) and reproduce the DuckDB build exactly (20 of 20 counts and totals match). See [databricks/README.md](databricks/README.md) for the dialect changes, run times and limits.
 
 ## Open-source tools used
 
