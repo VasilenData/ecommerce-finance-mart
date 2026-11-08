@@ -50,10 +50,12 @@ def draw_all(con: duckdb.DuckDBPyConnection, out_dir: str | Path) -> list[str]:
 
     # 2. return rate as reported vs excluding same-hour reversals
     fig, ax = _fig()
-    ax.plot(months, [float(r[2]) * 100 for r in m], color=AMBER, linewidth=2.2, label="As reported")
-    ax.plot(months, [float(r[3]) * 100 for r in m], color=MINT, linewidth=2.4, label="Excluding same-hour reversals")
+    ax.plot(months, [float(r[2]) * 100 if r[2] is not None else float("nan") for r in m],
+            color=AMBER, linewidth=2.2, label="As reported")
+    ax.plot(months, [float(r[3]) * 100 if r[3] is not None else float("nan") for r in m],
+            color=MINT, linewidth=2.4, label="Excluding same-hour reversals")
     ax.set_ylabel("Returns as % of gross sales", color=MUTED, fontsize=10)
-    ax.set_title("Two order-entry reversals made returns look like 14% and 28% of sales", color=INK, fontsize=12, loc="left", pad=12)
+    ax.set_title("Return rate with and without same-hour reversals", color=INK, fontsize=12, loc="left", pad=12)
     leg = ax.legend(frameon=False, labelcolor=INK, fontsize=10, loc="upper left")
     leg.get_frame().set_facecolor(PAPER)
     fig.tight_layout()
@@ -77,7 +79,7 @@ def draw_all(con: duckdb.DuckDBPyConnection, out_dir: str | Path) -> list[str]:
     ax.set_xticks(range(0, width, 2))
     ax.set_xticklabels(range(0, width, 2), color=MUTED, fontsize=9)
     ax.set_xlabel("Months since first order", color=MUTED, fontsize=10)
-    ax.set_title("Share of each monthly cohort still buying (Dec 2009 omitted: it mixes old and new customers)", color=INK, fontsize=12, loc="left", pad=12)
+    ax.set_title("Share of each cohort buying in each month (Dec 2009 omitted: it mixes old and new customers)", color=INK, fontsize=12, loc="left", pad=12)
     for s in ax.spines.values():
         s.set_visible(False)
     cb = fig.colorbar(im, ax=ax, pad=0.01)
