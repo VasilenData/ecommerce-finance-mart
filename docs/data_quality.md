@@ -34,7 +34,7 @@ Total 1,067,371 raw rows = 1,027,008 kept + 40,363 quarantined. Nothing is delet
 | Customers recorded in more than one country | 13 customers | Assigned the country with most lines |
 | Lines with no customer id (guest checkouts) | 229,207 rows | Kept for revenue, excluded from customer metrics |
 | Non-product lines (postage, fees, discounts, adjustments, bad debt) | 5,736 rows | Typed by `seeds/stock_code_types.csv`, kept out of product revenue |
-| Same-hour order reversals (credit note mirrors a sale within 60 minutes) | 989 lines | Flagged; excluded from the real return rate and product revenue |
+| Same-hour order reversals (credit note mirrors a sale within 60 minutes) | 989 lines | Flagged; excluded from the adjusted return rate and product revenue |
 
 ## Checks
 
