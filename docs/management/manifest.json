@@ -1,0 +1,12 @@
+{
+  "artifacts": {
+    "management.json": {
+      "sha256": "a12c9fd52ab9e054523edf3d6a3e8f22a6f1ff9e30a0908feb358aec0d80707a",
+      "bytes": 11566
+    },
+    "management.md": {
+      "sha256": "8a9f4ad8508629d8916d1f435c87a953b98a886dee7e1a96471b48b473f95683",
+      "bytes": 3567
+    }
+  }
+}
