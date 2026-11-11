@@ -1,0 +1,332 @@
+{
+  "schema_version": 1,
+  "scope": "Historical decision support for one UCI online retailer; not current trading or measured business impact",
+  "coverage": {
+    "start_inclusive": "2009-12-01",
+    "end_exclusive": "2011-12-09",
+    "basis": "Caller-declared complete source coverage; partial boundary months excluded"
+  },
+  "definitions": {
+    "currency": "GBP",
+    "revenue": "Product sales plus negative product returns; excludes shipping, discounts and fees",
+    "orders": "Distinct sale invoices",
+    "country": "Existing finance mart customer-country allocation",
+    "driver_method": "Symmetric order-volume/basket-value decomposition; descriptive, not causal"
+  },
+  "current": {
+    "month": "2011-11-01",
+    "gross_sales": 1452115.98,
+    "returns": -24991.44,
+    "net_product_revenue": 1427124.54,
+    "orders": 2751,
+    "avg_order_value": 527.8502290076336,
+    "return_rate": 0.01721036084183854,
+    "guest_sales_share": 0.2173256023255112,
+    "quick_reversals": -6600.68
+  },
+  "previous": {
+    "month": "2011-10-01",
+    "gross_sales": 1103314.25,
+    "returns": -41613.03,
+    "net_product_revenue": 1061701.22,
+    "orders": 2005,
+    "avg_order_value": 550.281421446384,
+    "return_rate": 0.037716389505528455,
+    "guest_sales_share": 0.09153121152926286,
+    "quick_reversals": -12797.8
+  },
+  "previous_year": {
+    "month": "2010-11-01",
+    "gross_sales": 1429700.782,
+    "returns": -35098.98,
+    "net_product_revenue": 1394601.802,
+    "orders": 2719,
+    "avg_order_value": 525.8186031629275,
+    "return_rate": 0.024549878157652156,
+    "guest_sales_share": 0.19145431928566997,
+    "quick_reversals": -4796.2
+  },
+  "month_over_month": {
+    "reference_month": "2011-10-01",
+    "changes": {
+      "gross_sales": {
+        "delta": 348801.73,
+        "relative_change": 0.31613996646920856
+      },
+      "returns": {
+        "delta": 16621.59,
+        "relative_change": 0.3994323412642627
+      },
+      "net_product_revenue": {
+        "delta": 365423.32000000007,
+        "relative_change": 0.34418658763526716
+      },
+      "orders": {
+        "delta": 746,
+        "relative_change": 0.372069825436409
+      }
+    }
+  },
+  "year_over_year": {
+    "reference_month": "2010-11-01",
+    "changes": {
+      "gross_sales": {
+        "delta": 22415.19800000009,
+        "relative_change": 0.01567824420480739
+      },
+      "returns": {
+        "delta": 10107.540000000005,
+        "relative_change": 0.2879724709948837
+      },
+      "net_product_revenue": {
+        "delta": 32522.73800000013,
+        "relative_change": 0.02332044742331412
+      },
+      "orders": {
+        "delta": 32,
+        "relative_change": 0.011769032732622288
+      }
+    }
+  },
+  "drivers": {
+    "gross_sales_change": 348801.73,
+    "returns_change": 16621.59,
+    "net_revenue_change": 365423.32000000007,
+    "order_volume_effect": 402143.10561934864,
+    "basket_value_effect": -53341.375619348386
+  },
+  "country_contributions": [
+    {
+      "country": "United Kingdom",
+      "prior_net_revenue": 876926.44,
+      "current_net_revenue": 1258907.88,
+      "delta": 381981.44
+    },
+    {
+      "country": "Netherlands",
+      "prior_net_revenue": 40378.65,
+      "current_net_revenue": 25640.01,
+      "delta": -14738.64
+    },
+    {
+      "country": "Australia",
+      "prior_net_revenue": 17453.21,
+      "current_net_revenue": 7068.72,
+      "delta": -10384.49
+    },
+    {
+      "country": "Ireland",
+      "prior_net_revenue": 22792.62,
+      "current_net_revenue": 29488.05,
+      "delta": 6695.43
+    },
+    {
+      "country": "Japan",
+      "prior_net_revenue": 1948.04,
+      "current_net_revenue": 8460.08,
+      "delta": 6512.04
+    },
+    {
+      "country": "Germany",
+      "prior_net_revenue": 28006.27,
+      "current_net_revenue": 23246.55,
+      "delta": -4759.72
+    },
+    {
+      "country": "France",
+      "prior_net_revenue": 23862.64,
+      "current_net_revenue": 28240.17,
+      "delta": 4377.53
+    },
+    {
+      "country": "Cyprus",
+      "prior_net_revenue": 4153.97,
+      "current_net_revenue": 439.66,
+      "delta": -3714.31
+    },
+    {
+      "country": "Spain",
+      "prior_net_revenue": 4406.65,
+      "current_net_revenue": 7879.97,
+      "delta": 3473.32
+    },
+    {
+      "country": "Sweden",
+      "prior_net_revenue": 5671.16,
+      "current_net_revenue": 2292.71,
+      "delta": -3378.45
+    },
+    {
+      "country": "Portugal",
+      "prior_net_revenue": 5307.68,
+      "current_net_revenue": 2295.3,
+      "delta": -3012.38
+    },
+    {
+      "country": "Norway",
+      "prior_net_revenue": 3316.73,
+      "current_net_revenue": 5807.5,
+      "delta": 2490.77
+    },
+    {
+      "country": "Denmark",
+      "prior_net_revenue": 510.71,
+      "current_net_revenue": 2699.57,
+      "delta": 2188.86
+    },
+    {
+      "country": "Poland",
+      "prior_net_revenue": 0.0,
+      "current_net_revenue": 1341.87,
+      "delta": 1341.87
+    },
+    {
+      "country": "Iceland",
+      "prior_net_revenue": 1294.32,
+      "current_net_revenue": 0.0,
+      "delta": -1294.32
+    },
+    {
+      "country": "Channel Islands",
+      "prior_net_revenue": 2623.32,
+      "current_net_revenue": 1445.17,
+      "delta": -1178.15
+    },
+    {
+      "country": "South Africa",
+      "prior_net_revenue": 1002.31,
+      "current_net_revenue": 0.0,
+      "delta": -1002.31
+    },
+    {
+      "country": "Singapore",
+      "prior_net_revenue": 999.26,
+      "current_net_revenue": 0.0,
+      "delta": -999.26
+    },
+    {
+      "country": "Unspecified",
+      "prior_net_revenue": 0.0,
+      "current_net_revenue": 965.75,
+      "delta": 965.75
+    },
+    {
+      "country": "United States",
+      "prior_net_revenue": 731.69,
+      "current_net_revenue": 0.0,
+      "delta": -731.69
+    },
+    {
+      "country": "Hong Kong",
+      "prior_net_revenue": 723.57,
+      "current_net_revenue": 0.0,
+      "delta": -723.57
+    },
+    {
+      "country": "Switzerland",
+      "prior_net_revenue": 7219.53,
+      "current_net_revenue": 7916.96,
+      "delta": 697.43
+    },
+    {
+      "country": "Italy",
+      "prior_net_revenue": 3250.79,
+      "current_net_revenue": 3574.08,
+      "delta": 323.29
+    },
+    {
+      "country": "Czech Republic",
+      "prior_net_revenue": 237.48,
+      "current_net_revenue": -57.51,
+      "delta": -294.99
+    },
+    {
+      "country": "Austria",
+      "prior_net_revenue": 923.78,
+      "current_net_revenue": 1209.78,
+      "delta": 286.0
+    },
+    {
+      "country": "Malta",
+      "prior_net_revenue": 0.0,
+      "current_net_revenue": 257.62,
+      "delta": 257.62
+    },
+    {
+      "country": "Finland",
+      "prior_net_revenue": 2266.12,
+      "current_net_revenue": 2456.24,
+      "delta": 190.12
+    },
+    {
+      "country": "Israel",
+      "prior_net_revenue": 132.18,
+      "current_net_revenue": 0.0,
+      "delta": -132.18
+    },
+    {
+      "country": "Belgium",
+      "prior_net_revenue": 5562.1,
+      "current_net_revenue": 5548.41,
+      "delta": -13.69
+    }
+  ],
+  "proposed_actions": [
+    {
+      "action": "Review the largest country revenue changes with commercial and operations owners",
+      "evidence": "Reconciled country contributions and order/basket decomposition",
+      "data_needed": "Traffic, conversion, campaign spend, stock availability and contribution margins",
+      "decision_rule": "Investigate the driver before allocating budget; revenue alone does not establish profitable demand"
+    },
+    {
+      "action": "Audit returns and same-hour reversals separately before changing fulfillment or retention policy",
+      "evidence": "Negative return amounts, gross return rate and separately flagged quick reversals",
+      "data_needed": "Return reasons, product defects, dispatch dates, customer contacts and cost to serve",
+      "decision_rule": "Confirm mechanisms and costs; aggregate associations do not identify an intervention effect"
+    },
+    {
+      "action": "Use customer-value scores only to propose a controlled retention pilot",
+      "evidence": "Separate historical 90-day repeat-purchase evaluation; past-spend baseline won revenue selection",
+      "data_needed": "Consent, offer costs, randomized holdout, margins and incremental net contribution",
+      "decision_rule": "Do not treat predicted repeat purchase or high spend as incremental offer response"
+    }
+  ],
+  "limitations": [
+    "Historical transaction totals are descriptive; no sampling confidence interval or causal uplift is claimed.",
+    "Zero-sale months inside declared coverage are zero observations; a missing source feed must not be declared complete.",
+    "Country allocation uses existing full-history finance definitions, not point-in-time model features.",
+    "Guest sales contribute to revenue but cannot support identified-customer retention actions.",
+    "No margin, acquisition cost, inventory, traffic or intervention outcome is available; revenue is not profit or lifetime value."
+  ],
+  "provenance": {
+    "source": {
+      "file": "raw_online_retail_II.csv",
+      "bytes": 93181428,
+      "sha256": "05086ff204eaa3333090a82e6a02cd3eee881ebbb0264eff4a8730cdf81b3dd1",
+      "identity": "Private frozen copy consumed by every output in this build"
+    },
+    "code_sha256_lf_normalized": {
+      "mart/__init__.py": "b470b32bc9c76bf5beabe12994b2bfe3c8489d2402396fdbdd000e3d578b86db",
+      "mart/charts.py": "86149d325bff1953f2c6b980067591266ba23e6d0178e65a4b3c35787b2c8f65",
+      "mart/checks.py": "af6811a3cc7a73d6c34ab20e781d4455e59b546ba19e56e6ab2e17b1952f3096",
+      "mart/cli.py": "2c6517934a4e6532d475a734cd55e84131f6bcfc3ff8f9b21c8cba303631dae8",
+      "mart/customer_value.py": "2dc6ada000f637ec744a90f3930439a88f9b9ebd6d28ffea6d108afc894d6fbb",
+      "mart/decisions.py": "510024f921c5014da09ece240472a4589b0ffad7096846c13758f02692d417ef",
+      "mart/excel.py": "e4e081cd6204a6b9c09156d6467b614ec0be19b348f131dbe498221ca1869eae",
+      "mart/explorer.py": "c0a26b8182566e6684b0c7898ec1efc0d0f96a592e50161ea2f4dff3bcdf3b1e",
+      "mart/ingest.py": "4ca0f24c2144361a47ff6c94eb0e43ed5cce535592fbc0343bff523c05ba4ea9",
+      "mart/pipeline.py": "fb7008a2343da213ad3174f8d74140e99a715a2046212aee98984e02499c0c45",
+      "mart/provenance.py": "f265d586b312e2b22d9dd2f925ebdc6800e7c822ba54e77582c165f7b542ddf6",
+      "mart/release.py": "480680979d00519d669007a2eca5d4da0a3ca11ccb489894e33ec493072dfc30",
+      "mart/report.py": "d00bb159adfc9544b45f8e62bea51f2cbae696769d42cf3329b6ccff11de7707",
+      "mart/value_cli.py": "28aa317c904d19011a8813b54f012ce7e4c312d870ad725a01cc9cb584754526",
+      "mart/value_score.py": "c133665e3177f0c0c49a82aec7ee89c28254b83b7cb7e259938c8ee7618118d7",
+      "seeds/country_map.csv": "85b6cdea1e959b74d1c8b791e993081eea9db7f7a3e196fc5b9d5db17f0a40e9",
+      "seeds/stock_code_types.csv": "69272bd916cfe3b25a8884bca55cddcd904e563f7abb6edb693b120ef012e51a",
+      "sql/10_staging.sql": "2a1686a669491727ce631dd1837f4982a38a30702f630e0d4544401ecde8e800",
+      "sql/20_classify.sql": "7cc57e32f2a40acca7f9da9fbbab55fa8f7e8460df3ce116b8b9fe1c0306f37c",
+      "sql/30_core.sql": "a4709b1a33a457684c6dd5122a6c94053290e9ed88c93d4a6290404a0e9dc91e",
+      "sql/40_marts.sql": "f5f84cd1c470b12538aafa22214726c34c1242a727ff3402bca3d4894b155575"
+    }
+  }
+}
