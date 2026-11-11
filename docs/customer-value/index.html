@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Customer future value | Vasilen Kanchev</title><style>
+:root{color-scheme:dark}body{margin:0;background:#141b20;color:#e9f0f2;font:17px/1.65 system-ui,sans-serif}
+main{max-width:1120px;margin:auto;padding:55px 24px}a{color:#7fe0c0}h1{font-size:clamp(32px,5vw,56px);line-height:1.15;max-width:800px}
+.eyebrow{color:#7fe0c0;letter-spacing:.1em;text-transform:uppercase;font-size:13px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.card{border:1px solid #36434c;border-radius:12px;padding:22px;background:#1c252c}.muted{color:#b1c1cb}.scroll{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:15px 12px;border-bottom:1px solid #36434c}th{color:#7fe0c0}h2{margin-top:42px}code{font-size:14px}li{margin:8px 0}
+</style><main><p class="eyebrow">Finance Mart / Applied data science</p><h1>Who will buy again, and how much?</h1>
+<p class="muted">A reproducible 90-day customer prediction study on public UK retail invoices. Models are selected on a past validation window and frozen before two future-period tests.</p>
+<div class="grid"><div class="card"><strong>1,067,371 source lines</strong><br>UCI Online Retail II, 2009–2011. No employer or live customer data.</div>
+<div class="card"><strong>180 days of observed behaviour</strong><br>Recency, order frequency, product variety, gross purchase value and returns.</div>
+<div class="card"><strong>90-day future outcomes</strong><br>Repeat purchase and gross product spend. Not subscription churn, profit or lifetime value.</div></div>
+<h2>Untouched future-window results</h2><p>Selected on January 2011 only: logistic for repeat-purchase probability; past_90d for gross spend. Lower Brier score/MAE is better.</p><div class="scroll"><table><thead><tr><th>Prediction date</th><th>Customers</th><th>ROC-AUC</th><th>Brier</th><th>Spend MAE</th><th>Past-spend baseline MAE</th><th>Future revenue captured by top 20%</th></tr></thead><tbody><tr><td>2011-04-01</td><td>3,299</td><td>0.748</td><td>0.213</td><td>£352</td><td>£352</td><td>69.0%</td></tr><tr><td>2011-07-01</td><td>2,722</td><td>0.762</td><td>0.201</td><td>£463</td><td>£463</td><td>71.0%</td></tr></tbody></table></div>
+<p class="muted">Revenue capture is retrospective ranking evaluation. It is not extra revenue created by an offer or proof that intervention works.</p>
+<h2>The decision this supports</h2><p>A team with limited review capacity can inspect the highest predicted-value customers first. The CSV includes a deterministic top-20% flag. Choosing a retention offer requires treatment-effect evidence and actual costs; neither is available here.</p>
+<h2>What keeps the evaluation honest</h2><ul><li>Features stop strictly before the prediction date. Only mature future labels are used in training and model selection.</li>
+<li>Training windows: July and October 2010. Validation: January 2011. Tests: April and July 2011. Each outcome window is 90 days and disjoint; every snapshot has at least 180 days of source coverage.</li>
+<li>Customers may recur across time windows: this evaluates future behaviour of an existing customer base, not generalization to unseen customers.</li>
+<li>The December 9, 2011 shadow score has no observed future outcome. It excludes the partial final source day and demonstrates batch inference only.</li>
+<li>Gross purchase spend does not subtract future returns, shipping, fees or marketing costs. No revenue uplift, causal effect or realized savings is claimed.</li></ul>
+<h2>Inspect and reproduce</h2><p><a href="report.json">Metrics, calibration and limitations</a> · <a href="test_predictions.csv">All held-out predictions</a> · <a href="shadow_scores.csv">Historical shadow scores</a> · <a href="manifest.json">Source, code and artifact fingerprints</a></p>
+<p><a href="https://github.com/VasilenData/ecommerce-finance-mart">Source and reproducible commands</a> · <a href="../explorer/">Finance explorer</a></p></main></html>
