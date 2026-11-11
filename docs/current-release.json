@@ -1,0 +1,71 @@
+{
+  "release": "2026-11-11",
+  "source_revision": "35f3001b9189adc4677a9afded769157cdfa5b28",
+  "generated_at": "2026-11-11T16:47:05.877888+00:00",
+  "workflow_url": "https://github.com/VasilenData/ecommerce-finance-mart/actions/runs/43061316297",
+  "manifest": "releases/2026-11-11/manifest.json",
+  "archive": {
+    "path": "releases/2026-11-11/finance-mart-release.zip",
+    "bytes": 588856,
+    "sha256": "056940863f7a3abbcaba6e3953a322fe6b1e7c8a2ac23fd60444dedd578fba7e"
+  },
+  "outputs": [
+    {
+      "path": "finance_workbook.xlsx",
+      "bytes": 310736,
+      "sha256": "dd2c44817d871cfdec64344d37288027c06541bcaa47135d882f296a1f5a53b9",
+      "release_path": "releases/2026-11-11/finance_workbook.xlsx",
+      "current_path": "finance_workbook.xlsx"
+    },
+    {
+      "path": "explorer/index.html",
+      "bytes": 343321,
+      "sha256": "b2d4c4f2d8c367a59f7fa23654201824d05fda37bf0102de9252622fdf63a996",
+      "release_path": "releases/2026-11-11/explorer/index.html",
+      "current_path": "explorer/index.html"
+    },
+    {
+      "path": "data_quality.md",
+      "bytes": 3325,
+      "sha256": "c17f80fe4df61f287f4d26cab8668b48678c336492da9999500e9d346e22c78f",
+      "release_path": "releases/2026-11-11/data_quality.md",
+      "current_path": "data_quality.md"
+    },
+    {
+      "path": "img/revenue.png",
+      "bytes": 82787,
+      "sha256": "8e27fee343bd236dead7f4c3280fec8737d45a52d6249713d77ae7702ae86ce4",
+      "release_path": "releases/2026-11-11/img/revenue.png",
+      "current_path": "img/revenue.png"
+    },
+    {
+      "path": "img/return_rate.png",
+      "bytes": 81993,
+      "sha256": "a932e5a1c15e9533b27fcdd39c505b460b26a2e2e82bd3e3d2307ef4ec713a97",
+      "release_path": "releases/2026-11-11/img/return_rate.png",
+      "current_path": "img/return_rate.png"
+    },
+    {
+      "path": "img/cohorts.png",
+      "bytes": 85147,
+      "sha256": "86a5f72085619f0607cd313ce782e400790448d9efc4722baa17df60cdfd5a7e",
+      "release_path": "releases/2026-11-11/img/cohorts.png",
+      "current_path": "img/cohorts.png"
+    },
+    {
+      "path": "management.md",
+      "bytes": 3511,
+      "sha256": "517ca70c7114bd2676ff76687ee76abd352dca697431c0752ce438352acef538",
+      "release_path": "releases/2026-11-11/management.md",
+      "current_path": "releases/2026-11-11/management.md"
+    },
+    {
+      "path": "management.json",
+      "bytes": 11234,
+      "sha256": "bbaabed2c6af522d8cb028e7cf3935c32c3d7bf161c8592e26d45f8e968feeed",
+      "release_path": "releases/2026-11-11/management.json",
+      "current_path": "releases/2026-11-11/management.json"
+    }
+  ],
+  "note": "Artifact-only publication of the verified DuckDB build. The manifest records the build revision, not this later publication commit. Earlier dated manifests and standalone management/customer-value evidence remain historical. Databricks was not rerun."
+}

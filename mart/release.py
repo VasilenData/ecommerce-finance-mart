@@ -6,7 +6,6 @@ LibreOffice is required: uncalculated workbook formulas cannot become a release.
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import math
 import os
@@ -20,22 +19,16 @@ from openpyxl import load_workbook
 
 from mart.charts import draw_all
 from mart.checks import assert_blocking, run_checks
+from mart.decisions import write_decision_report
 from mart.excel import build_workbook, recalculate
 from mart.explorer import build_explorer
 from mart.pipeline import build
+from mart.provenance import code_records, freeze_source, sha256
 from mart.report import write_report
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS = ("finance_workbook.xlsx", "explorer/index.html", "data_quality.md",
              "img/revenue.png", "img/return_rate.png", "img/cohorts.png")
-
-
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for block in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest()
 
 
 def verify_value(actual, expected, label, tolerance=1e-8):
@@ -92,9 +85,9 @@ def validate_workbook(con, path: Path) -> dict:
     return {"sql_compared_cells": checked, "formula_errors": 0}
 
 
-def artifact_records(directory: Path) -> list[dict]:
+def artifact_records(directory: Path, extra: tuple[str, ...] = ()) -> list[dict]:
     records = []
-    for relative in ARTIFACTS:
+    for relative in (*ARTIFACTS, *extra):
         path = directory / relative
         if not path.is_file() or path.stat().st_size == 0:
             raise ValueError(f"Missing or empty release artifact: {relative}")
@@ -102,8 +95,10 @@ def artifact_records(directory: Path) -> list[dict]:
     return records
 
 
-def release(raw: Path, output: Path) -> dict:
+def release(raw: Path, output: Path, coverage_start: str | None = None, coverage_end: str | None = None) -> dict:
     raw, output = raw.resolve(), output.resolve()
+    if (coverage_start is None) != (coverage_end is None):
+        raise ValueError("Management reports require both complete source coverage bounds")
     if output.exists():
         raise FileExistsError(f"Release destination must be new: {output}")
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -112,7 +107,9 @@ def release(raw: Path, output: Path) -> dict:
     with tempfile.TemporaryDirectory(prefix="finance-release-", dir=output.parent) as temporary:
         staging = Path(temporary) / "bundle"
         staging.mkdir()
-        con = build(raw, Path(temporary) / "mart.duckdb")
+        frozen, source = freeze_source(raw, Path(temporary) / "source")
+        code = code_records(ROOT)
+        con = build(frozen, Path(temporary) / "mart.duckdb")
         try:
             checks = run_checks(con)
             assert_blocking(checks)
@@ -120,6 +117,9 @@ def release(raw: Path, output: Path) -> dict:
             build_workbook(con, staging / "finance_workbook.xlsx")
             build_explorer(con, staging / "explorer")
             draw_all(con, staging / "img")
+            if coverage_start is not None:
+                write_decision_report(con, staging, coverage_start, coverage_end,
+                                      {"source": source, "code_sha256_lf_normalized": code})
             if not recalculate(staging / "finance_workbook.xlsx"):
                 raise RuntimeError("LibreOffice is required to validate cached formula results for a release")
             workbook = validate_workbook(con, staging / "finance_workbook.xlsx")
@@ -129,10 +129,10 @@ def release(raw: Path, output: Path) -> dict:
             con.close()
         manifest = {"schema_version": 1, "revision": revision,
                     "generated_at": datetime.now(timezone.utc).isoformat(),
-                    "source": {"file": raw.name, "bytes": raw.stat().st_size, "sha256": sha256(raw)},
+                    "source": source, "code_sha256_lf_normalized": code,
                     "packages": {name: version(name) for name in ("duckdb", "pandas", "openpyxl", "matplotlib")},
                     "row_counts": row_counts, "checks": checks, "workbook_validation": workbook,
-                    "artifacts": artifact_records(staging)}
+                    "artifacts": artifact_records(staging, ("management.md", "management.json") if coverage_start else ())}
         (staging / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
         staging.rename(output)  # failed generation never publishes a partial bundle
     return manifest
@@ -142,8 +142,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--raw", type=Path, default=ROOT / "data/raw_online_retail_II.csv")
     parser.add_argument("--output", type=Path, default=ROOT / "dist/release")
+    parser.add_argument("--coverage-start", help="Declared complete coverage start, inclusive, for management report")
+    parser.add_argument("--coverage-end", help="Declared complete coverage end, exclusive, for management report")
     args = parser.parse_args()
-    print(json.dumps(release(args.raw, args.output), indent=2))
+    print(json.dumps(release(args.raw, args.output, args.coverage_start, args.coverage_end), indent=2))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "revision": "35f3001b9189adc4677a9afded769157cdfa5b28",
+  "generated_at": "2026-11-11T16:47:05.877888+00:00",
+  "source": {
+    "file": "raw_online_retail_II.csv",
+    "bytes": 93181428,
+    "sha256": "05086ff204eaa3333090a82e6a02cd3eee881ebbb0264eff4a8730cdf81b3dd1",
+    "identity": "Private frozen copy consumed by every output in this build"
+  },
+  "code_sha256_lf_normalized": {
+    "mart/__init__.py": "b470b32bc9c76bf5beabe12994b2bfe3c8489d2402396fdbdd000e3d578b86db",
+    "mart/charts.py": "86149d325bff1953f2c6b980067591266ba23e6d0178e65a4b3c35787b2c8f65",
+    "mart/checks.py": "af6811a3cc7a73d6c34ab20e781d4455e59b546ba19e56e6ab2e17b1952f3096",
+    "mart/cli.py": "2c6517934a4e6532d475a734cd55e84131f6bcfc3ff8f9b21c8cba303631dae8",
+    "mart/customer_value.py": "2dc6ada000f637ec744a90f3930439a88f9b9ebd6d28ffea6d108afc894d6fbb",
+    "mart/decisions.py": "510024f921c5014da09ece240472a4589b0ffad7096846c13758f02692d417ef",
+    "mart/excel.py": "e4e081cd6204a6b9c09156d6467b614ec0be19b348f131dbe498221ca1869eae",
+    "mart/explorer.py": "c0a26b8182566e6684b0c7898ec1efc0d0f96a592e50161ea2f4dff3bcdf3b1e",
+    "mart/ingest.py": "4ca0f24c2144361a47ff6c94eb0e43ed5cce535592fbc0343bff523c05ba4ea9",
+    "mart/pipeline.py": "fb7008a2343da213ad3174f8d74140e99a715a2046212aee98984e02499c0c45",
+    "mart/provenance.py": "f265d586b312e2b22d9dd2f925ebdc6800e7c822ba54e77582c165f7b542ddf6",
+    "mart/release.py": "480680979d00519d669007a2eca5d4da0a3ca11ccb489894e33ec493072dfc30",
+    "mart/report.py": "d00bb159adfc9544b45f8e62bea51f2cbae696769d42cf3329b6ccff11de7707",
+    "mart/value_cli.py": "28aa317c904d19011a8813b54f012ce7e4c312d870ad725a01cc9cb584754526",
+    "mart/value_score.py": "c133665e3177f0c0c49a82aec7ee89c28254b83b7cb7e259938c8ee7618118d7",
+    "seeds/country_map.csv": "85b6cdea1e959b74d1c8b791e993081eea9db7f7a3e196fc5b9d5db17f0a40e9",
+    "seeds/stock_code_types.csv": "69272bd916cfe3b25a8884bca55cddcd904e563f7abb6edb693b120ef012e51a",
+    "sql/10_staging.sql": "2a1686a669491727ce631dd1837f4982a38a30702f630e0d4544401ecde8e800",
+    "sql/20_classify.sql": "7cc57e32f2a40acca7f9da9fbbab55fa8f7e8460df3ce116b8b9fe1c0306f37c",
+    "sql/30_core.sql": "a4709b1a33a457684c6dd5122a6c94053290e9ed88c93d4a6290404a0e9dc91e",
+    "sql/40_marts.sql": "f5f84cd1c470b12538aafa22214726c34c1242a727ff3402bca3d4894b155575"
+  },
+  "packages": {
+    "duckdb": "2.0.0",
+    "pandas": "3.1.1",
+    "openpyxl": "3.1.5",
+    "matplotlib": "3.11.2"
+  },
+  "row_counts": {
+    "raw_lines": 1067371,
+    "fact_lines": 1027008,
+    "quarantine_lines": 40363
+  },
+  "checks": [
+    {
+      "name": "row_reconciliation",
+      "description": "Every raw row is either kept or quarantined, none lost or duplicated",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "amount_reconciliation",
+      "description": "Raw quantity x price equals kept amount plus quarantined amount (to the penny)",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "line_id_unique",
+      "description": "line_id is unique in the fact table",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "sale_lines_positive",
+      "description": "Sale lines have positive quantity and price",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "return_lines_negative",
+      "description": "Return lines are credit notes with negative quantity",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "product_fk",
+      "description": "Every sale and return line has a product in dim_product",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "customer_fk",
+      "description": "Every customer id on a fact line exists in dim_customer",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "stock_code_normalized",
+      "description": "Stock codes are trimmed and upper case",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "one_description_per_product",
+      "description": "dim_product has one row per stock code",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "invoice_totals",
+      "description": "fact_invoice net equals fact_lines net",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "invoice_single_customer",
+      "description": "An invoice belongs to one customer",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "monthly_reconciles",
+      "description": "mart_monthly net product revenue equals sale plus return lines",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "cohort_month0_full",
+      "description": "Every cohort has 100% retention in month 0",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "rfm_one_row_per_customer",
+      "description": "mart_customer_rfm has one row per customer",
+      "blocking": true,
+      "violations": 0.0,
+      "passed": true
+    },
+    {
+      "name": "invoice_has_one_timestamp",
+      "description": "Invoices with more than one distinct timestamp (informational)",
+      "blocking": false,
+      "violations": 83.0,
+      "passed": false
+    }
+  ],
+  "workbook_validation": {
+    "sql_compared_cells": 124,
+    "formula_errors": 0
+  },
+  "artifacts": [
+    {
+      "path": "finance_workbook.xlsx",
+      "bytes": 310736,
+      "sha256": "dd2c44817d871cfdec64344d37288027c06541bcaa47135d882f296a1f5a53b9"
+    },
+    {
+      "path": "explorer/index.html",
+      "bytes": 343321,
+      "sha256": "b2d4c4f2d8c367a59f7fa23654201824d05fda37bf0102de9252622fdf63a996"
+    },
+    {
+      "path": "data_quality.md",
+      "bytes": 3325,
+      "sha256": "c17f80fe4df61f287f4d26cab8668b48678c336492da9999500e9d346e22c78f"
+    },
+    {
+      "path": "img/revenue.png",
+      "bytes": 82787,
+      "sha256": "8e27fee343bd236dead7f4c3280fec8737d45a52d6249713d77ae7702ae86ce4"
+    },
+    {
+      "path": "img/return_rate.png",
+      "bytes": 81993,
+      "sha256": "a932e5a1c15e9533b27fcdd39c505b460b26a2e2e82bd3e3d2307ef4ec713a97"
+    },
+    {
+      "path": "img/cohorts.png",
+      "bytes": 85147,
+      "sha256": "86a5f72085619f0607cd313ce782e400790448d9efc4722baa17df60cdfd5a7e"
+    },
+    {
+      "path": "management.md",
+      "bytes": 3511,
+      "sha256": "517ca70c7114bd2676ff76687ee76abd352dca697431c0752ce438352acef538"
+    },
+    {
+      "path": "management.json",
+      "bytes": 11234,
+      "sha256": "bbaabed2c6af522d8cb028e7cf3935c32c3d7bf161c8592e26d45f8e968feeed"
+    }
+  ]
+}

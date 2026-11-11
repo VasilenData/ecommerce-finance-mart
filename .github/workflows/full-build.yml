@@ -6,25 +6,37 @@ permissions:
 jobs:
   full:
     runs-on: ubuntu-latest
+    # Use one Debian userspace for Python and LibreOffice. Do not mix package
+    # repositories with the Ubuntu host, whose archive DNS may be unavailable.
+    container: python:3.11-bookworm
     timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: pip
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
       - name: Install workbook calculation engine
-        run: sudo apt-get update && sudo apt-get install -y libreoffice-calc
+        timeout-minutes: 8
+        run: |
+          set -euo pipefail
+          apt_options=(-o Acquire::Retries=1 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20)
+          # Official Python Bookworm image: root inside the Debian job container.
+          timeout 120s apt-get "${apt_options[@]}" -o APT::Update::Error-Mode=any update
+          timeout 300s apt-get "${apt_options[@]}" install -y --no-install-recommends libreoffice-calc
+          python --version
+          git --version
+          node --version
+          libreoffice --version
       - run: pip install -r requirements-dev.txt
       - run: python -m mart.cli data
       - run: python -m mart.cli build
       - run: python -m pytest -q
       - run: node --test tests_js/*.test.mjs
       - name: Build and validate workbook, explorer, charts and manifest together
-        run: python -m mart.release --output dist/release
+        run: python -m mart.release --output dist/release --coverage-start 2009-12-01 --coverage-end 2011-12-09
       - uses: actions/upload-artifact@v4
         with:
           name: finance-mart-${{ github.sha }}-${{ github.run_attempt }}

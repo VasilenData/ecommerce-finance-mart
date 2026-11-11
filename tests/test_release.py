@@ -55,10 +55,11 @@ def test_failed_calculation_never_publishes_partial_bundle(tmp_path, monkeypatch
     monkeypatch.setattr(release, "recalculate", lambda *args: False)
     monkeypatch.setenv("GITHUB_SHA", "test-revision")
     output = tmp_path / "release"
+    (tmp_path / "raw.csv").write_text("frozen fixture")
     with pytest.raises(RuntimeError, match="LibreOffice is required"):
         release.release(tmp_path / "raw.csv", output)
     assert not output.exists()
-    assert list(tmp_path.iterdir()) == []
+    assert list(tmp_path.iterdir()) == [tmp_path / "raw.csv"]
     con.close.assert_called_once()
 
 
