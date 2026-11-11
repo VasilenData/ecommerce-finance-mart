@@ -17,7 +17,39 @@ jobs:
         with:
           node-version: "22"
       - name: Install workbook calculation engine
-        run: sudo apt-get update && sudo apt-get install -y libreoffice-calc
+        timeout-minutes: 8
+        shell: bash
+        run: |
+          set -euo pipefail
+          apt_options=(-o Acquire::Retries=1 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20)
+          # Fail on incomplete indexes; apt normally treats some DNS failures as warnings.
+          if ! timeout 90s sudo apt-get "${apt_options[@]}" -o APT::Update::Error-Mode=any update; then
+            echo "::warning::Runner package mirror failed; retrying official Ubuntu repositories."
+            sudo python3 - <<'PY'
+          from pathlib import Path
+          replacements = {
+              "mirror+file:/etc/apt/apt-mirrors.txt": "http://archive.ubuntu.com/ubuntu",
+              "mirror+file:/etc/apt/apt-security-mirrors.txt": "http://security.ubuntu.com/ubuntu",
+              "http://azure.archive.ubuntu.com/ubuntu": "http://archive.ubuntu.com/ubuntu",
+              "https://azure.archive.ubuntu.com/ubuntu": "https://archive.ubuntu.com/ubuntu",
+          }
+          changed = False
+          for source in (Path("/etc/apt/sources.list.d/ubuntu.sources"), Path("/etc/apt/sources.list")):
+              if not source.is_file():
+                  continue
+              before = source.read_text()
+              after = before
+              for old, new in replacements.items():
+                  after = after.replace(old, new)
+              if after != before:
+                  source.write_text(after)
+                  changed = True
+          if not changed:
+              raise SystemExit("No recognized Ubuntu runner mirror to replace; refusing an unbounded retry.")
+          PY
+            timeout 90s sudo apt-get "${apt_options[@]}" -o APT::Update::Error-Mode=any update
+          fi
+          timeout 240s sudo apt-get "${apt_options[@]}" install -y --no-install-recommends libreoffice-calc
       - run: pip install -r requirements-dev.txt
       - run: python -m mart.cli data
       - run: python -m mart.cli build
