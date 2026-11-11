@@ -24,7 +24,7 @@ jobs:
       - run: python -m pytest -q
       - run: node --test tests_js/*.test.mjs
       - name: Build and validate workbook, explorer, charts and manifest together
-        run: python -m mart.release --output dist/release
+        run: python -m mart.release --output dist/release --coverage-start 2009-12-01 --coverage-end 2011-12-09
       - uses: actions/upload-artifact@v4
         with:
           name: finance-mart-${{ github.sha }}-${{ github.run_attempt }}
