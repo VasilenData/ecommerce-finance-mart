@@ -6,6 +6,14 @@ Messy retail transactions go in. A normalized star schema, finance and customer 
 
 **Implementation scope:** Python and DuckDB run the complete pipeline. The [Databricks SQL port](databricks/README.md) reproduces the transformation layers. The BigQuery experiment described there loads the already-built monthly mart; it is not a port of the full pipeline. The checked-in implementation and verification SQL cover DuckDB and Databricks.
 
+## Customer future-value extension
+
+[Open the customer prediction report](https://vasilendata.github.io/ecommerce-finance-mart/customer-value/) · [method and reproducible commands](docs/customer_value.md)
+
+The finance tables now feed a point-in-time customer study: predict repeat purchase and gross product spend over the next 90 days using only the preceding history. Fixed candidates are selected on January 2011; two later windows remain held out. Logistic regression achieved ROC-AUC **0.748 / 0.762** on **3,299 / 2,722** customer snapshots. The more complex revenue model lost to a past-spend baseline on validation, so the baseline was retained. All predictions, calibration diagnostics, source/code fingerprints, and the rejected-model comparison are published together. The tested batch scorer reuses a checksummed model bundle and refuses prediction dates preceding model selection.
+
+This is historical research on public invoices, not measured retention impact or lifetime profit. The top-20% customer ranking describes subsequent revenue concentration, not uplift from an intervention. [Read the evidence and limitations](docs/customer_value.md).
+
 ## What it demonstrates
 
 | Skill | Where to look |
