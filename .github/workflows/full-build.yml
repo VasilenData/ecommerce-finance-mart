@@ -6,50 +6,30 @@ permissions:
 jobs:
   full:
     runs-on: ubuntu-latest
+    # Use one Debian userspace for Python and LibreOffice. Do not mix package
+    # repositories with the Ubuntu host, whose archive DNS may be unavailable.
+    container: python:3.11-bookworm
     timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: pip
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
       - name: Install workbook calculation engine
         timeout-minutes: 8
-        shell: bash
         run: |
           set -euo pipefail
           apt_options=(-o Acquire::Retries=1 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20)
-          # Fail on incomplete indexes; apt normally treats some DNS failures as warnings.
-          if ! timeout 90s sudo apt-get "${apt_options[@]}" -o APT::Update::Error-Mode=any update; then
-            echo "::warning::Runner package mirror failed; retrying official Ubuntu repositories."
-            sudo python3 - <<'PY'
-          from pathlib import Path
-          replacements = {
-              "mirror+file:/etc/apt/apt-mirrors.txt": "https://archive.ubuntu.com/ubuntu",
-              "mirror+file:/etc/apt/apt-security-mirrors.txt": "https://security.ubuntu.com/ubuntu",
-              "http://azure.archive.ubuntu.com/ubuntu": "https://archive.ubuntu.com/ubuntu",
-              "https://azure.archive.ubuntu.com/ubuntu": "https://archive.ubuntu.com/ubuntu",
-          }
-          changed = False
-          for source in (Path("/etc/apt/sources.list.d/ubuntu.sources"), Path("/etc/apt/sources.list")):
-              if not source.is_file():
-                  continue
-              before = source.read_text()
-              after = before
-              for old, new in replacements.items():
-                  after = after.replace(old, new)
-              if after != before:
-                  source.write_text(after)
-                  changed = True
-          if not changed:
-              raise SystemExit("No recognized Ubuntu runner mirror to replace; refusing an unbounded retry.")
-          PY
-            timeout 90s sudo apt-get "${apt_options[@]}" -o APT::Update::Error-Mode=any update
-          fi
-          timeout 240s sudo apt-get "${apt_options[@]}" install -y --no-install-recommends libreoffice-calc
+          # Official Python Bookworm image: root inside the Debian job container.
+          timeout 120s apt-get "${apt_options[@]}" -o APT::Update::Error-Mode=any update
+          timeout 300s apt-get "${apt_options[@]}" install -y --no-install-recommends libreoffice-calc
+          python --version
+          git --version
+          node --version
+          libreoffice --version
       - run: pip install -r requirements-dev.txt
       - run: python -m mart.cli data
       - run: python -m mart.cli build
