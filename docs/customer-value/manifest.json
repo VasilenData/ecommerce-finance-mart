@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "code_revision": "5ece5b37ba905b1eb00b2ad326a85d284c15b6ae",
+  "code_files_sha256": {
+    "mart/__init__.py": "a41bd73aa2e16fe6ec28045b6c45496501e2a886b2a774353a926ceacfa5bd26",
+    "mart/charts.py": "c530c57bd814a084f091269c16d23aa969a954ec8550c9ded2753536726e6f6b",
+    "mart/checks.py": "28b1ebbc0f464ce18c3f4e44883e47787b0e8455b77d72be6eb99918f866c93f",
+    "mart/cli.py": "7f443f3f9ae1d67cf44f120d82edb9caaf20fca410e4dd8d27ef4b6fa5f4d795",
+    "mart/customer_value.py": "2dc6ada000f637ec744a90f3930439a88f9b9ebd6d28ffea6d108afc894d6fbb",
+    "mart/excel.py": "513838fc4a4efd57efb83b1f5dbb861a5c09529f1e809ea08901af133f84c9d4",
+    "mart/explorer.py": "35421de112ba52f36a1c15db113ae20f0e1efcfb083e8c56b0ba95d8ca78ee9a",
+    "mart/ingest.py": "0afa235236f3f6efd076eda376933441cc2f4a57536c929390128ffe7013760c",
+    "mart/pipeline.py": "41086ce805d4c873c68a2a744ace1ba54519af6585d5e9dff2913e721a02632e",
+    "mart/release.py": "a460622ea76a8f13b121d42fa51a014838926942d1082139db797929df01b994",
+    "mart/report.py": "4b51393e7ac27ae5ee2cfe3d2a83ecc0505f7c2e8632f01978d6bb6bea84c21f",
+    "mart/value_cli.py": "28aa317c904d19011a8813b54f012ce7e4c312d870ad725a01cc9cb584754526",
+    "mart/value_score.py": "c133665e3177f0c0c49a82aec7ee89c28254b83b7cb7e259938c8ee7618118d7",
+    "seeds/country_map.csv": "856c55572ec8891d4eb6461fe1b0a9a9f031a7fc71191918991e36b4a211790b",
+    "seeds/stock_code_types.csv": "d583dc3714a7249be20d31dba695e8a0861aade6b9277cea009a989bb8a66ebf",
+    "sql/10_staging.sql": "1af434b269286366591aea5771492fe780c30b449d59e19f0d4da51e3f62de22",
+    "sql/20_classify.sql": "62453184c22afdc0369c472e375cc3c677b72b84055e502a968b65774725e48a",
+    "sql/30_core.sql": "b1f6c97daf83078f999003624d6d31588d85a72430d41d3a9d35d59c767c4ccd",
+    "sql/40_marts.sql": "e4fd427a025e7f394a89b5cbd4666c7031d403bafcdd7ce315940a5a39ab7f06"
+  },
+  "source_csv_sha256": "834ba7c3c25bcd1d4fdc20b969b6f4f6da5e84b611036bbd18ba47ce3569e542",
+  "runtime": {
+    "python": "3.12.14",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "scikit_learn": "1.9.1"
+  },
+  "model_usage": "Local trusted artifact only. Never deserialize a model.joblib from an untrusted source.",
+  "artifacts": {
+    "index.html": {
+      "sha256": "8f7bae2251769f389556c3ce51985c987eb76ffbd62b9ec8552d4096954a4f8a",
+      "bytes": 4126
+    },
+    "model.joblib": {
+      "sha256": "fd5848ee97476d81b5d6d5f17429b7aeb12a96dd3d9f4309169c9ecee0cffcd2",
+      "bytes": 40102
+    },
+    "report.json": {
+      "sha256": "35d4e604217a26f0f0ba3f683ff2263bfaf19f24453a2655fb12d0e0ac76880c",
+      "bytes": 9455
+    },
+    "shadow_scores.csv": {
+      "sha256": "8cdce11c93c2559298f1a1d354948b818afe4333295f9be9b9bd53b07e9ec607",
+      "bytes": 237471
+    },
+    "test_predictions.csv": {
+      "sha256": "55abd57ca7c4bb7dce63ece43eae8424c1fe2966ffa897b135e6542bde68b58b",
+      "bytes": 487280
+    }
+  }
+}

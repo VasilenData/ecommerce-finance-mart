@@ -1,0 +1,298 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-11T14:46:20.821793+00:00",
+  "source": {
+    "url": "https://archive.ics.uci.edu/static/public/502/online+retail+ii.zip",
+    "raw_rows": 1067371,
+    "csv_sha256": "834ba7c3c25bcd1d4fdc20b969b6f4f6da5e84b611036bbd18ba47ce3569e542",
+    "coverage_start_inclusive": "2009-12-01",
+    "coverage_end_exclusive": "2011-12-09"
+  },
+  "contract": {
+    "observation_days": 180,
+    "horizon_days": 90,
+    "features": [
+      "recency_days",
+      "observed_age_days",
+      "orders_180d",
+      "active_days_180d",
+      "products_180d",
+      "gross_30d",
+      "gross_90d",
+      "gross_180d",
+      "returns_180d"
+    ],
+    "eligibility": "Registered customer with at least one positive product purchase in previous 180 days",
+    "target": "Any positive product purchase and total gross product spend in next 90 days, GBP",
+    "timezone": "Source naive local wall time; no UTC conversion",
+    "window_boundaries": "[start, end)"
+  },
+  "splits": {
+    "train": [
+      "2010-07-01",
+      "2010-10-01"
+    ],
+    "validation": "2011-01-01",
+    "test": [
+      "2011-04-01",
+      "2011-07-01"
+    ],
+    "train_customer_snapshots": 5636,
+    "validation_customers": 3403
+  },
+  "validation_selection": {
+    "classification": {
+      "recency_rate": {
+        "brier": 0.24275823396973284,
+        "roc_auc": 0.662298827254965,
+        "average_precision": 0.5101698327829696
+      },
+      "logistic": {
+        "brier": 0.22194828781905604,
+        "roc_auc": 0.772339785856786,
+        "average_precision": 0.7078093005321666
+      },
+      "hist_gradient_boosting": {
+        "brier": 0.25340783151648116,
+        "roc_auc": 0.7771975554212811,
+        "average_precision": 0.703177632631568
+      }
+    },
+    "revenue_mae_gbp": {
+      "past_90d": 599.1216226858654,
+      "hist_gradient_boosting": 808.5499152772259
+    },
+    "selected_classifier": "logistic",
+    "selected_revenue": "past_90d"
+  },
+  "test_windows": [
+    {
+      "cutoff": "2011-04-01",
+      "customers": 3299,
+      "repeat_rate": 0.438920885116702,
+      "brier": 0.21303378179596236,
+      "roc_auc": 0.7477699824792332,
+      "average_precision": 0.7342758395215465,
+      "recency_baseline": {
+        "brier": 0.22884769338970684,
+        "roc_auc": 0.6738889460975254,
+        "average_precision": 0.5696265687235726
+      },
+      "paired_brier_difference_95_interval": [
+        -0.021238897402264655,
+        -0.010276496100069395
+      ],
+      "paired_mae_difference_95_interval_gbp": [
+        0.0,
+        0.0
+      ],
+      "revenue_mae_gbp": 352.4171267050622,
+      "past_90d_baseline_mae_gbp": 352.4171267050622,
+      "actual_gross_gbp": 1435683.831,
+      "predicted_gross_gbp": 1588120.35,
+      "top_20_percent_customers": 660,
+      "top_20_percent_future_revenue_share": 0.6904830078844845,
+      "calibration": [
+        {
+          "bin": 1,
+          "n": 12,
+          "mean_probability": 0.1653374622357002,
+          "observed_repeat_rate": 0.3333333333333333
+        },
+        {
+          "bin": 2,
+          "n": 193,
+          "mean_probability": 0.26693943642025386,
+          "observed_repeat_rate": 0.23316062176165803
+        },
+        {
+          "bin": 3,
+          "n": 734,
+          "mean_probability": 0.3566958889245662,
+          "observed_repeat_rate": 0.22070844686648503
+        },
+        {
+          "bin": 4,
+          "n": 623,
+          "mean_probability": 0.444168681812028,
+          "observed_repeat_rate": 0.3130016051364366
+        },
+        {
+          "bin": 5,
+          "n": 393,
+          "mean_probability": 0.5511472441360221,
+          "observed_repeat_rate": 0.37150127226463103
+        },
+        {
+          "bin": 6,
+          "n": 432,
+          "mean_probability": 0.6482936634169069,
+          "observed_repeat_rate": 0.47453703703703703
+        },
+        {
+          "bin": 7,
+          "n": 376,
+          "mean_probability": 0.7501815469196701,
+          "observed_repeat_rate": 0.6223404255319149
+        },
+        {
+          "bin": 8,
+          "n": 343,
+          "mean_probability": 0.8508555194926479,
+          "observed_repeat_rate": 0.8075801749271136
+        },
+        {
+          "bin": 9,
+          "n": 193,
+          "mean_probability": 0.9414541449159612,
+          "observed_repeat_rate": 0.9326424870466321
+        }
+      ]
+    },
+    {
+      "cutoff": "2011-07-01",
+      "customers": 2722,
+      "repeat_rate": 0.5161645848640706,
+      "brier": 0.20126840669448634,
+      "roc_auc": 0.7615598915901286,
+      "average_precision": 0.7933120672092282,
+      "recency_baseline": {
+        "brier": 0.23173015346861306,
+        "roc_auc": 0.6565836298932384,
+        "average_precision": 0.622118235184013
+      },
+      "paired_brier_difference_95_interval": [
+        -0.035467462708159946,
+        -0.02546293508853374
+      ],
+      "paired_mae_difference_95_interval_gbp": [
+        0.0,
+        0.0
+      ],
+      "revenue_mae_gbp": 463.005231814842,
+      "past_90d_baseline_mae_gbp": 463.005231814842,
+      "actual_gross_gbp": 1715387.4299999997,
+      "predicted_gross_gbp": 1742973.991,
+      "top_20_percent_customers": 545,
+      "top_20_percent_future_revenue_share": 0.7103115475202009,
+      "calibration": [
+        {
+          "bin": 1,
+          "n": 8,
+          "mean_probability": 0.1701832631313368,
+          "observed_repeat_rate": 0.125
+        },
+        {
+          "bin": 2,
+          "n": 141,
+          "mean_probability": 0.26488453935506484,
+          "observed_repeat_rate": 0.19148936170212766
+        },
+        {
+          "bin": 3,
+          "n": 501,
+          "mean_probability": 0.35576910065403644,
+          "observed_repeat_rate": 0.2954091816367265
+        },
+        {
+          "bin": 4,
+          "n": 528,
+          "mean_probability": 0.44847523324731886,
+          "observed_repeat_rate": 0.3465909090909091
+        },
+        {
+          "bin": 5,
+          "n": 366,
+          "mean_probability": 0.5477853011218358,
+          "observed_repeat_rate": 0.453551912568306
+        },
+        {
+          "bin": 6,
+          "n": 364,
+          "mean_probability": 0.6498071535442174,
+          "observed_repeat_rate": 0.5769230769230769
+        },
+        {
+          "bin": 7,
+          "n": 357,
+          "mean_probability": 0.74855393359215,
+          "observed_repeat_rate": 0.7142857142857143
+        },
+        {
+          "bin": 8,
+          "n": 295,
+          "mean_probability": 0.8487363463812861,
+          "observed_repeat_rate": 0.8745762711864407
+        },
+        {
+          "bin": 9,
+          "n": 162,
+          "mean_probability": 0.9392074022248181,
+          "observed_repeat_rate": 0.9691358024691358
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Historical public data from one retailer; no production performance or retention impact measured.",
+    "Existing customers recur across disjoint time windows; this is not an unseen-customer test.",
+    "Observed age begins at the first sale in this source, not true customer acquisition.",
+    "Sales reversed later are still gross purchases; future returns and margins are not target inputs.",
+    "A small fixed model comparison; future test results must not be reused to tune this protocol.",
+    "Two future windows do not establish all-season robustness; calibration can shift.",
+    "Source coverage is the declared complete UCI export, not a claim to detect absent upstream transactions."
+  ],
+  "shadow": {
+    "cutoff": "2011-12-09",
+    "customers": 3472,
+    "outcomes_available": false,
+    "description": "Historical batch-scoring demonstration; no offers are sent",
+    "feature_range_diagnostics": {
+      "recency_days": {
+        "train_p01": 1.0,
+        "train_p99": 172.0,
+        "shadow_outside_training_range_fraction": 0.014112903225806451
+      },
+      "observed_age_days": {
+        "train_p01": 3.0,
+        "train_p99": 304.0,
+        "shadow_outside_training_range_fraction": 0.6598502304147466
+      },
+      "orders_180d": {
+        "train_p01": 1.0,
+        "train_p99": 19.0,
+        "shadow_outside_training_range_fraction": 0.008064516129032258
+      },
+      "active_days_180d": {
+        "train_p01": 1.0,
+        "train_p99": 15.0,
+        "shadow_outside_training_range_fraction": 0.009504608294930876
+      },
+      "products_180d": {
+        "train_p01": 1.0,
+        "train_p99": 248.0,
+        "shadow_outside_training_range_fraction": 0.0146889400921659
+      },
+      "gross_30d": {
+        "train_p01": 0.0,
+        "train_p99": 2453.0289999999886,
+        "shadow_outside_training_range_fraction": 0.016993087557603686
+      },
+      "gross_90d": {
+        "train_p01": 0.0,
+        "train_p99": 6810.241999999949,
+        "shadow_outside_training_range_fraction": 0.012960829493087557
+      },
+      "gross_180d": {
+        "train_p01": 35.28,
+        "train_p99": 12301.918499999932,
+        "shadow_outside_training_range_fraction": 0.018721198156682026
+      },
+      "returns_180d": {
+        "train_p01": 0.0,
+        "train_p99": 539.8424999999999,
+        "shadow_outside_training_range_fraction": 0.008928571428571428
+      }
+    }
+  }
+}
