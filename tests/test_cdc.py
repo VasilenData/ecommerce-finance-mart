@@ -156,3 +156,20 @@ def test_documented_source_contract_and_refund_impact_remain_consistent():
     assert result["historical_uci_outputs_affected"] is False
     with pytest.raises(ValueError, match="declared"):
         impact("orders.unknown")
+@pytest.mark.parametrize("failure", [ConnectionResetError("starting"), TimeoutError("starting")])
+def test_connect_startup_retries_transport_failures(monkeypatch, failure):
+    from operational import exercise
+
+    attempts = iter([failure, []])
+
+    def request(_path):
+        result = next(attempts)
+        if isinstance(result, Exception):
+            raise result
+        return result
+
+    monkeypatch.setattr(exercise, "request", request)
+    monkeypatch.setattr(exercise.time, "sleep", lambda _seconds: None)
+    assert exercise.await_connect() == []
+
+
