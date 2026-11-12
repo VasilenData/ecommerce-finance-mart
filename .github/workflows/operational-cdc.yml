@@ -1,0 +1,38 @@
+name: operational-cdc
+on:
+  workflow_dispatch:
+  pull_request:
+    paths: ['mart/cdc*.py', 'operational/**', 'requirements-cdc.txt', '.github/workflows/operational-cdc.yml']
+permissions:
+  contents: read
+jobs:
+  real-cdc-recovery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r requirements-cdc.txt
+      - name: Start disposable isolated lab
+        run: docker compose -f operational/compose.yml up -d --wait --wait-timeout 180
+      - name: Exercise real CDC and recovery
+        run: python -m operational.exercise --output dist/operational-cdc
+      - name: Record container identity and logs
+        if: always()
+        run: |
+          mkdir -p dist/operational-cdc
+          docker compose -f operational/compose.yml logs --no-color > dist/operational-cdc/containers.log
+          docker compose -f operational/compose.yml images --format json > dist/operational-cdc/images.json
+          docker version > dist/operational-cdc/docker-version.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: operational-cdc-${{ github.sha }}
+          path: dist/operational-cdc/
+          retention-days: 30
+      - name: Remove only disposable lab containers
+        if: always()
+        run: docker compose -f operational/compose.yml down -v
