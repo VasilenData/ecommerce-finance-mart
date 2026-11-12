@@ -14,6 +14,12 @@ The finance tables now feed a point-in-time customer study: predict repeat purch
 
 This is historical research on public invoices, not measured retention impact or lifetime profit. The top-20% customer ranking describes subsequent revenue concentration, not uplift from an intervention. [Read the evidence and limitations](docs/customer_value.md).
 
+## Operational change-capture extension
+
+[Architecture, contract and recovery exercise](docs/OPERATIONAL_CDC.md) · [Real integration workflow](.github/workflows/operational-cdc.yml) · [Consumer](mart/cdc.py)
+
+A separate synthetic-orders lab captures PostgreSQL changes through Debezium and Kafka, then applies current orders, daily finance totals, event audit and durable offsets in one DuckDB transaction. It covers corrections, cumulative refunds, cancellations, deletes and replay. The runnable integration exercise checks source reconciliation, a consumer process exit before commit, connector SIGKILL/recovery and reconstruction from captured events. Inspect a completed workflow and its evidence artifact for an observed integration result; unit tests alone do not establish that the external stack ran. This extension does not change the historical UCI workbook, explorer or customer-value results.
+
 ## What it demonstrates
 
 | Skill | Where to look |
