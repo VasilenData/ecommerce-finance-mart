@@ -1,0 +1,206 @@
+{
+  "scope": "Synthetic orders through real PostgreSQL, Debezium, Kafka and DuckDB; controlled recovery exercise",
+  "started_at": "2026-11-12T17:44:54.836707+00:00",
+  "checks": [
+    {
+      "name": "initial_snapshot",
+      "passed": true,
+      "state": {
+        "orders": [
+          [
+            1,
+            101,
+            "2026-11-01",
+            10000,
+            0,
+            "paid"
+          ],
+          [
+            2,
+            102,
+            "2026-11-01",
+            5000,
+            0,
+            "paid"
+          ]
+        ],
+        "daily": [
+          [
+            "2026-11-01",
+            2,
+            15000,
+            0,
+            15000
+          ]
+        ],
+        "last_offset": 1,
+        "events": 2
+      }
+    },
+    {
+      "name": "insert_correction_refund_cancellation_delete",
+      "passed": true,
+      "state": {
+        "orders": [
+          [
+            1,
+            101,
+            "2026-11-01",
+            12000,
+            1000,
+            "paid"
+          ],
+          [
+            2,
+            102,
+            "2026-11-01",
+            5000,
+            0,
+            "cancelled"
+          ]
+        ],
+        "daily": [
+          [
+            "2026-11-01",
+            1,
+            12000,
+            1000,
+            11000
+          ]
+        ],
+        "last_offset": 6,
+        "events": 7
+      }
+    },
+    {
+      "name": "sink_process_exit_before_commit_and_resume",
+      "passed": true,
+      "observed_exercise_seconds": 0.655,
+      "state": {
+        "orders": [
+          [
+            1,
+            101,
+            "2026-11-01",
+            12000,
+            2000,
+            "paid"
+          ],
+          [
+            2,
+            102,
+            "2026-11-01",
+            5000,
+            0,
+            "cancelled"
+          ]
+        ],
+        "daily": [
+          [
+            "2026-11-01",
+            1,
+            12000,
+            2000,
+            10000
+          ]
+        ],
+        "last_offset": 7,
+        "events": 8
+      }
+    },
+    {
+      "name": "connector_sigkill_source_changes_and_resume",
+      "passed": true,
+      "observed_recovery_seconds": 13.521,
+      "state": {
+        "orders": [
+          [
+            1,
+            101,
+            "2026-11-01",
+            13000,
+            2000,
+            "paid"
+          ],
+          [
+            2,
+            102,
+            "2026-11-01",
+            5000,
+            0,
+            "cancelled"
+          ],
+          [
+            4,
+            104,
+            "2026-11-02",
+            2500,
+            500,
+            "paid"
+          ]
+        ],
+        "daily": [
+          [
+            "2026-11-01",
+            1,
+            13000,
+            2000,
+            11000
+          ],
+          [
+            "2026-11-02",
+            1,
+            2500,
+            500,
+            2000
+          ]
+        ],
+        "last_offset": 10,
+        "events": 11
+      }
+    },
+    {
+      "name": "duplicate_offset_replay",
+      "passed": true,
+      "duplicates": 11
+    },
+    {
+      "name": "complete_event_history_rebuild",
+      "passed": true
+    }
+  ],
+  "code_commit": "2f6136e00787b9e3e96d336f2a4c5b6de018f133",
+  "runtime": {
+    "python": "3.11.18",
+    "duckdb": "2.0.0",
+    "confluent-kafka": "2.6.1",
+    "psycopg": "3.2.3"
+  },
+  "connector_status": {
+    "name": "finance-orders",
+    "connector": {
+      "state": "RUNNING",
+      "worker_id": "172.18.0.4:8083"
+    },
+    "tasks": [
+      {
+        "id": 0,
+        "state": "RUNNING",
+        "worker_id": "172.18.0.4:8083"
+      }
+    ],
+    "type": "source"
+  },
+  "passed": true,
+  "events_sha256": "da5033798a555477c8045ddf1e3a23d7bc79daa5486a95b0f8d5e58a68cee6f3",
+  "events_recorded": 11,
+  "finished_at": "2026-11-12T17:45:22.522422+00:00",
+  "implementation_sha256": {
+    "mart/cdc.py": "4cd3390462c4d1b963592d27a864d7d2b6635a10cb36df344fd323c9fab7c3b1",
+    "mart/cdc_worker.py": "c7100c8f1bb8a2dc890959ce3195c01cbfe18d63fdf43403c56c676ff267e696",
+    "operational/exercise.py": "df30b980e136bea9da64ccff4244eafd4bab627ec80264736bfabed082d5f77a",
+    "operational/compose.yml": "d10423f33edcd7e126dc807c3360bcbdc338e111c5db5a47ad24bdff55da8f17",
+    "operational/init.sql": "e4523fc6c11ef54733c4f01bac07de8e9ad7d58d227c7d1eb67cf07b4a584559",
+    "operational/connector.json": "b6186cdf44695db5a74b39a67550909f6d795b1d6c8b6ef6bfacf67ec9182991"
+  }
+}
