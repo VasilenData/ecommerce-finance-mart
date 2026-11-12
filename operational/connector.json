@@ -1,0 +1,27 @@
+{
+  "name": "finance-orders",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "tasks.max": "1",
+    "database.hostname": "postgres",
+    "database.port": "5432",
+    "database.user": "lab",
+    "database.password": "local_lab_only",
+    "database.dbname": "commerce",
+    "topic.prefix": "finance",
+    "plugin.name": "pgoutput",
+    "slot.name": "finance_orders",
+    "publication.name": "finance_orders",
+    "publication.autocreate.mode": "filtered",
+    "table.include.list": "public.orders",
+    "snapshot.mode": "initial",
+    "tombstones.on.delete": "true",
+    "topic.creation.default.replication.factor": "1",
+    "topic.creation.default.partitions": "1",
+    "topic.creation.default.cleanup.policy": "delete",
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter.schemas.enable": "false"
+  }
+}
