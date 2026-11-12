@@ -1,0 +1,3 @@
+# Generated subscription releases have checksums over exact bytes.
+docs/subscriptions/** -text
+subscriptions/*.json -text

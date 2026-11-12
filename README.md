@@ -20,6 +20,12 @@ This is historical research on public invoices, not measured retention impact or
 
 A separate synthetic-orders lab captures PostgreSQL changes through Debezium and Kafka, then applies current orders, daily finance totals, event audit and durable offsets in one DuckDB transaction. It covers corrections, cumulative refunds, cancellations, deletes and replay. The [12 November 2026 hosted exercise](docs/operational-cdc-20261112/README.md) passed **six checks over 11 captured records**, including source reconciliation, consumer exit before commit, connector SIGKILL/recovery and event-history rebuild. Connector restart through reconciliation took **13.521 seconds** in this single controlled run; this is not an uptime or recovery SLA. The original report and event bytes are retained. This synthetic extension does not change the historical UCI workbook, explorer or customer-value results.
 
+## Subscription revenue analytics extension
+
+[View the decision explorer](https://vasilendata.github.io/ecommerce-finance-mart/subscriptions/) · [inspect the contract, lineage and proof](docs/SUBSCRIPTIONS.md)
+
+A separate synthetic subscription product explains why recurring run rate, invoices and collected cash disagree. Versioned source records and explicit knowledge cutoffs preserve the original close while later corrections restate the appropriate business periods. Python/DuckDB builds effective-dated subscription states, customer-level MRR movements and a cash/invoice reconciliation, then publishes HTML, JSON and CSV outputs together. The checked-in three-cutoff exercise passed **33 blocking reconciliations**; hand-computed fixtures cover all five MRR movement types, duplicate replay, late corrections, split payments, refunds and interrupted publication. Bookings and recognized revenue are explicitly excluded because the necessary source contracts are absent. This is synthetic correctness evidence, not measured business impact.
+
 ## What it demonstrates
 
 | Skill | Where to look |
