@@ -262,6 +262,7 @@ def write_json(path: Path, value):
 def publish(source_path: Path, output: Path, cutoffs=DEFAULT_CUTOFFS, start="2026-01-01", end="2026-04-01") -> dict:
     """Publish a new directory after all reports pass; never replace an existing release."""
     from mart.subscription_report import render
+    from mart.subscription_restatements import compare_reports
 
     if output.exists():
         raise FileExistsError(f"Immutable release already exists: {output}")
@@ -275,9 +276,21 @@ def publish(source_path: Path, output: Path, cutoffs=DEFAULT_CUTOFFS, start="202
         shutil.copyfile(source_path, staging / "source.json")
         source = json.loads((staging / "source.json").read_text(encoding="utf-8"))
         reports = [build_report(source, cutoff, start, end) for cutoff in cutoffs]
+        restatements = [compare_reports(source, reports[0], report) for report in reports[1:]]
         bundle = {"schema_version": 1, "scope": "Synthetic subscription analytics exercise; not commercial operating evidence.",
-                  "source_sha256": digest(staging / "source.json"), "reports": reports}
+                  "source_sha256": digest(staging / "source.json"), "reports": reports, "restatements": restatements}
         write_json(staging / "report.json", bundle)
+        write_json(staging / "restatements.json", {"schema_version": 1, "source_sha256": bundle["source_sha256"],
+                                                  "restatements": restatements})
+        with (staging / "restatement_deltas.csv").open("w", encoding="utf-8", newline="") as stream:
+            fields = ["baseline_cutoff", "candidate_cutoff", "table", "month", "customer_id", "invoice_id", "metric",
+                      "before_cents", "after_cents", "delta_cents", "before_present", "after_present"]
+            writer = csv.DictWriter(stream, fieldnames=fields)
+            writer.writeheader()
+            for comparison in restatements:
+                writer.writerows({"baseline_cutoff": comparison["baseline_cutoff"],
+                                  "candidate_cutoff": comparison["candidate_cutoff"], **row}
+                                 for row in comparison["monetary_deltas"])
         for table in ("monthly_mrr_bridge", "monthly_cash_bridge", "customer_mrr_bridge", "invoice_balances"):
             exported = [{"knowledge_cutoff": report["knowledge_cutoff"], **row} for report in reports for row in report[table]]
             with (staging / f"{table}.csv").open("w", encoding="utf-8", newline="") as stream:
@@ -285,7 +298,7 @@ def publish(source_path: Path, output: Path, cutoffs=DEFAULT_CUTOFFS, start="202
                 writer.writeheader()
                 writer.writerows(exported)
         (staging / "index.html").write_text(render(bundle), encoding="utf-8")
-        code = ["mart/subscriptions.py", "mart/subscription_report.py", "sql/70_subscriptions.sql"]
+        code = ["mart/subscriptions.py", "mart/subscription_report.py", "mart/subscription_restatements.py", "sql/70_subscriptions.sql"]
         # Raw source hashes identify the executed bytes even with uncommitted local changes.
         manifest = {"schema_version": 1, "source_sha256": bundle["source_sha256"],
                     "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -294,6 +307,7 @@ def publish(source_path: Path, output: Path, cutoffs=DEFAULT_CUTOFFS, start="202
                     "runtime": {"python": platform.python_version(), "duckdb": duckdb.__version__},
                     "executed_code": [{"path": name, "sha256": digest(ROOT / name)} for name in code],
                     "checks_passed": sum(len(report["checks"]) for report in reports),
+                    "restatement_checks_passed": sum(len(report["checks"]) for report in restatements),
                     "artifacts": [{"path": path.name, "sha256": digest(path), "bytes": path.stat().st_size}
                                   for path in sorted(staging.iterdir())]}
         write_json(staging / "manifest.json", manifest)
