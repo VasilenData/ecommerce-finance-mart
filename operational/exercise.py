@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import http.client
 import json
 import platform
 import subprocess
@@ -37,7 +38,7 @@ def await_connect(timeout=120):
     while time.monotonic() < deadline:
         try:
             return request("/connectors")
-        except (urllib.error.URLError, TimeoutError):
+        except (OSError, http.client.HTTPException):
             time.sleep(1)
     raise TimeoutError("Kafka Connect did not become available")
 
