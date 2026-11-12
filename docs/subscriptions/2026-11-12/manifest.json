@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "source_sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+  "generated_at": "2026-11-12T18:39:03.555872+00:00",
+  "base_git_revision": "443f992002a9b849a620e468b5d22aa36bd9160f",
+  "runtime": {
+    "python": "3.12.14",
+    "duckdb": "2.0.0"
+  },
+  "executed_code": [
+    {
+      "path": "mart/subscriptions.py",
+      "sha256": "e0129a54aea60c2b231a08a66eb9fda1840dc105d9b36ca74c628e80dde1913c"
+    },
+    {
+      "path": "mart/subscription_report.py",
+      "sha256": "3fc9b8937046dde3c537c6379145e98fbf2c4475bb6871510051a41a6e58aed0"
+    },
+    {
+      "path": "sql/70_subscriptions.sql",
+      "sha256": "3d8e5da6ee37b3eba78606f113f4177ff52ea673885dd6a95f47f128fc4b2af6"
+    }
+  ],
+  "checks_passed": 33,
+  "artifacts": [
+    {
+      "path": "customer_mrr_bridge.csv",
+      "sha256": "1dfeee8ebac2f4519e3a3a4dac4f0fceb554e2b334c634e9cbb2e75909d808aa",
+      "bytes": 2525
+    },
+    {
+      "path": "index.html",
+      "sha256": "07f438f2c76f6592a3a646c55dcdd95228db1b0931168f67ea1194177c7165ae",
+      "bytes": 41088
+    },
+    {
+      "path": "invoice_balances.csv",
+      "sha256": "d1c3359012584c1c78f8223a8850144ace6a05b4bf4866bf656c3d0c5c353c72",
+      "bytes": 1629
+    },
+    {
+      "path": "monthly_cash_bridge.csv",
+      "sha256": "b9feb7589ee24a32ab20b90bc2c53f61e30e6b3f6576176b739610a9680bdf41",
+      "bytes": 706
+    },
+    {
+      "path": "monthly_mrr_bridge.csv",
+      "sha256": "95a97f7acdb242a220e5d6b690813e05ad2630a00f967554c22f5985f47530ff",
+      "bytes": 743
+    },
+    {
+      "path": "report.json",
+      "sha256": "df71c861c9cfc7934988c8f5285c4b315e3484d95f8bf42c0e8846447732a5ee",
+      "bytes": 44397
+    },
+    {
+      "path": "source.json",
+      "sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+      "bytes": 8062
+    }
+  ]
+}
