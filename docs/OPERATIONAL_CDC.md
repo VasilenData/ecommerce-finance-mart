@@ -2,6 +2,8 @@
 
 This extension uses **synthetic orders** with a real PostgreSQL → Debezium → Kafka → DuckDB path. It is separate from the UCI Online Retail II dataset, historical workbook, explorer and customer-value study. It is a bounded integration/recovery exercise, not an employer system or a continuously operated service.
 
+**Verified 12 November 2026:** the [hosted integration run and retained evidence](operational-cdc-20261112/README.md) passed all **six acceptance checks** with **11 captured records**. Connector restart through source/target reconciliation took **13.521 seconds** in this controlled run. The committed report, event envelopes, image identities and Docker version preserve the observation beyond the workflow artifact's retention period.
+
 ## Problem and contribution
 
 An order changes after its first arrival: its amount may be corrected, a refund may arrive, it may be cancelled, or a mistakenly created order may be deleted. Repeated deliveries must not double revenue, and a consumer crash must not advance the checkpoint without its corresponding data.
