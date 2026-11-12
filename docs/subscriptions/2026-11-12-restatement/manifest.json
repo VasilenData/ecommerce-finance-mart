@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "source_sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+  "generated_at": "2026-11-12T19:49:54.991585+00:00",
+  "base_git_revision": "443f992002a9b849a620e468b5d22aa36bd9160f",
+  "runtime": {
+    "python": "3.12.14",
+    "duckdb": "2.0.0"
+  },
+  "executed_code": [
+    {
+      "path": "mart/subscriptions.py",
+      "sha256": "c9537412767c77d270083dee803366fb9bcecd7cb03ec8668d2d2002cccf5ab4"
+    },
+    {
+      "path": "mart/subscription_report.py",
+      "sha256": "47c41334038a30de3aed95a6e450cfe83c6fdf86f68adc6faa545875a70b78ff"
+    },
+    {
+      "path": "mart/subscription_restatements.py",
+      "sha256": "5f7d17eb5ed727dabdd99d5c3f9d50ca36e1ed8009f1950c9e0255e50e15a5b8"
+    },
+    {
+      "path": "sql/70_subscriptions.sql",
+      "sha256": "3d8e5da6ee37b3eba78606f113f4177ff52ea673885dd6a95f47f128fc4b2af6"
+    }
+  ],
+  "checks_passed": 33,
+  "restatement_checks_passed": 44,
+  "artifacts": [
+    {
+      "path": "customer_mrr_bridge.csv",
+      "sha256": "1dfeee8ebac2f4519e3a3a4dac4f0fceb554e2b334c634e9cbb2e75909d808aa",
+      "bytes": 2525
+    },
+    {
+      "path": "index.html",
+      "sha256": "56e7bdb360a9a85e771861852b04aaa8ed0c85566d4e4613b62d2d8c4abee71a",
+      "bytes": 55795
+    },
+    {
+      "path": "invoice_balances.csv",
+      "sha256": "d1c3359012584c1c78f8223a8850144ace6a05b4bf4866bf656c3d0c5c353c72",
+      "bytes": 1629
+    },
+    {
+      "path": "monthly_cash_bridge.csv",
+      "sha256": "b9feb7589ee24a32ab20b90bc2c53f61e30e6b3f6576176b739610a9680bdf41",
+      "bytes": 706
+    },
+    {
+      "path": "monthly_mrr_bridge.csv",
+      "sha256": "95a97f7acdb242a220e5d6b690813e05ad2630a00f967554c22f5985f47530ff",
+      "bytes": 743
+    },
+    {
+      "path": "report.json",
+      "sha256": "915118c4b492cc07365b7a4ed3c8d3cfad54282e1ed1c0927b9069718cef3c8a",
+      "bytes": 63180
+    },
+    {
+      "path": "restatement_deltas.csv",
+      "sha256": "0cbaf67e75a8815a867952782680e1431582800ce902a125654780afd9e3ffcc",
+      "bytes": 3003
+    },
+    {
+      "path": "restatements.json",
+      "sha256": "fc6b999172c62b978a2619f3a535e9e91fa901f8e28f81b6d7b44f9f09d3741c",
+      "bytes": 18900
+    },
+    {
+      "path": "source.json",
+      "sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+      "bytes": 8062
+    }
+  ]
+}
