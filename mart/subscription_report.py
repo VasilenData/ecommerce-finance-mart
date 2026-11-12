@@ -50,6 +50,10 @@ details{margin-top:20px}summary{cursor:pointer;font-weight:600}code{overflow-wra
 <p class="note">Payments and refunds are aggregated separately before invoice joins. A cash refund returns money; it does not cancel an invoice obligation. Credit notes, tax and write-offs are outside this contract.</p></section>
 <section><h2>What changed after the original close?</h2><div class="table-wrap"><table><thead><tr><th>Knowledge cutoff</th><th>Period-end MRR</th><th>Period invoices</th><th>Period net cash</th><th>Closing balance</th></tr></thead><tbody id="comparisons"></tbody></table></div>
 <p class="note">Recorded-at filters select the latest visible revision before effective business dates are applied. Later corrections restate earlier business periods only in reports whose cutoff includes those corrections.</p></section>
+<section><h2>Trace the restatement to its evidence</h2><p class="muted" id="audit-summary" aria-live="polite"></p>
+<div class="table-wrap"><table><thead><tr><th>Scope</th><th>Entity</th><th>Measure</th><th>Original close</th><th>Selected cutoff</th><th>Change</th></tr></thead><tbody id="audit-deltas"></tbody></table></div>
+<details><summary>Inspect the newly visible source versions</summary><ul id="audit-sources"></ul></details>
+<p class="note">Changes are compared with the earliest displayed knowledge cutoff. Monthly rows use the selected month; invoice balances are for the entire reporting window. Source revisions and net report differences are evidence, not a causal allocation among simultaneous changes.</p></section>
 <section><h2>Definitions that prevent bad decisions</h2><div class="columns"><dl><dt>MRR</dt><dd>Month-end contractual recurring run rate. No usage fees, proration, foreign exchange, free plans or annual billing normalization.</dd>
 <dt>Billed amount</dt><dd>Latest visible invoice face value by issue month. A revised invoice replaces the earlier version at later knowledge cutoffs.</dd>
 <dt>Net cash</dt><dd>Payments by paid date minus refunds by refunded date. Collection timing can differ from invoice timing.</dd></dl>
@@ -57,7 +61,7 @@ details{margin-top:20px}summary{cursor:pointer;font-weight:600}code{overflow-wra
 <dt>Recognized revenue</dt><dd>Not calculated. Performance obligations and recognition schedules are absent. This is not an accounting standard implementation.</dd>
 <dt>Balance</dt><dd>Invoice face value − payments + refunds. Negative values represent credit balances, not errors to hide. This is a simplified invoice ledger, not a general ledger.</dd></dl></div></section>
 <section><h2>Reproduce and inspect</h2><p class="muted">The complete report, exact input bytes and export tables belong to one immutable release. The manifest records executed code hashes and runtime versions.</p>
-<div class="downloads"><a href="report.json" download>Report JSON</a><a href="monthly_mrr_bridge.csv" download>MRR CSV</a><a href="monthly_cash_bridge.csv" download>Cash CSV</a><a href="customer_mrr_bridge.csv" download>Customer CSV</a><a href="source.json" download>Source fixture</a><a href="manifest.json" download>Release manifest</a></div>
+<div class="downloads"><a href="report.json" download>Report JSON</a><a href="monthly_mrr_bridge.csv" download>MRR CSV</a><a href="monthly_cash_bridge.csv" download>Cash CSV</a><a href="customer_mrr_bridge.csv" download>Customer CSV</a><a href="restatements.json" download>Restatement audit</a><a href="restatement_deltas.csv" download>Changes CSV</a><a href="source.json" download>Source fixture</a><a href="manifest.json" download>Release manifest</a></div>
 <details><summary>Checks and source identity</summary><p id="source-hash"></p><ul id="check-list"></ul></details></section>
 <footer>Built with Python + DuckDB. Source data and incident scenarios are synthetic. The original historical retail workbook and explorer are a separate release.</footer>
 </main><script id="report-data" type="application/json">__REPORT_JSON__</script><script>
@@ -66,6 +70,17 @@ const bundle=JSON.parse(document.getElementById('report-data').textContent),repo
 const $=id=>document.getElementById(id),money=n=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP',maximumFractionDigits:2}).format(n/100);
 const mrrFields=['opening_mrr_cents','new_mrr_cents','expansion_mrr_cents','reactivation_mrr_cents','contraction_mrr_cents','churn_mrr_cents','closing_mrr_cents'];
 function row(target,values){const tr=document.createElement('tr');values.forEach(value=>{const td=document.createElement('td');td.textContent=value;tr.append(td)});$(target).append(tr)}
+function audit(cutoff,month){
+  const item=(bundle.restatements||[]).find(x=>x.candidate_cutoff===cutoff);
+  $('audit-deltas').replaceChildren();$('audit-sources').replaceChildren();
+  if(!item){$('audit-summary').textContent='Original close selected. Choose a later knowledge cutoff to inspect revisions.';return;}
+  const shown=item.monetary_deltas.filter(x=>!x.month||x.month===month);
+  $('audit-summary').textContent=`${item.source_changes.length} source records changed since ${item.baseline_cutoff.slice(0,10)}. ${shown.length} monetary differences are shown; ${item.checks.length} restatement reconciliation checks passed.`;
+  const labels={monthly_mrr_bridge:'Monthly MRR',customer_mrr_bridge:'Customer MRR',monthly_cash_bridge:'Monthly cash',invoice_balances:'Period-end invoice'};
+  shown.forEach(x=>row('audit-deltas',[labels[x.table],x.customer_id||x.invoice_id||'All customers',x.metric.replace(/_cents$/,'').replaceAll('_',' '),money(x.before_cents),money(x.after_cents),(x.delta_cents>0?'+':'')+money(x.delta_cents)]));
+  if(!shown.length)row('audit-deltas',['No monetary differences in this selection.','','','','','']);
+  item.source_changes.forEach(x=>{const li=document.createElement('li'),title=document.createElement('strong');title.textContent=x.feed.replaceAll('_',' ')+' / '+x.record_id;li.append(title);const detail=document.createElement('p');detail.className='muted';detail.textContent=x.changed_fields.map(key=>key+': '+JSON.stringify(x.before?.[key]??null)+' → '+JSON.stringify(x.after?.[key]??null)).join('; ');li.append(detail);$('audit-sources').append(li)});
+}
 reports.forEach((r,i)=>{const o=document.createElement('option');o.value=i;o.textContent=r.knowledge_cutoff.replace('T',' ').replace('+00:00',' UTC');$('scenario').append(o)});
 reports[0].monthly_mrr_bridge.forEach(r=>{const o=document.createElement('option');o.value=r.month;o.textContent=r.month.slice(0,7);$('month').append(o)});
 $('scenario').value=String(reports.length-1);$('month').value=reports[0].monthly_mrr_bridge.at(-1).month;
@@ -78,6 +93,7 @@ function draw(){const r=reports[Number($('scenario').value)],month=$('month').va
   $('customers').replaceChildren();r.customer_mrr_bridge.filter(x=>x.month===month).forEach(x=>row('customers',[x.customer_id,...mrrFields.map(k=>money(x[k]))]));
   $('cash-table').replaceChildren();r.monthly_cash_bridge.forEach(x=>row('cash-table',[x.month.slice(0,7),...['opening_balance_cents','invoiced_cents','paid_cents','refunded_cents','net_cash_cents','closing_balance_cents'].map(k=>money(x[k]))]));
   $('check-list').replaceChildren();r.checks.forEach(x=>{const item=document.createElement('li');item.textContent=x.check+' — '+x.actual+' (expected '+x.expected+')';$('check-list').append(item)});
+  audit(r.knowledge_cutoff,month);
 }
 reports.forEach(r=>row('comparisons',[r.knowledge_cutoff.slice(0,10),money(r.monthly_mrr_bridge.at(-1).closing_mrr_cents),money(r.monthly_cash_bridge.reduce((n,x)=>n+x.invoiced_cents,0)),money(r.monthly_cash_bridge.reduce((n,x)=>n+x.net_cash_cents,0)),money(r.monthly_cash_bridge.at(-1).closing_balance_cents)]));
 $('source-hash').textContent='SHA-256 '+bundle.source_sha256;$('scenario').addEventListener('change',draw);$('month').addEventListener('change',draw);draw();

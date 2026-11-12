@@ -1,6 +1,6 @@
 # Subscription analytics: preserve what was known at close
 
-**[View the decision explorer](https://vasilendata.github.io/ecommerce-finance-mart/subscriptions/)** · [SQL](../sql/70_subscriptions.sql) · [source contract and publisher](../mart/subscriptions.py) · [independent fixtures](../tests/test_subscriptions.py) · [release manifest](subscriptions/2026-11-12/manifest.json)
+**[View the decision explorer](https://vasilendata.github.io/ecommerce-finance-mart/subscriptions/)** · [SQL](../sql/70_subscriptions.sql) · [source contract and publisher](../mart/subscriptions.py) · [independent fixtures](../tests/test_subscriptions.py) · [release manifest](subscriptions/2026-11-12-restatement/manifest.json)
 
 An invoice correction changes billed amounts without collecting cash. A late subscription correction changes historical MRR without changing an earlier report's knowledge cutoff. Reporting these as one “revenue” number hides the reason for the difference.
 
@@ -29,6 +29,16 @@ All displayed values below are GBP; source and SQL amounts are integer pence.
 - Customer C starts and cancels within February, producing zero month-end MRR. Its March return is a reactivation because the complete history includes a prior positive state.
 
 Two additional test scenarios move a cancellation's effective date into April and move a payment's business date from January to February. Neither changes a report whose knowledge cutoff predates that correction.
+
+### Explain the restatement, not just its total
+
+The [restatement audit](subscriptions/2026-11-12-restatement/restatements.json) compares each later cutoff with the original close. It includes complete before/after source versions and every changed monetary cell at monthly, customer/month and invoice grain. The explorer filters monthly differences to the selected month while clearly labeling invoice balances as period-end values. Downloads include a machine-readable audit and a flat changes CSV; both share the report's frozen source hash and artifact manifest.
+
+In the checked-in exercise, customer B's corrected rate contributes **£10 more closing MRR in February and March**, with no cash change. The corrected invoice adds **£10 billed and £10 outstanding**, also without collecting cash. The test suite separately moves a £100 payment between months: January cash falls £100, February cash rises £100, and quarter cash and period-end invoice balances remain unchanged.
+
+The two comparisons run **44 additional blocking reconciliation checks**: customer changes must sum to each monthly MRR measure, and invoice-balance changes must sum to the period closing-balance change. Same-cutoff comparisons are empty; duplicate delivery and reordered input preserve the audit. Incompatible reporting windows, reversed knowledge cutoffs and corrupted customer deltas fail. The audit retains newly visible records even when they change no monetary result in the selected period.
+
+These are net differences plus source-version provenance. They are **not a causal allocation of simultaneous changes**. The original immutable `2026-11-12` release remains available; the audited release is a separate directory.
 
 ## Contract
 
@@ -95,6 +105,7 @@ The repository owner owns this synthetic contract, metric definitions and releas
 ```bash
 pip install -r requirements-dev.txt
 python -m pytest -q tests/test_subscriptions.py
+python -m pytest -q tests/test_subscription_restatements.py
 python -m mart.subscriptions --output dist/subscriptions-demo
 # An explicit single snapshot or different complete-month window:
 python -m mart.subscriptions --output dist/subscriptions-march \

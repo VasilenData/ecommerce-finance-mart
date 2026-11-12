@@ -26,6 +26,8 @@ A separate synthetic-orders lab captures PostgreSQL changes through Debezium and
 
 A separate synthetic subscription product explains why recurring run rate, invoices and collected cash disagree. Versioned source records and explicit knowledge cutoffs preserve the original close while later corrections restate the appropriate business periods. Python/DuckDB builds effective-dated subscription states, customer-level MRR movements and a cash/invoice reconciliation, then publishes HTML, JSON and CSV outputs together. The checked-in three-cutoff exercise passed **33 blocking reconciliations**; hand-computed fixtures cover all five MRR movement types, duplicate replay, late corrections, split payments, refunds and interrupted publication. Bookings and recognized revenue are explicitly excluded because the necessary source contracts are absent. This is synthetic correctness evidence, not measured business impact.
 
+The explorer now traces restatements to **source revisions, customer/month differences and invoice balances**. Two comparisons with the original close pass 44 additional reconciliation checks. A corrected rate raises customer B's February and March MRR by £10; a corrected invoice adds £10 outstanding without collecting cash. The downloadable [restatement audit](docs/subscriptions/2026-11-12-restatement/restatements.json) preserves before/after values and distinguishes changes in knowledge from cash movement.
+
 ## What it demonstrates
 
 | Skill | Where to look |
