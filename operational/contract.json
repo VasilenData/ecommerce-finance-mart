@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "scope": "Synthetic operational orders; separate from the historical UCI finance mart",
+  "source": "commerce.public.orders",
+  "topic": "finance.public.orders",
+  "partitions": 1,
+  "grain": "One current row per order_id",
+  "currency": "GBP",
+  "amount_unit": "Integer pence; historical field names retain the conventional _cents suffix",
+  "date_semantics": "order_day is the explicitly supplied UTC business date, ISO YYYY-MM-DD",
+  "fields": {
+    "order_id": "Positive integer primary key; key equals envelope row ID",
+    "customer_id": "Positive integer; synthetic identity",
+    "order_day": "Valid ISO YYYY-MM-DD string",
+    "gross_cents": "Integer 0..1000000000000",
+    "refund_cents": "Integer 0..gross_cents; cumulative refund on the current order",
+    "status": "paid or cancelled"
+  },
+  "metrics": {
+    "paid_orders": "Count of present orders whose current status is paid, grouped by order_day",
+    "gross_cents": "Sum of current gross for paid orders",
+    "refund_cents": "Sum of current cumulative refund for paid orders",
+    "net_cents": "Sum of gross minus refund for paid orders"
+  },
+  "deletion": "A source deletion removes that order from current reporting; original events remain in cdc_events",
+  "publication": "Current orders, daily mart, event audit and consumed offset commit in one DuckDB transaction",
+  "schema_change": "Unknown or missing row fields fail closed; migrate the contract and dependent consumer together",
+  "source_completeness": "New sink requires offset 0 and contiguous uncompacted history. Retention gaps require a new snapshot.",
+  "freshness": "No ongoing service or freshness SLO claimed; bounded integration exercise only",
+  "lineage_kind": "Curated dependency map, tested against the source contract; not SQL-inferred lineage",
+  "dependencies": {
+    "orders.order_id": ["operational_orders", "cdc_events"],
+    "orders.customer_id": ["operational_orders"],
+    "orders.order_day": ["operational_daily.order_day"],
+    "orders.gross_cents": ["operational_daily.gross_cents", "operational_daily.net_cents"],
+    "orders.refund_cents": ["operational_daily.refund_cents", "operational_daily.net_cents"],
+    "orders.status": ["operational_daily.paid_orders", "operational_daily.gross_cents", "operational_daily.refund_cents", "operational_daily.net_cents"],
+    "operational_orders": ["operational_daily.paid_orders"],
+    "operational_daily.order_day": ["evidence.json"],
+    "operational_daily.paid_orders": ["evidence.json"],
+    "operational_daily.gross_cents": ["evidence.json"],
+    "operational_daily.refund_cents": ["evidence.json"],
+    "operational_daily.net_cents": ["evidence.json"],
+    "cdc_events": ["events.jsonl", "rebuild"]
+  }
+}

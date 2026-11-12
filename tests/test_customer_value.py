@@ -81,6 +81,12 @@ def test_appending_future_data_cannot_change_features_or_eligibility(events):
     assert after["future_gross_90d"].sum() - before["future_gross_90d"].sum() == 999999
 
 
+def test_training_and_shadow_scoring_share_identical_feature_definitions(events):
+    labelled = snapshot(events, "2010-04-01", "2010-07-01")
+    serving = snapshot(events, "2010-04-01", "2010-04-01", labelled=False)
+    pd.testing.assert_frame_equal(labelled[["cutoff", "customer_id", *FEATURES]], serving)
+
+
 def test_full_history_customer_dimensions_are_never_used(events):
     before = snapshot(events, "2010-04-01", "2010-07-01")
     events.execute("create table dim_customer as select 'A' customer_id, 999999 future_revenue")
