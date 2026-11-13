@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "assembled_at_utc": "2026-11-13T02:17:23.194125+00:00",
+  "scope": "Synthetic local DuckDB and disposable PostgreSQL CI; no managed cloud deployment or human review",
+  "source_commit": "5b17af6156b37fc6b78a4cc8baef97835202899d",
+  "ci_run_url": "https://github.com/VasilenData/ecommerce-finance-mart/actions/runs/43350611031",
+  "downloaded_artifact_sha256": "5fa3f936f2454e518cefbd6b024b2af1189f381a5e95d947d4a2fa4082b24f92",
+  "cross_adapter_reports_equal": true,
+  "local_and_hosted_reports_equal": true,
+  "checks_per_adapter": 39,
+  "dbt_builds_per_adapter": 9,
+  "versions": {
+    "dbt-core": "1.12.7",
+    "dbt-duckdb": "1.11.1",
+    "dbt-postgres": "1.10.0",
+    "duckdb": "2.0.0",
+    "psycopg": "3.2.12"
+  },
+  "postgres_service_image": "postgres:17@sha256:846a7ddaa67a4b354ae1d21087b683901aa6113a4ed626d3787cfbf6c85e3e07",
+  "artifacts": {
+    "backfill-source.json": {
+      "bytes": 8490,
+      "sha256": "aaa094f2ddeb746f96bce12fe97d0b3d639c61ebbdb88844baa8cac97185c70d"
+    },
+    "duckdb-ci.json": {
+      "bytes": 165201,
+      "sha256": "150539bb73558ad9a5c9343d74f25e259c09afeea56a2f1445122572237a60bf"
+    },
+    "duckdb-local.json": {
+      "bytes": 170262,
+      "sha256": "d981ca4443574cf68dd35e0814d31b683cf6d4fb6b0a3697d7ebfc23adb02b0f"
+    },
+    "index.html": {
+      "bytes": 9439,
+      "sha256": "41e3a3233703d59ad5ca2a7494553d2e113ae31d654f4b91c10d43b12ef96cf1"
+    },
+    "postgres-ci.json": {
+      "bytes": 165233,
+      "sha256": "3f23090a163caefb1ae2789aa27e9f291d42b536cf6b4e22aabd294ea8c0093b"
+    },
+    "source.json": {
+      "bytes": 8062,
+      "sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0"
+    }
+  }
+}

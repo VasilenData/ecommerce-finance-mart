@@ -1,0 +1,302 @@
+{
+  "schema_version": 1,
+  "currency": "GBP",
+  "scope": "synthetic",
+  "complete_subscription_history": true,
+  "subscription_changes": [
+    {
+      "record_id": "a-start",
+      "revision": 1,
+      "recorded_at": "2026-01-01T12:00:00Z",
+      "subscription_id": "sub-a",
+      "customer_id": "A",
+      "effective_date": "2026-01-01",
+      "status": "active",
+      "monthly_amount_cents": 10000
+    },
+    {
+      "record_id": "a-extra",
+      "revision": 1,
+      "recorded_at": "2026-01-01T12:00:00Z",
+      "subscription_id": "sub-a2",
+      "customer_id": "A",
+      "effective_date": "2026-01-01",
+      "status": "active",
+      "monthly_amount_cents": 2000
+    },
+    {
+      "record_id": "a-extra-end",
+      "revision": 1,
+      "recorded_at": "2026-01-20T12:00:00Z",
+      "subscription_id": "sub-a2",
+      "customer_id": "A",
+      "effective_date": "2026-01-20",
+      "status": "cancelled",
+      "monthly_amount_cents": 0
+    },
+    {
+      "record_id": "b-start",
+      "revision": 1,
+      "recorded_at": "2026-01-01T12:00:00Z",
+      "subscription_id": "sub-b",
+      "customer_id": "B",
+      "effective_date": "2026-01-01",
+      "status": "active",
+      "monthly_amount_cents": 8000
+    },
+    {
+      "record_id": "a-expand",
+      "revision": 1,
+      "recorded_at": "2026-02-10T12:00:00Z",
+      "subscription_id": "sub-a",
+      "customer_id": "A",
+      "effective_date": "2026-02-10",
+      "status": "active",
+      "monthly_amount_cents": 15000
+    },
+    {
+      "record_id": "b-contract",
+      "revision": 1,
+      "recorded_at": "2026-02-05T12:00:00Z",
+      "subscription_id": "sub-b",
+      "customer_id": "B",
+      "effective_date": "2026-02-05",
+      "status": "active",
+      "monthly_amount_cents": 5000
+    },
+    {
+      "record_id": "c-start",
+      "revision": 1,
+      "recorded_at": "2026-02-01T12:00:00Z",
+      "subscription_id": "sub-c",
+      "customer_id": "C",
+      "effective_date": "2026-02-01",
+      "status": "active",
+      "monthly_amount_cents": 7000
+    },
+    {
+      "record_id": "c-end",
+      "revision": 1,
+      "recorded_at": "2026-02-20T12:00:00Z",
+      "subscription_id": "sub-c",
+      "customer_id": "C",
+      "effective_date": "2026-02-20",
+      "status": "cancelled",
+      "monthly_amount_cents": 0
+    },
+    {
+      "record_id": "d-start",
+      "revision": 1,
+      "recorded_at": "2026-02-01T12:00:00Z",
+      "subscription_id": "sub-d",
+      "customer_id": "D",
+      "effective_date": "2026-02-01",
+      "status": "active",
+      "monthly_amount_cents": 4000
+    },
+    {
+      "record_id": "c-return",
+      "revision": 1,
+      "recorded_at": "2026-03-02T12:00:00Z",
+      "subscription_id": "sub-c",
+      "customer_id": "C",
+      "effective_date": "2026-03-02",
+      "status": "active",
+      "monthly_amount_cents": 9000
+    },
+    {
+      "record_id": "a-end",
+      "revision": 1,
+      "recorded_at": "2026-03-15T12:00:00Z",
+      "subscription_id": "sub-a",
+      "customer_id": "A",
+      "effective_date": "2026-03-15",
+      "status": "cancelled",
+      "monthly_amount_cents": 0
+    },
+    {
+      "record_id": "b-contract",
+      "revision": 2,
+      "recorded_at": "2026-04-02T12:00:00Z",
+      "subscription_id": "sub-b",
+      "customer_id": "B",
+      "effective_date": "2026-02-05",
+      "status": "active",
+      "monthly_amount_cents": 6000
+    }
+  ],
+  "invoices": [
+    {
+      "record_id": "invoice-A-1",
+      "revision": 1,
+      "recorded_at": "2026-01-01T12:00:00Z",
+      "customer_id": "A",
+      "issued_date": "2026-01-01",
+      "amount_cents": 10000
+    },
+    {
+      "record_id": "invoice-B-1",
+      "revision": 1,
+      "recorded_at": "2026-01-01T12:00:00Z",
+      "customer_id": "B",
+      "issued_date": "2026-01-01",
+      "amount_cents": 8000
+    },
+    {
+      "record_id": "invoice-A-2",
+      "revision": 1,
+      "recorded_at": "2026-02-01T12:00:00Z",
+      "customer_id": "A",
+      "issued_date": "2026-02-01",
+      "amount_cents": 15000
+    },
+    {
+      "record_id": "invoice-B-2",
+      "revision": 1,
+      "recorded_at": "2026-02-01T12:00:00Z",
+      "customer_id": "B",
+      "issued_date": "2026-02-01",
+      "amount_cents": 5000
+    },
+    {
+      "record_id": "invoice-D-2",
+      "revision": 1,
+      "recorded_at": "2026-02-01T12:00:00Z",
+      "customer_id": "D",
+      "issued_date": "2026-02-01",
+      "amount_cents": 4000
+    },
+    {
+      "record_id": "invoice-A-3",
+      "revision": 1,
+      "recorded_at": "2026-03-01T12:00:00Z",
+      "customer_id": "A",
+      "issued_date": "2026-03-01",
+      "amount_cents": 15000
+    },
+    {
+      "record_id": "invoice-B-3",
+      "revision": 1,
+      "recorded_at": "2026-03-01T12:00:00Z",
+      "customer_id": "B",
+      "issued_date": "2026-03-01",
+      "amount_cents": 5000
+    },
+    {
+      "record_id": "invoice-C-3",
+      "revision": 1,
+      "recorded_at": "2026-03-01T12:00:00Z",
+      "customer_id": "C",
+      "issued_date": "2026-03-01",
+      "amount_cents": 9000
+    },
+    {
+      "record_id": "invoice-D-3",
+      "revision": 1,
+      "recorded_at": "2026-03-01T12:00:00Z",
+      "customer_id": "D",
+      "issued_date": "2026-03-01",
+      "amount_cents": 4000
+    },
+    {
+      "record_id": "invoice-B-2",
+      "revision": 2,
+      "recorded_at": "2026-04-03T12:00:00Z",
+      "customer_id": "B",
+      "issued_date": "2026-02-01",
+      "amount_cents": 6000
+    }
+  ],
+  "payments": [
+    {
+      "record_id": "payment-A-1-0",
+      "revision": 1,
+      "recorded_at": "2026-01-05T12:00:00Z",
+      "invoice_id": "invoice-A-1",
+      "paid_date": "2026-01-05",
+      "amount_cents": 10000
+    },
+    {
+      "record_id": "payment-B-1-0",
+      "revision": 1,
+      "recorded_at": "2026-01-05T12:00:00Z",
+      "invoice_id": "invoice-B-1",
+      "paid_date": "2026-01-05",
+      "amount_cents": 8000
+    },
+    {
+      "record_id": "payment-A-2-0",
+      "revision": 1,
+      "recorded_at": "2026-02-05T12:00:00Z",
+      "invoice_id": "invoice-A-2",
+      "paid_date": "2026-02-05",
+      "amount_cents": 10000
+    },
+    {
+      "record_id": "payment-A-2-1",
+      "revision": 1,
+      "recorded_at": "2026-02-06T12:00:00Z",
+      "invoice_id": "invoice-A-2",
+      "paid_date": "2026-02-06",
+      "amount_cents": 5000
+    },
+    {
+      "record_id": "payment-B-2-0",
+      "revision": 1,
+      "recorded_at": "2026-02-05T12:00:00Z",
+      "invoice_id": "invoice-B-2",
+      "paid_date": "2026-02-05",
+      "amount_cents": 5000
+    },
+    {
+      "record_id": "payment-D-2-0",
+      "revision": 1,
+      "recorded_at": "2026-02-05T12:00:00Z",
+      "invoice_id": "invoice-D-2",
+      "paid_date": "2026-02-05",
+      "amount_cents": 4000
+    },
+    {
+      "record_id": "payment-A-3-0",
+      "revision": 1,
+      "recorded_at": "2026-03-05T12:00:00Z",
+      "invoice_id": "invoice-A-3",
+      "paid_date": "2026-03-05",
+      "amount_cents": 15000
+    },
+    {
+      "record_id": "payment-B-3-0",
+      "revision": 1,
+      "recorded_at": "2026-03-05T12:00:00Z",
+      "invoice_id": "invoice-B-3",
+      "paid_date": "2026-03-05",
+      "amount_cents": 5000
+    },
+    {
+      "record_id": "payment-C-3-0",
+      "revision": 1,
+      "recorded_at": "2026-03-05T12:00:00Z",
+      "invoice_id": "invoice-C-3",
+      "paid_date": "2026-03-05",
+      "amount_cents": 9000
+    },
+    {
+      "record_id": "payment-D-3-0",
+      "revision": 1,
+      "recorded_at": "2026-03-05T12:00:00Z",
+      "invoice_id": "invoice-D-3",
+      "paid_date": "2026-03-05",
+      "amount_cents": 2000
+    }
+  ],
+  "refunds": [
+    {
+      "record_id": "refund-A-3",
+      "revision": 1,
+      "recorded_at": "2026-03-20T12:00:00Z",
+      "payment_id": "payment-A-3-0",
+      "refunded_date": "2026-03-20",
+      "amount_cents": 2000
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+version: 2
+sources:
+  - name: journal
+    schema: "{{ var('raw_schema') }}"
+    tables:
+      - name: subscription_changes
+        columns:
+          - name: ingestion_sequence
+            data_tests: [unique, not_null]
+      - name: invoices
+        columns:
+          - name: ingestion_sequence
+            data_tests: [unique, not_null]
+      - name: payments
+        columns:
+          - name: ingestion_sequence
+            data_tests: [unique, not_null]
+      - name: refunds
+        columns:
+          - name: ingestion_sequence
+            data_tests: [unique, not_null]
+models:
+  - name: history_subscription_changes
+    description: Immutable source revisions, incremented by committed transport sequence, never business date.
+    columns:
+      - name: ingestion_sequence
+        data_tests: [unique, not_null]
+  - name: history_invoices
+    description: Immutable source revisions, incremented by committed transport sequence, never business date.
+    columns:
+      - name: ingestion_sequence
+        data_tests: [unique, not_null]
+  - name: history_payments
+    description: Immutable source revisions, incremented by committed transport sequence, never business date.
+    columns:
+      - name: ingestion_sequence
+        data_tests: [unique, not_null]
+  - name: history_refunds
+    description: Immutable source revisions, incremented by committed transport sequence, never business date.
+    columns:
+      - name: ingestion_sequence
+        data_tests: [unique, not_null]
+  - name: report_months
+    columns:
+      - name: month
+        data_tests: [unique, not_null]
+  - name: monthly_mrr_bridge
+    columns:
+      - name: month
+        data_tests: [unique, not_null]
+  - name: monthly_cash_bridge
+    columns:
+      - name: month
+        data_tests: [unique, not_null]
+  - name: monthly_subscription_metrics
+    columns:
+      - name: month
+        data_tests: [unique, not_null]
+  - name: management_scorecard
+    columns:
+      - name: month
+        data_tests: [unique, not_null]
+  - name: invoice_balances
+    columns:
+      - name: invoice_id
+        data_tests: [unique, not_null]

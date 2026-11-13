@@ -1,0 +1,20 @@
+config:
+  send_anonymous_usage_stats: false
+finance_subscriptions:
+  target: duckdb
+  outputs:
+    duckdb:
+      type: duckdb
+      path: "{{ env_var('FINANCE_WAREHOUSE_PATH') }}"
+      schema: "{{ env_var('FINANCE_WAREHOUSE_SCHEMA') }}"
+      threads: 1
+    postgres:
+      type: postgres
+      host: "{{ env_var('FINANCE_PG_HOST', 'localhost') }}"
+      port: "{{ env_var('FINANCE_PG_PORT', '5432') | int }}"
+      user: "{{ env_var('FINANCE_PG_USER', 'postgres') }}"
+      password: "{{ env_var('FINANCE_PG_PASSWORD', '') }}"
+      dbname: "{{ env_var('FINANCE_PG_DATABASE', 'finance_test') }}"
+      schema: "{{ env_var('FINANCE_WAREHOUSE_SCHEMA') }}"
+      threads: 1
+      connect_timeout: 10

@@ -1,3 +1,4 @@
 # Generated subscription releases have checksums over exact bytes.
 docs/subscriptions/** -text
+docs/dbt-warehouse/** -text
 subscriptions/*.json -text

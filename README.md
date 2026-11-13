@@ -30,6 +30,8 @@ The explorer now traces restatements to **source revisions, customer/month diffe
 
 The [close-review workflow](docs/STAKEHOLDER_REVIEW.md) separates gross unpaid invoices from credits, fixing a demonstrated case where £100 unpaid and £100 credit disappeared behind a £0 net balance. Three additional exposure reconciliations protect that distinction. Reviewers can compare three illustrative triage policies and download source-bound requests without changing reported amounts. The [new immutable release](docs/subscriptions/2026-11-13-review/) preserves the original closes and historical retail outputs. **Human review and stakeholder adoption remain pending**; generated requests and passing tests are not claimed as collaboration or business impact.
 
+The [dbt warehouse extension](docs/DBT_WAREHOUSE.md) preserves those financial definitions in actual dbt SQL, with four incremental revision ledgers, cutoff-based restatements and a shared versioned management metric. A delayed January invoice/payment demonstrates why ingestion sequence must be distinct from business and recorded dates. The [dated execution report](docs/dbt-warehouse/2026-11-13/) records incremental/full-refresh equivalence, an independent Python arithmetic oracle and the downstream effect of a changed metric definition. Scope is a synthetic local DuckDB and disposable PostgreSQL exercise; it does not establish a managed cloud deployment or stakeholder adoption.
+
 ## What it demonstrates
 
 | Skill | Where to look |
