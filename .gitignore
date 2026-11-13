@@ -5,3 +5,6 @@ __pycache__/
 *.duckdb
 *.duckdb.wal
 dist/
+dbt_subscriptions/.user.yml
+dbt_subscriptions/target/
+dbt_subscriptions/logs/
