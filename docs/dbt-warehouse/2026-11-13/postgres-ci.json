@@ -1,0 +1,5087 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-11-13T02:16:12.948940+00:00",
+  "adapter": "postgres",
+  "scope": "Synthetic fixture on disposable PostgreSQL; not a cloud warehouse",
+  "execution_environment": "GitHub-hosted Linux",
+  "source_commit": "5b17af6156b37fc6b78a4cc8baef97835202899d",
+  "ci_run_id": "43350611031",
+  "versions": {
+    "dbt-core": "1.12.7",
+    "dbt-duckdb": "1.11.1",
+    "dbt-postgres": "1.10.0",
+    "duckdb": "2.0.0",
+    "psycopg": "3.2.12"
+  },
+  "source_sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+  "source_files": {
+    "mart/dbt_warehouse.py": "8b7a17dc6039a848cb3de9f981aea218ace72f53c9fc43084d5711ab7637098f",
+    "mart/subscriptions.py": "29876a3dc769857728d11499a8d402a0857696de07c261bab34d35c31846119e",
+    "sql/70_subscriptions.sql": "3d8e5da6ee37b3eba78606f113f4177ff52ea673885dd6a95f47f128fc4b2af6",
+    "requirements-dbt.txt": "84241afe0be4d12027772bf85bda884375a0c4c494274ebb375dc57da3e70b29",
+    "subscriptions/demo.json": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+    "tests/test_dbt_warehouse.py": "0ea1a6320b59eadadb1327a5c1719861e4a75286eebb32e835a8ffb28a62e27f",
+    ".github/workflows/dbt-warehouse.yml": "f51aceb180026f4a0fe9c6f948e27ea5a2bbee0ec1eb0530b8e312a564319cb8",
+    "dbt_subscriptions/profiles.yml": "33c5397c9c5fe3ad3a6bd371e9cc8e1edb87bde796ba4edead633a48491f1d48",
+    "dbt_subscriptions/dbt_project.yml": "afd1e808ed9c94aa9e24d65669e0c860a7092dc5078569c458c1c669a8a766d8",
+    "dbt_subscriptions/models/history_subscription_changes.sql": "1bd00562b192bee7edce9f2145beab859f5cf0d454ef00b8ebd29fef899489b9",
+    "dbt_subscriptions/models/schema.yml": "35f668e324881cbb2e2eca8b1855cc5abbc8efbafb405efe485a4412a29a2c69",
+    "dbt_subscriptions/models/monthly_subscription_metrics.sql": "9d3044fc119434f58104b85c199ace65fb035d6e95f643c6472c58ceed732c31",
+    "dbt_subscriptions/models/history_payments.sql": "c40b2fc60098123703c1966350658311002d80477d89952fd7961cd1a283f234",
+    "dbt_subscriptions/models/stg_refunds.sql": "5f9919f96c215c01521782dcb8ebd4478e328786688204e86742261f12bb6458",
+    "dbt_subscriptions/models/stg_invoices.sql": "aca8cc3dac67ab4e9e69e7fd41a5e91beb7332e95fb36247c4ba384d718e1192",
+    "dbt_subscriptions/models/subscription_intervals.sql": "a244245d1b19a6b4f90c6230091c7576ef4515a5dfba15d22de921bd16f27c1e",
+    "dbt_subscriptions/models/report_parameters.sql": "e99956313fe1382428b3da2ab1a7f7767891edbf83f0bf9c623e7c149f361ee7",
+    "dbt_subscriptions/models/customer_mrr_bridge.sql": "00cadb8b9205715b6467bde82d6c2e166deec5290fad6f96b221bb037b36e722",
+    "dbt_subscriptions/models/monthly_mrr_bridge.sql": "4ee3c51b76512543b160eaac35b798791c158d4834c50e383cb6ad419d31c963",
+    "dbt_subscriptions/models/stg_payments.sql": "80cc3d6ea14796cdd786154bc5ad038ffa712a07443adba7bade3071ff9fe341",
+    "dbt_subscriptions/models/stg_subscription_changes.sql": "7ca36c1a134a18afbe234b3c75d75ffe7e07b527a9bc44bdf12886c0bdfebfd7",
+    "dbt_subscriptions/models/invoice_balances.sql": "36274287b601fdbbd5f92438ac3704f39c59608b0ab50737471c9fef0db97571",
+    "dbt_subscriptions/models/history_invoices.sql": "ac840f76b4f934eb0f6f1b16084de0515deb55c9d1d8a5805664023422f1991a",
+    "dbt_subscriptions/models/monthly_cash_bridge.sql": "93f6c7f90eb6f3e73acd4d0bc7f3adc174e5bc3e64bcdf3a4c698392cae949e6",
+    "dbt_subscriptions/models/management_scorecard.sql": "12b6f192f6632c73f4c81d62feccab7edf8b7e07a16922c397f3edb8f18ebcdd",
+    "dbt_subscriptions/models/report_months.sql": "4226797855253a52ac5733221fa2efa823e9267817b8eb84876c550cc46e0f46",
+    "dbt_subscriptions/models/history_refunds.sql": "497e5541c940f3d88ccfd665114d77749faf5eb25ed68815c8acad1a9b849436",
+    "dbt_subscriptions/tests/source_revision_identity.sql": "1bb65a55b7a39f129624e94ef899887a713821ca76e363c5e5d6d1e037cb16c2",
+    "dbt_subscriptions/tests/bridge_reconciliation.sql": "73ec22c9619724e82411d50b5b8896ccdf362585b21980d782e457827d93bf85"
+  },
+  "checks": [
+    {
+      "name": "empty_source: all marts equal independent Python oracle",
+      "passed": true,
+      "detail": "Every row and metric in four marts"
+    },
+    {
+      "name": "empty_source: preserves existing reporting contract",
+      "passed": true,
+      "detail": "Existing report is a compatibility reference, distinct from the independent Python oracle"
+    },
+    {
+      "name": "empty_source: journal is fully represented",
+      "passed": true,
+      "detail": "Four feed row counts"
+    },
+    {
+      "name": "baseline: all marts equal independent Python oracle",
+      "passed": true,
+      "detail": "Every row and metric in four marts"
+    },
+    {
+      "name": "baseline: preserves existing reporting contract",
+      "passed": true,
+      "detail": "Existing report is a compatibility reference, distinct from the independent Python oracle"
+    },
+    {
+      "name": "baseline: journal is fully represented",
+      "passed": true,
+      "detail": "Four feed row counts"
+    },
+    {
+      "name": "exact source replay adds no records",
+      "passed": true,
+      "detail": "Immutable record_id/revision identity"
+    },
+    {
+      "name": "replay: all marts equal independent Python oracle",
+      "passed": true,
+      "detail": "Every row and metric in four marts"
+    },
+    {
+      "name": "replay: preserves existing reporting contract",
+      "passed": true,
+      "detail": "Existing report is a compatibility reference, distinct from the independent Python oracle"
+    },
+    {
+      "name": "replay: journal is fully represented",
+      "passed": true,
+      "detail": "Four feed row counts"
+    },
+    {
+      "name": "replay preserves all rows",
+      "passed": true,
+      "detail": "No duplicated identities or multiplied financial amounts"
+    },
+    {
+      "name": "new corrections are appended",
+      "passed": true,
+      "detail": "Subscription and invoice corrections have earlier business dates"
+    },
+    {
+      "name": "corrections: all marts equal independent Python oracle",
+      "passed": true,
+      "detail": "Every row and metric in four marts"
+    },
+    {
+      "name": "corrections: preserves existing reporting contract",
+      "passed": true,
+      "detail": "Existing report is a compatibility reference, distinct from the independent Python oracle"
+    },
+    {
+      "name": "corrections: journal is fully represented",
+      "passed": true,
+      "detail": "Four feed row counts"
+    },
+    {
+      "name": "untouched January cash is preserved",
+      "passed": true,
+      "detail": "Corrections affect February and the carried March balance"
+    },
+    {
+      "name": "historical_cutoff: all marts equal independent Python oracle",
+      "passed": true,
+      "detail": "Every row and metric in four marts"
+    },
+    {
+      "name": "historical_cutoff: preserves existing reporting contract",
+      "passed": true,
+      "detail": "Existing report is a compatibility reference, distinct from the independent Python oracle"
+    },
+    {
+      "name": "historical_cutoff: journal is fully represented",
+      "passed": true,
+      "detail": "Four feed row counts"
+    },
+    {
+      "name": "rewinding cutoff preserves original close",
+      "passed": true,
+      "detail": "Revisions remain in the journal but are not yet known"
+    },
+    {
+      "name": "timestamp-watermark counterexample reproduced",
+      "passed": true,
+      "detail": "A max(recorded_at) filter would miss both newly delivered records; ingestion sequence does not"
+    },
+    {
+      "name": "late transport backfill appends both records",
+      "passed": true,
+      "detail": "Older knowledge/business dates, newer transport sequence"
+    },
+    {
+      "name": "late_backfill: all marts equal independent Python oracle",
+      "passed": true,
+      "detail": "Every row and metric in four marts"
+    },
+    {
+      "name": "late_backfill: preserves existing reporting contract",
+      "passed": true,
+      "detail": "Existing report is a compatibility reference, distinct from the independent Python oracle"
+    },
+    {
+      "name": "late_backfill: journal is fully represented",
+      "passed": true,
+      "detail": "Four feed row counts"
+    },
+    {
+      "name": "late invoice/payment arithmetic",
+      "passed": true,
+      "detail": "January receives 5000 billed minus 4000 paid; subsequent months carry the 1000 balance"
+    },
+    {
+      "name": "conflicting replay rejected atomically",
+      "passed": true,
+      "detail": "No feed is partially appended; existing candidate remains unchanged"
+    },
+    {
+      "name": "full_refresh: all marts equal independent Python oracle",
+      "passed": true,
+      "detail": "Every row and metric in four marts"
+    },
+    {
+      "name": "full_refresh: preserves existing reporting contract",
+      "passed": true,
+      "detail": "Existing report is a compatibility reference, distinct from the independent Python oracle"
+    },
+    {
+      "name": "full_refresh: journal is fully represented",
+      "passed": true,
+      "detail": "Four feed row counts"
+    },
+    {
+      "name": "incremental and full refresh are row-identical",
+      "passed": true,
+      "detail": "All four marts, not only sums"
+    },
+    {
+      "name": "definition_v2: all marts equal independent Python oracle",
+      "passed": true,
+      "detail": "Every row and metric in four marts"
+    },
+    {
+      "name": "definition_v2: preserves existing reporting contract",
+      "passed": true,
+      "detail": "Existing report is a compatibility reference, distinct from the independent Python oracle"
+    },
+    {
+      "name": "definition_v2: journal is fully represented",
+      "passed": true,
+      "detail": "Four feed row counts"
+    },
+    {
+      "name": "metric definition change propagates to scorecard",
+      "passed": true,
+      "detail": "Version 2 explicitly includes reactivation; March changes by 9000 pence. Actuals and ledger definitions are unchanged"
+    },
+    {
+      "name": "new_reporting_month: all marts equal independent Python oracle",
+      "passed": true,
+      "detail": "Every row and metric in four marts"
+    },
+    {
+      "name": "new_reporting_month: preserves existing reporting contract",
+      "passed": true,
+      "detail": "Existing report is a compatibility reference, distinct from the independent Python oracle"
+    },
+    {
+      "name": "new_reporting_month: journal is fully represented",
+      "passed": true,
+      "detail": "Four feed row counts"
+    },
+    {
+      "name": "new month carries prior balances without inventing activity",
+      "passed": true,
+      "detail": "April contains no new invoice activity; the historical balance remains visible"
+    }
+  ],
+  "runs": [
+    {
+      "scenario": "empty_source",
+      "full_refresh": false,
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "growth_definition": 1,
+      "elapsed_seconds": 6.335,
+      "nodes": [
+        {
+          "id": "model.finance_subscriptions.report_parameters",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_invoices_ingestion_sequence.8f6eeec8e4",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_payments_ingestion_sequence.40662c7e7e",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_refunds_ingestion_sequence.b1de0bc748",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_subscription_changes_ingestion_sequence.a1d68cfc25",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_invoices_ingestion_sequence.6f89759383",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_payments_ingestion_sequence.7e72fc0927",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_refunds_ingestion_sequence.8409011571",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_subscription_changes_ingestion_sequence.549f52de67",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.report_months",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_report_months_month.8b9e5124db",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_report_months_month.e32b2b9b22",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_invoices_ingestion_sequence.5c5574d154",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_invoices_ingestion_sequence.aaca82a03a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_payments_ingestion_sequence.69467c918d",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_payments_ingestion_sequence.4c3809f4b0",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_refunds_ingestion_sequence.76bca03ffe",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_refunds_ingestion_sequence.a8673087b6",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_subscription_changes_ingestion_sequence.1ae5e1e377",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_revision_identity",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_subscription_changes_ingestion_sequence.84dd450536",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_cash_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.subscription_intervals",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_invoice_id.264fdf977a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_invoice_id.7c87698d29",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_cash_bridge_month.436a278011",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_cash_bridge_month.d18583318e",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.customer_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.bridge_reconciliation",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_mrr_bridge_month.0ff61935f2",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_mrr_bridge_month.8e6639519f",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_subscription_metrics",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_subscription_metrics_month.d403743760",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_subscription_metrics_month.81a0f45147",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.management_scorecard",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_management_scorecard_month.cf6fb8a5ac",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_management_scorecard_month.75c138045b",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "scenario": "baseline",
+      "full_refresh": false,
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "growth_definition": 1,
+      "elapsed_seconds": 5.51,
+      "nodes": [
+        {
+          "id": "model.finance_subscriptions.report_parameters",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_invoices_ingestion_sequence.8f6eeec8e4",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_payments_ingestion_sequence.40662c7e7e",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_refunds_ingestion_sequence.b1de0bc748",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_subscription_changes_ingestion_sequence.a1d68cfc25",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_invoices_ingestion_sequence.6f89759383",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_payments_ingestion_sequence.7e72fc0927",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_refunds_ingestion_sequence.8409011571",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_subscription_changes_ingestion_sequence.549f52de67",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.report_months",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_report_months_month.8b9e5124db",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_report_months_month.e32b2b9b22",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_invoices_ingestion_sequence.5c5574d154",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_invoices_ingestion_sequence.aaca82a03a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_payments_ingestion_sequence.69467c918d",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_payments_ingestion_sequence.4c3809f4b0",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_refunds_ingestion_sequence.76bca03ffe",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_refunds_ingestion_sequence.a8673087b6",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_subscription_changes_ingestion_sequence.1ae5e1e377",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_revision_identity",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_subscription_changes_ingestion_sequence.84dd450536",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_cash_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.subscription_intervals",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_invoice_id.264fdf977a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_invoice_id.7c87698d29",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_cash_bridge_month.436a278011",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_cash_bridge_month.d18583318e",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.customer_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.bridge_reconciliation",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_mrr_bridge_month.0ff61935f2",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_mrr_bridge_month.8e6639519f",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_subscription_metrics",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_subscription_metrics_month.d403743760",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_subscription_metrics_month.81a0f45147",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.management_scorecard",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_management_scorecard_month.cf6fb8a5ac",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_management_scorecard_month.75c138045b",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "scenario": "replay",
+      "full_refresh": false,
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "growth_definition": 1,
+      "elapsed_seconds": 5.477,
+      "nodes": [
+        {
+          "id": "model.finance_subscriptions.report_parameters",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_invoices_ingestion_sequence.8f6eeec8e4",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_payments_ingestion_sequence.40662c7e7e",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_refunds_ingestion_sequence.b1de0bc748",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_subscription_changes_ingestion_sequence.a1d68cfc25",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_invoices_ingestion_sequence.6f89759383",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_payments_ingestion_sequence.7e72fc0927",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_refunds_ingestion_sequence.8409011571",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_subscription_changes_ingestion_sequence.549f52de67",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.report_months",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_report_months_month.8b9e5124db",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_report_months_month.e32b2b9b22",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_invoices_ingestion_sequence.5c5574d154",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_invoices_ingestion_sequence.aaca82a03a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_payments_ingestion_sequence.69467c918d",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_payments_ingestion_sequence.4c3809f4b0",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_refunds_ingestion_sequence.76bca03ffe",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_refunds_ingestion_sequence.a8673087b6",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_subscription_changes_ingestion_sequence.1ae5e1e377",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_revision_identity",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_subscription_changes_ingestion_sequence.84dd450536",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_cash_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.subscription_intervals",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_invoice_id.264fdf977a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_invoice_id.7c87698d29",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_cash_bridge_month.436a278011",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_cash_bridge_month.d18583318e",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.customer_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.bridge_reconciliation",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_mrr_bridge_month.0ff61935f2",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_mrr_bridge_month.8e6639519f",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_subscription_metrics",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_subscription_metrics_month.d403743760",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_subscription_metrics_month.81a0f45147",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.management_scorecard",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_management_scorecard_month.cf6fb8a5ac",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_management_scorecard_month.75c138045b",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "scenario": "corrections",
+      "full_refresh": false,
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "growth_definition": 1,
+      "elapsed_seconds": 5.642,
+      "nodes": [
+        {
+          "id": "model.finance_subscriptions.report_parameters",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_invoices_ingestion_sequence.8f6eeec8e4",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_payments_ingestion_sequence.40662c7e7e",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_refunds_ingestion_sequence.b1de0bc748",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_subscription_changes_ingestion_sequence.a1d68cfc25",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_invoices_ingestion_sequence.6f89759383",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_payments_ingestion_sequence.7e72fc0927",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_refunds_ingestion_sequence.8409011571",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_subscription_changes_ingestion_sequence.549f52de67",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.report_months",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_report_months_month.8b9e5124db",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_report_months_month.e32b2b9b22",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_invoices_ingestion_sequence.5c5574d154",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_invoices_ingestion_sequence.aaca82a03a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_payments_ingestion_sequence.69467c918d",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_payments_ingestion_sequence.4c3809f4b0",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_refunds_ingestion_sequence.76bca03ffe",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_refunds_ingestion_sequence.a8673087b6",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_subscription_changes_ingestion_sequence.1ae5e1e377",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_revision_identity",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_subscription_changes_ingestion_sequence.84dd450536",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_cash_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.subscription_intervals",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_invoice_id.264fdf977a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_invoice_id.7c87698d29",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_cash_bridge_month.436a278011",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_cash_bridge_month.d18583318e",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.customer_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.bridge_reconciliation",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_mrr_bridge_month.0ff61935f2",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_mrr_bridge_month.8e6639519f",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_subscription_metrics",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_subscription_metrics_month.d403743760",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_subscription_metrics_month.81a0f45147",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.management_scorecard",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_management_scorecard_month.cf6fb8a5ac",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_management_scorecard_month.75c138045b",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "scenario": "historical_cutoff",
+      "full_refresh": false,
+      "knowledge_cutoff": "2026-04-01T00:00:00Z",
+      "growth_definition": 1,
+      "elapsed_seconds": 6.641,
+      "nodes": [
+        {
+          "id": "model.finance_subscriptions.report_parameters",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_invoices_ingestion_sequence.8f6eeec8e4",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_payments_ingestion_sequence.40662c7e7e",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_refunds_ingestion_sequence.b1de0bc748",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_subscription_changes_ingestion_sequence.a1d68cfc25",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_invoices_ingestion_sequence.6f89759383",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_payments_ingestion_sequence.7e72fc0927",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_refunds_ingestion_sequence.8409011571",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_subscription_changes_ingestion_sequence.549f52de67",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.report_months",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_report_months_month.8b9e5124db",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_report_months_month.e32b2b9b22",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_invoices_ingestion_sequence.5c5574d154",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_invoices_ingestion_sequence.aaca82a03a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_payments_ingestion_sequence.69467c918d",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_payments_ingestion_sequence.4c3809f4b0",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_refunds_ingestion_sequence.76bca03ffe",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_refunds_ingestion_sequence.a8673087b6",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_subscription_changes_ingestion_sequence.1ae5e1e377",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_revision_identity",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_subscription_changes_ingestion_sequence.84dd450536",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_cash_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.subscription_intervals",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_invoice_id.264fdf977a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_invoice_id.7c87698d29",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_cash_bridge_month.436a278011",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_cash_bridge_month.d18583318e",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.customer_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.bridge_reconciliation",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_mrr_bridge_month.0ff61935f2",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_mrr_bridge_month.8e6639519f",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_subscription_metrics",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_subscription_metrics_month.d403743760",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_subscription_metrics_month.81a0f45147",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.management_scorecard",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_management_scorecard_month.cf6fb8a5ac",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_management_scorecard_month.75c138045b",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "scenario": "late_backfill",
+      "full_refresh": false,
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "growth_definition": 1,
+      "elapsed_seconds": 6.541,
+      "nodes": [
+        {
+          "id": "model.finance_subscriptions.report_parameters",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_invoices_ingestion_sequence.8f6eeec8e4",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_payments_ingestion_sequence.40662c7e7e",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_refunds_ingestion_sequence.b1de0bc748",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_subscription_changes_ingestion_sequence.a1d68cfc25",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_invoices_ingestion_sequence.6f89759383",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_payments_ingestion_sequence.7e72fc0927",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_refunds_ingestion_sequence.8409011571",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_subscription_changes_ingestion_sequence.549f52de67",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.report_months",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_report_months_month.8b9e5124db",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_report_months_month.e32b2b9b22",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_invoices_ingestion_sequence.5c5574d154",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_invoices_ingestion_sequence.aaca82a03a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_payments_ingestion_sequence.69467c918d",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_payments_ingestion_sequence.4c3809f4b0",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_refunds_ingestion_sequence.76bca03ffe",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_refunds_ingestion_sequence.a8673087b6",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_subscription_changes_ingestion_sequence.1ae5e1e377",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_revision_identity",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_subscription_changes_ingestion_sequence.84dd450536",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_cash_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.subscription_intervals",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_invoice_id.264fdf977a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_invoice_id.7c87698d29",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_cash_bridge_month.436a278011",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_cash_bridge_month.d18583318e",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.customer_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.bridge_reconciliation",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_mrr_bridge_month.0ff61935f2",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_mrr_bridge_month.8e6639519f",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_subscription_metrics",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_subscription_metrics_month.d403743760",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_subscription_metrics_month.81a0f45147",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.management_scorecard",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_management_scorecard_month.cf6fb8a5ac",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_management_scorecard_month.75c138045b",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "scenario": "full_refresh",
+      "full_refresh": true,
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "growth_definition": 1,
+      "elapsed_seconds": 5.407,
+      "nodes": [
+        {
+          "id": "model.finance_subscriptions.report_parameters",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_invoices_ingestion_sequence.8f6eeec8e4",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_payments_ingestion_sequence.40662c7e7e",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_refunds_ingestion_sequence.b1de0bc748",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_subscription_changes_ingestion_sequence.a1d68cfc25",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_invoices_ingestion_sequence.6f89759383",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_payments_ingestion_sequence.7e72fc0927",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_refunds_ingestion_sequence.8409011571",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_subscription_changes_ingestion_sequence.549f52de67",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.report_months",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_report_months_month.8b9e5124db",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_report_months_month.e32b2b9b22",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_invoices_ingestion_sequence.5c5574d154",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_invoices_ingestion_sequence.aaca82a03a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_payments_ingestion_sequence.69467c918d",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_payments_ingestion_sequence.4c3809f4b0",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_refunds_ingestion_sequence.76bca03ffe",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_refunds_ingestion_sequence.a8673087b6",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_subscription_changes_ingestion_sequence.1ae5e1e377",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_revision_identity",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_subscription_changes_ingestion_sequence.84dd450536",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_cash_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.subscription_intervals",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_invoice_id.264fdf977a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_invoice_id.7c87698d29",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_cash_bridge_month.436a278011",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_cash_bridge_month.d18583318e",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.customer_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.bridge_reconciliation",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_mrr_bridge_month.0ff61935f2",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_mrr_bridge_month.8e6639519f",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_subscription_metrics",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_subscription_metrics_month.d403743760",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_subscription_metrics_month.81a0f45147",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.management_scorecard",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_management_scorecard_month.cf6fb8a5ac",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_management_scorecard_month.75c138045b",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "scenario": "definition_v2",
+      "full_refresh": false,
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "growth_definition": 2,
+      "elapsed_seconds": 6.54,
+      "nodes": [
+        {
+          "id": "model.finance_subscriptions.report_parameters",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_invoices_ingestion_sequence.8f6eeec8e4",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_payments_ingestion_sequence.40662c7e7e",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_refunds_ingestion_sequence.b1de0bc748",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_subscription_changes_ingestion_sequence.a1d68cfc25",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_invoices_ingestion_sequence.6f89759383",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_payments_ingestion_sequence.7e72fc0927",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_refunds_ingestion_sequence.8409011571",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_subscription_changes_ingestion_sequence.549f52de67",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.report_months",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_report_months_month.8b9e5124db",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_report_months_month.e32b2b9b22",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_invoices_ingestion_sequence.5c5574d154",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_invoices_ingestion_sequence.aaca82a03a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_payments_ingestion_sequence.69467c918d",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_payments_ingestion_sequence.4c3809f4b0",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_refunds_ingestion_sequence.76bca03ffe",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_refunds_ingestion_sequence.a8673087b6",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_subscription_changes_ingestion_sequence.1ae5e1e377",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_revision_identity",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_subscription_changes_ingestion_sequence.84dd450536",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_cash_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.subscription_intervals",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_invoice_id.264fdf977a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_invoice_id.7c87698d29",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_cash_bridge_month.436a278011",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_cash_bridge_month.d18583318e",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.customer_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.bridge_reconciliation",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_mrr_bridge_month.0ff61935f2",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_mrr_bridge_month.8e6639519f",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_subscription_metrics",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_subscription_metrics_month.d403743760",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_subscription_metrics_month.81a0f45147",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.management_scorecard",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_management_scorecard_month.cf6fb8a5ac",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_management_scorecard_month.75c138045b",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "scenario": "new_reporting_month",
+      "full_refresh": false,
+      "knowledge_cutoff": "2026-05-01T00:00:00Z",
+      "growth_definition": 1,
+      "elapsed_seconds": 6.644,
+      "nodes": [
+        {
+          "id": "model.finance_subscriptions.report_parameters",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_invoices_ingestion_sequence.8f6eeec8e4",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_payments_ingestion_sequence.40662c7e7e",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_refunds_ingestion_sequence.b1de0bc748",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_subscription_changes_ingestion_sequence.a1d68cfc25",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_invoices_ingestion_sequence.6f89759383",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_payments_ingestion_sequence.7e72fc0927",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_refunds_ingestion_sequence.8409011571",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_subscription_changes_ingestion_sequence.549f52de67",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.report_months",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_report_months_month.8b9e5124db",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_report_months_month.e32b2b9b22",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_invoices_ingestion_sequence.5c5574d154",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_invoices_ingestion_sequence.aaca82a03a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_payments_ingestion_sequence.69467c918d",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_payments_ingestion_sequence.4c3809f4b0",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_refunds_ingestion_sequence.76bca03ffe",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_refunds_ingestion_sequence.a8673087b6",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_subscription_changes_ingestion_sequence.1ae5e1e377",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_revision_identity",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_subscription_changes_ingestion_sequence.84dd450536",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_cash_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.subscription_intervals",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_invoice_id.264fdf977a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_invoice_id.7c87698d29",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_cash_bridge_month.436a278011",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_cash_bridge_month.d18583318e",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.customer_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.bridge_reconciliation",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_mrr_bridge_month.0ff61935f2",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_mrr_bridge_month.8e6639519f",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_subscription_metrics",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_subscription_metrics_month.d403743760",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_subscription_metrics_month.81a0f45147",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.management_scorecard",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_management_scorecard_month.cf6fb8a5ac",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_management_scorecard_month.75c138045b",
+          "status": "pass"
+        }
+      ]
+    }
+  ],
+  "reports": [
+    {
+      "scenario": "empty_source",
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "marts": {
+        "customer_mrr_bridge": [],
+        "monthly_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 0
+          }
+        ],
+        "monthly_cash_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 0,
+            "paid_cents": 0,
+            "refunded_cents": 0,
+            "net_cash_cents": 0,
+            "closing_balance_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 0,
+            "paid_cents": 0,
+            "refunded_cents": 0,
+            "net_cash_cents": 0,
+            "closing_balance_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 0,
+            "paid_cents": 0,
+            "refunded_cents": 0,
+            "net_cash_cents": 0,
+            "closing_balance_cents": 0
+          }
+        ],
+        "invoice_balances": []
+      },
+      "metrics": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 0,
+          "invoiced_cents": 0,
+          "net_cash_cents": 0,
+          "closing_balance_cents": 0,
+          "growth_mrr_cents": 0
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 0,
+          "invoiced_cents": 0,
+          "net_cash_cents": 0,
+          "closing_balance_cents": 0,
+          "growth_mrr_cents": 0
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 0,
+          "invoiced_cents": 0,
+          "net_cash_cents": 0,
+          "closing_balance_cents": 0,
+          "growth_mrr_cents": 0
+        }
+      ],
+      "scorecard": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 0,
+          "closing_mrr_cents": 0,
+          "net_cash_cents": 0,
+          "closing_balance_cents": 0
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 0,
+          "closing_mrr_cents": 0,
+          "net_cash_cents": 0,
+          "closing_balance_cents": 0
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 0,
+          "closing_mrr_cents": 0,
+          "net_cash_cents": 0,
+          "closing_balance_cents": 0
+        }
+      ]
+    },
+    {
+      "scenario": "baseline",
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "marts": {
+        "customer_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 10000,
+            "previously_paying": false,
+            "new_mrr_cents": 10000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 8000,
+            "previously_paying": false,
+            "new_mrr_cents": 8000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 10000,
+            "closing_mrr_cents": 15000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 5000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 8000,
+            "closing_mrr_cents": 5000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 3000,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 4000,
+            "previously_paying": false,
+            "new_mrr_cents": 4000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 15000,
+            "closing_mrr_cents": 0,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 5000,
+            "closing_mrr_cents": 5000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 9000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 4000,
+            "closing_mrr_cents": 4000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          }
+        ],
+        "monthly_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 18000,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 18000
+          },
+          {
+            "month": "2026-02-01",
+            "opening_mrr_cents": 18000,
+            "new_mrr_cents": 4000,
+            "expansion_mrr_cents": 5000,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 3000,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 24000
+          },
+          {
+            "month": "2026-03-01",
+            "opening_mrr_cents": 24000,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000,
+            "closing_mrr_cents": 18000
+          }
+        ],
+        "monthly_cash_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 18000,
+            "paid_cents": 18000,
+            "refunded_cents": 0,
+            "net_cash_cents": 18000,
+            "closing_balance_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 24000,
+            "paid_cents": 24000,
+            "refunded_cents": 0,
+            "net_cash_cents": 24000,
+            "closing_balance_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 33000,
+            "paid_cents": 31000,
+            "refunded_cents": 2000,
+            "net_cash_cents": 29000,
+            "closing_balance_cents": 4000
+          }
+        ],
+        "invoice_balances": [
+          {
+            "invoice_id": "invoice-A-1",
+            "customer_id": "A",
+            "invoiced_cents": 10000,
+            "paid_cents": 10000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-2",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 2000,
+            "balance_cents": 2000
+          },
+          {
+            "invoice_id": "invoice-B-1",
+            "customer_id": "B",
+            "invoiced_cents": 8000,
+            "paid_cents": 8000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-B-2",
+            "customer_id": "B",
+            "invoiced_cents": 5000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-B-3",
+            "customer_id": "B",
+            "invoiced_cents": 5000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-C-3",
+            "customer_id": "C",
+            "invoiced_cents": 9000,
+            "paid_cents": 9000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-2",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 4000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 2000,
+            "refunded_cents": 0,
+            "balance_cents": 2000
+          }
+        ]
+      },
+      "metrics": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 18000,
+          "invoiced_cents": 18000,
+          "net_cash_cents": 18000,
+          "closing_balance_cents": 0,
+          "growth_mrr_cents": 18000
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 24000,
+          "invoiced_cents": 24000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 0,
+          "growth_mrr_cents": 4000
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 18000,
+          "invoiced_cents": 33000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 4000,
+          "growth_mrr_cents": 0
+        }
+      ],
+      "scorecard": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 18000,
+          "closing_mrr_cents": 18000,
+          "net_cash_cents": 18000,
+          "closing_balance_cents": 0
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 4000,
+          "closing_mrr_cents": 24000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 0
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 0,
+          "closing_mrr_cents": 18000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 4000
+        }
+      ]
+    },
+    {
+      "scenario": "replay",
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "marts": {
+        "customer_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 10000,
+            "previously_paying": false,
+            "new_mrr_cents": 10000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 8000,
+            "previously_paying": false,
+            "new_mrr_cents": 8000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 10000,
+            "closing_mrr_cents": 15000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 5000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 8000,
+            "closing_mrr_cents": 5000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 3000,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 4000,
+            "previously_paying": false,
+            "new_mrr_cents": 4000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 15000,
+            "closing_mrr_cents": 0,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 5000,
+            "closing_mrr_cents": 5000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 9000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 4000,
+            "closing_mrr_cents": 4000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          }
+        ],
+        "monthly_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 18000,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 18000
+          },
+          {
+            "month": "2026-02-01",
+            "opening_mrr_cents": 18000,
+            "new_mrr_cents": 4000,
+            "expansion_mrr_cents": 5000,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 3000,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 24000
+          },
+          {
+            "month": "2026-03-01",
+            "opening_mrr_cents": 24000,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000,
+            "closing_mrr_cents": 18000
+          }
+        ],
+        "monthly_cash_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 18000,
+            "paid_cents": 18000,
+            "refunded_cents": 0,
+            "net_cash_cents": 18000,
+            "closing_balance_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 24000,
+            "paid_cents": 24000,
+            "refunded_cents": 0,
+            "net_cash_cents": 24000,
+            "closing_balance_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 33000,
+            "paid_cents": 31000,
+            "refunded_cents": 2000,
+            "net_cash_cents": 29000,
+            "closing_balance_cents": 4000
+          }
+        ],
+        "invoice_balances": [
+          {
+            "invoice_id": "invoice-A-1",
+            "customer_id": "A",
+            "invoiced_cents": 10000,
+            "paid_cents": 10000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-2",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 2000,
+            "balance_cents": 2000
+          },
+          {
+            "invoice_id": "invoice-B-1",
+            "customer_id": "B",
+            "invoiced_cents": 8000,
+            "paid_cents": 8000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-B-2",
+            "customer_id": "B",
+            "invoiced_cents": 5000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-B-3",
+            "customer_id": "B",
+            "invoiced_cents": 5000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-C-3",
+            "customer_id": "C",
+            "invoiced_cents": 9000,
+            "paid_cents": 9000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-2",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 4000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 2000,
+            "refunded_cents": 0,
+            "balance_cents": 2000
+          }
+        ]
+      },
+      "metrics": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 18000,
+          "invoiced_cents": 18000,
+          "net_cash_cents": 18000,
+          "closing_balance_cents": 0,
+          "growth_mrr_cents": 18000
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 24000,
+          "invoiced_cents": 24000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 0,
+          "growth_mrr_cents": 4000
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 18000,
+          "invoiced_cents": 33000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 4000,
+          "growth_mrr_cents": 0
+        }
+      ],
+      "scorecard": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 18000,
+          "closing_mrr_cents": 18000,
+          "net_cash_cents": 18000,
+          "closing_balance_cents": 0
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 4000,
+          "closing_mrr_cents": 24000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 0
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 0,
+          "closing_mrr_cents": 18000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 4000
+        }
+      ]
+    },
+    {
+      "scenario": "corrections",
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "marts": {
+        "customer_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 10000,
+            "previously_paying": false,
+            "new_mrr_cents": 10000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 8000,
+            "previously_paying": false,
+            "new_mrr_cents": 8000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 10000,
+            "closing_mrr_cents": 15000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 5000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 8000,
+            "closing_mrr_cents": 6000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 2000,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 4000,
+            "previously_paying": false,
+            "new_mrr_cents": 4000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 15000,
+            "closing_mrr_cents": 0,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 6000,
+            "closing_mrr_cents": 6000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 9000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 4000,
+            "closing_mrr_cents": 4000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          }
+        ],
+        "monthly_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 18000,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 18000
+          },
+          {
+            "month": "2026-02-01",
+            "opening_mrr_cents": 18000,
+            "new_mrr_cents": 4000,
+            "expansion_mrr_cents": 5000,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 2000,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 25000
+          },
+          {
+            "month": "2026-03-01",
+            "opening_mrr_cents": 25000,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000,
+            "closing_mrr_cents": 19000
+          }
+        ],
+        "monthly_cash_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 18000,
+            "paid_cents": 18000,
+            "refunded_cents": 0,
+            "net_cash_cents": 18000,
+            "closing_balance_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 25000,
+            "paid_cents": 24000,
+            "refunded_cents": 0,
+            "net_cash_cents": 24000,
+            "closing_balance_cents": 1000
+          },
+          {
+            "month": "2026-03-01",
+            "opening_balance_cents": 1000,
+            "invoiced_cents": 33000,
+            "paid_cents": 31000,
+            "refunded_cents": 2000,
+            "net_cash_cents": 29000,
+            "closing_balance_cents": 5000
+          }
+        ],
+        "invoice_balances": [
+          {
+            "invoice_id": "invoice-A-1",
+            "customer_id": "A",
+            "invoiced_cents": 10000,
+            "paid_cents": 10000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-2",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 2000,
+            "balance_cents": 2000
+          },
+          {
+            "invoice_id": "invoice-B-1",
+            "customer_id": "B",
+            "invoiced_cents": 8000,
+            "paid_cents": 8000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-B-2",
+            "customer_id": "B",
+            "invoiced_cents": 6000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 1000
+          },
+          {
+            "invoice_id": "invoice-B-3",
+            "customer_id": "B",
+            "invoiced_cents": 5000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-C-3",
+            "customer_id": "C",
+            "invoiced_cents": 9000,
+            "paid_cents": 9000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-2",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 4000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 2000,
+            "refunded_cents": 0,
+            "balance_cents": 2000
+          }
+        ]
+      },
+      "metrics": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 18000,
+          "invoiced_cents": 18000,
+          "net_cash_cents": 18000,
+          "closing_balance_cents": 0,
+          "growth_mrr_cents": 18000
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 25000,
+          "invoiced_cents": 25000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 1000,
+          "growth_mrr_cents": 4000
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 19000,
+          "invoiced_cents": 33000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 5000,
+          "growth_mrr_cents": 0
+        }
+      ],
+      "scorecard": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 18000,
+          "closing_mrr_cents": 18000,
+          "net_cash_cents": 18000,
+          "closing_balance_cents": 0
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 4000,
+          "closing_mrr_cents": 25000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 1000
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 0,
+          "closing_mrr_cents": 19000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 5000
+        }
+      ]
+    },
+    {
+      "scenario": "historical_cutoff",
+      "knowledge_cutoff": "2026-04-01T00:00:00Z",
+      "marts": {
+        "customer_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 10000,
+            "previously_paying": false,
+            "new_mrr_cents": 10000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 8000,
+            "previously_paying": false,
+            "new_mrr_cents": 8000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 10000,
+            "closing_mrr_cents": 15000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 5000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 8000,
+            "closing_mrr_cents": 5000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 3000,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 4000,
+            "previously_paying": false,
+            "new_mrr_cents": 4000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 15000,
+            "closing_mrr_cents": 0,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 5000,
+            "closing_mrr_cents": 5000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 9000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 4000,
+            "closing_mrr_cents": 4000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          }
+        ],
+        "monthly_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 18000,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 18000
+          },
+          {
+            "month": "2026-02-01",
+            "opening_mrr_cents": 18000,
+            "new_mrr_cents": 4000,
+            "expansion_mrr_cents": 5000,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 3000,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 24000
+          },
+          {
+            "month": "2026-03-01",
+            "opening_mrr_cents": 24000,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000,
+            "closing_mrr_cents": 18000
+          }
+        ],
+        "monthly_cash_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 18000,
+            "paid_cents": 18000,
+            "refunded_cents": 0,
+            "net_cash_cents": 18000,
+            "closing_balance_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 24000,
+            "paid_cents": 24000,
+            "refunded_cents": 0,
+            "net_cash_cents": 24000,
+            "closing_balance_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 33000,
+            "paid_cents": 31000,
+            "refunded_cents": 2000,
+            "net_cash_cents": 29000,
+            "closing_balance_cents": 4000
+          }
+        ],
+        "invoice_balances": [
+          {
+            "invoice_id": "invoice-A-1",
+            "customer_id": "A",
+            "invoiced_cents": 10000,
+            "paid_cents": 10000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-2",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 2000,
+            "balance_cents": 2000
+          },
+          {
+            "invoice_id": "invoice-B-1",
+            "customer_id": "B",
+            "invoiced_cents": 8000,
+            "paid_cents": 8000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-B-2",
+            "customer_id": "B",
+            "invoiced_cents": 5000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-B-3",
+            "customer_id": "B",
+            "invoiced_cents": 5000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-C-3",
+            "customer_id": "C",
+            "invoiced_cents": 9000,
+            "paid_cents": 9000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-2",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 4000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 2000,
+            "refunded_cents": 0,
+            "balance_cents": 2000
+          }
+        ]
+      },
+      "metrics": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 18000,
+          "invoiced_cents": 18000,
+          "net_cash_cents": 18000,
+          "closing_balance_cents": 0,
+          "growth_mrr_cents": 18000
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 24000,
+          "invoiced_cents": 24000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 0,
+          "growth_mrr_cents": 4000
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 18000,
+          "invoiced_cents": 33000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 4000,
+          "growth_mrr_cents": 0
+        }
+      ],
+      "scorecard": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 18000,
+          "closing_mrr_cents": 18000,
+          "net_cash_cents": 18000,
+          "closing_balance_cents": 0
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 4000,
+          "closing_mrr_cents": 24000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 0
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 0,
+          "closing_mrr_cents": 18000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 4000
+        }
+      ]
+    },
+    {
+      "scenario": "late_backfill",
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "marts": {
+        "customer_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 10000,
+            "previously_paying": false,
+            "new_mrr_cents": 10000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 8000,
+            "previously_paying": false,
+            "new_mrr_cents": 8000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 10000,
+            "closing_mrr_cents": 15000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 5000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 8000,
+            "closing_mrr_cents": 6000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 2000,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 4000,
+            "previously_paying": false,
+            "new_mrr_cents": 4000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 15000,
+            "closing_mrr_cents": 0,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 6000,
+            "closing_mrr_cents": 6000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 9000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 4000,
+            "closing_mrr_cents": 4000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          }
+        ],
+        "monthly_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 18000,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 18000
+          },
+          {
+            "month": "2026-02-01",
+            "opening_mrr_cents": 18000,
+            "new_mrr_cents": 4000,
+            "expansion_mrr_cents": 5000,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 2000,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 25000
+          },
+          {
+            "month": "2026-03-01",
+            "opening_mrr_cents": 25000,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000,
+            "closing_mrr_cents": 19000
+          }
+        ],
+        "monthly_cash_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 23000,
+            "paid_cents": 22000,
+            "refunded_cents": 0,
+            "net_cash_cents": 22000,
+            "closing_balance_cents": 1000
+          },
+          {
+            "month": "2026-02-01",
+            "opening_balance_cents": 1000,
+            "invoiced_cents": 25000,
+            "paid_cents": 24000,
+            "refunded_cents": 0,
+            "net_cash_cents": 24000,
+            "closing_balance_cents": 2000
+          },
+          {
+            "month": "2026-03-01",
+            "opening_balance_cents": 2000,
+            "invoiced_cents": 33000,
+            "paid_cents": 31000,
+            "refunded_cents": 2000,
+            "net_cash_cents": 29000,
+            "closing_balance_cents": 6000
+          }
+        ],
+        "invoice_balances": [
+          {
+            "invoice_id": "invoice-A-1",
+            "customer_id": "A",
+            "invoiced_cents": 10000,
+            "paid_cents": 10000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-2",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 2000,
+            "balance_cents": 2000
+          },
+          {
+            "invoice_id": "invoice-B-1",
+            "customer_id": "B",
+            "invoiced_cents": 8000,
+            "paid_cents": 8000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-B-2",
+            "customer_id": "B",
+            "invoiced_cents": 6000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 1000
+          },
+          {
+            "invoice_id": "invoice-B-3",
+            "customer_id": "B",
+            "invoiced_cents": 5000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-C-3",
+            "customer_id": "C",
+            "invoiced_cents": 9000,
+            "paid_cents": 9000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-2",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 4000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 2000,
+            "refunded_cents": 0,
+            "balance_cents": 2000
+          },
+          {
+            "invoice_id": "late-invoice",
+            "customer_id": "E",
+            "invoiced_cents": 5000,
+            "paid_cents": 4000,
+            "refunded_cents": 0,
+            "balance_cents": 1000
+          }
+        ]
+      },
+      "metrics": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 18000,
+          "invoiced_cents": 23000,
+          "net_cash_cents": 22000,
+          "closing_balance_cents": 1000,
+          "growth_mrr_cents": 18000
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 25000,
+          "invoiced_cents": 25000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 2000,
+          "growth_mrr_cents": 4000
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 19000,
+          "invoiced_cents": 33000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 6000,
+          "growth_mrr_cents": 0
+        }
+      ],
+      "scorecard": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 18000,
+          "closing_mrr_cents": 18000,
+          "net_cash_cents": 22000,
+          "closing_balance_cents": 1000
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 4000,
+          "closing_mrr_cents": 25000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 2000
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 0,
+          "closing_mrr_cents": 19000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 6000
+        }
+      ]
+    },
+    {
+      "scenario": "full_refresh",
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "marts": {
+        "customer_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 10000,
+            "previously_paying": false,
+            "new_mrr_cents": 10000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 8000,
+            "previously_paying": false,
+            "new_mrr_cents": 8000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 10000,
+            "closing_mrr_cents": 15000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 5000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 8000,
+            "closing_mrr_cents": 6000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 2000,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 4000,
+            "previously_paying": false,
+            "new_mrr_cents": 4000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 15000,
+            "closing_mrr_cents": 0,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 6000,
+            "closing_mrr_cents": 6000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 9000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 4000,
+            "closing_mrr_cents": 4000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          }
+        ],
+        "monthly_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 18000,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 18000
+          },
+          {
+            "month": "2026-02-01",
+            "opening_mrr_cents": 18000,
+            "new_mrr_cents": 4000,
+            "expansion_mrr_cents": 5000,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 2000,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 25000
+          },
+          {
+            "month": "2026-03-01",
+            "opening_mrr_cents": 25000,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000,
+            "closing_mrr_cents": 19000
+          }
+        ],
+        "monthly_cash_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 23000,
+            "paid_cents": 22000,
+            "refunded_cents": 0,
+            "net_cash_cents": 22000,
+            "closing_balance_cents": 1000
+          },
+          {
+            "month": "2026-02-01",
+            "opening_balance_cents": 1000,
+            "invoiced_cents": 25000,
+            "paid_cents": 24000,
+            "refunded_cents": 0,
+            "net_cash_cents": 24000,
+            "closing_balance_cents": 2000
+          },
+          {
+            "month": "2026-03-01",
+            "opening_balance_cents": 2000,
+            "invoiced_cents": 33000,
+            "paid_cents": 31000,
+            "refunded_cents": 2000,
+            "net_cash_cents": 29000,
+            "closing_balance_cents": 6000
+          }
+        ],
+        "invoice_balances": [
+          {
+            "invoice_id": "invoice-A-1",
+            "customer_id": "A",
+            "invoiced_cents": 10000,
+            "paid_cents": 10000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-2",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 2000,
+            "balance_cents": 2000
+          },
+          {
+            "invoice_id": "invoice-B-1",
+            "customer_id": "B",
+            "invoiced_cents": 8000,
+            "paid_cents": 8000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-B-2",
+            "customer_id": "B",
+            "invoiced_cents": 6000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 1000
+          },
+          {
+            "invoice_id": "invoice-B-3",
+            "customer_id": "B",
+            "invoiced_cents": 5000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-C-3",
+            "customer_id": "C",
+            "invoiced_cents": 9000,
+            "paid_cents": 9000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-2",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 4000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 2000,
+            "refunded_cents": 0,
+            "balance_cents": 2000
+          },
+          {
+            "invoice_id": "late-invoice",
+            "customer_id": "E",
+            "invoiced_cents": 5000,
+            "paid_cents": 4000,
+            "refunded_cents": 0,
+            "balance_cents": 1000
+          }
+        ]
+      },
+      "metrics": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 18000,
+          "invoiced_cents": 23000,
+          "net_cash_cents": 22000,
+          "closing_balance_cents": 1000,
+          "growth_mrr_cents": 18000
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 25000,
+          "invoiced_cents": 25000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 2000,
+          "growth_mrr_cents": 4000
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 19000,
+          "invoiced_cents": 33000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 6000,
+          "growth_mrr_cents": 0
+        }
+      ],
+      "scorecard": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 18000,
+          "closing_mrr_cents": 18000,
+          "net_cash_cents": 22000,
+          "closing_balance_cents": 1000
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 4000,
+          "closing_mrr_cents": 25000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 2000
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 0,
+          "closing_mrr_cents": 19000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 6000
+        }
+      ]
+    },
+    {
+      "scenario": "definition_v2",
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "marts": {
+        "customer_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 10000,
+            "previously_paying": false,
+            "new_mrr_cents": 10000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 8000,
+            "previously_paying": false,
+            "new_mrr_cents": 8000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 10000,
+            "closing_mrr_cents": 15000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 5000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 8000,
+            "closing_mrr_cents": 6000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 2000,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 4000,
+            "previously_paying": false,
+            "new_mrr_cents": 4000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 15000,
+            "closing_mrr_cents": 0,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 6000,
+            "closing_mrr_cents": 6000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 9000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 4000,
+            "closing_mrr_cents": 4000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          }
+        ],
+        "monthly_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 18000,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 18000
+          },
+          {
+            "month": "2026-02-01",
+            "opening_mrr_cents": 18000,
+            "new_mrr_cents": 4000,
+            "expansion_mrr_cents": 5000,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 2000,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 25000
+          },
+          {
+            "month": "2026-03-01",
+            "opening_mrr_cents": 25000,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000,
+            "closing_mrr_cents": 19000
+          }
+        ],
+        "monthly_cash_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 23000,
+            "paid_cents": 22000,
+            "refunded_cents": 0,
+            "net_cash_cents": 22000,
+            "closing_balance_cents": 1000
+          },
+          {
+            "month": "2026-02-01",
+            "opening_balance_cents": 1000,
+            "invoiced_cents": 25000,
+            "paid_cents": 24000,
+            "refunded_cents": 0,
+            "net_cash_cents": 24000,
+            "closing_balance_cents": 2000
+          },
+          {
+            "month": "2026-03-01",
+            "opening_balance_cents": 2000,
+            "invoiced_cents": 33000,
+            "paid_cents": 31000,
+            "refunded_cents": 2000,
+            "net_cash_cents": 29000,
+            "closing_balance_cents": 6000
+          }
+        ],
+        "invoice_balances": [
+          {
+            "invoice_id": "invoice-A-1",
+            "customer_id": "A",
+            "invoiced_cents": 10000,
+            "paid_cents": 10000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-2",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 2000,
+            "balance_cents": 2000
+          },
+          {
+            "invoice_id": "invoice-B-1",
+            "customer_id": "B",
+            "invoiced_cents": 8000,
+            "paid_cents": 8000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-B-2",
+            "customer_id": "B",
+            "invoiced_cents": 6000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 1000
+          },
+          {
+            "invoice_id": "invoice-B-3",
+            "customer_id": "B",
+            "invoiced_cents": 5000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-C-3",
+            "customer_id": "C",
+            "invoiced_cents": 9000,
+            "paid_cents": 9000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-2",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 4000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 2000,
+            "refunded_cents": 0,
+            "balance_cents": 2000
+          },
+          {
+            "invoice_id": "late-invoice",
+            "customer_id": "E",
+            "invoiced_cents": 5000,
+            "paid_cents": 4000,
+            "refunded_cents": 0,
+            "balance_cents": 1000
+          }
+        ]
+      },
+      "metrics": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 2,
+          "closing_mrr_cents": 18000,
+          "invoiced_cents": 23000,
+          "net_cash_cents": 22000,
+          "closing_balance_cents": 1000,
+          "growth_mrr_cents": 18000
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 2,
+          "closing_mrr_cents": 25000,
+          "invoiced_cents": 25000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 2000,
+          "growth_mrr_cents": 4000
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 2,
+          "closing_mrr_cents": 19000,
+          "invoiced_cents": 33000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 6000,
+          "growth_mrr_cents": 9000
+        }
+      ],
+      "scorecard": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 2,
+          "growth_mrr_cents": 18000,
+          "closing_mrr_cents": 18000,
+          "net_cash_cents": 22000,
+          "closing_balance_cents": 1000
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 2,
+          "growth_mrr_cents": 4000,
+          "closing_mrr_cents": 25000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 2000
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 2,
+          "growth_mrr_cents": 9000,
+          "closing_mrr_cents": 19000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 6000
+        }
+      ]
+    },
+    {
+      "scenario": "new_reporting_month",
+      "knowledge_cutoff": "2026-05-01T00:00:00Z",
+      "marts": {
+        "customer_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 10000,
+            "previously_paying": false,
+            "new_mrr_cents": 10000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 8000,
+            "previously_paying": false,
+            "new_mrr_cents": 8000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-01-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 10000,
+            "closing_mrr_cents": 15000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 5000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 8000,
+            "closing_mrr_cents": 6000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 2000,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": false,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 4000,
+            "previously_paying": false,
+            "new_mrr_cents": 4000,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 15000,
+            "closing_mrr_cents": 0,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 6000,
+            "closing_mrr_cents": 6000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 9000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 4000,
+            "closing_mrr_cents": 4000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-04-01",
+            "customer_id": "A",
+            "opening_mrr_cents": 0,
+            "closing_mrr_cents": 0,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-04-01",
+            "customer_id": "B",
+            "opening_mrr_cents": 6000,
+            "closing_mrr_cents": 6000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-04-01",
+            "customer_id": "C",
+            "opening_mrr_cents": 9000,
+            "closing_mrr_cents": 9000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          },
+          {
+            "month": "2026-04-01",
+            "customer_id": "D",
+            "opening_mrr_cents": 4000,
+            "closing_mrr_cents": 4000,
+            "previously_paying": true,
+            "new_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0
+          }
+        ],
+        "monthly_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 18000,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 18000
+          },
+          {
+            "month": "2026-02-01",
+            "opening_mrr_cents": 18000,
+            "new_mrr_cents": 4000,
+            "expansion_mrr_cents": 5000,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 2000,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 25000
+          },
+          {
+            "month": "2026-03-01",
+            "opening_mrr_cents": 25000,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 9000,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 15000,
+            "closing_mrr_cents": 19000
+          },
+          {
+            "month": "2026-04-01",
+            "opening_mrr_cents": 19000,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 19000
+          }
+        ],
+        "monthly_cash_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 23000,
+            "paid_cents": 22000,
+            "refunded_cents": 0,
+            "net_cash_cents": 22000,
+            "closing_balance_cents": 1000
+          },
+          {
+            "month": "2026-02-01",
+            "opening_balance_cents": 1000,
+            "invoiced_cents": 25000,
+            "paid_cents": 24000,
+            "refunded_cents": 0,
+            "net_cash_cents": 24000,
+            "closing_balance_cents": 2000
+          },
+          {
+            "month": "2026-03-01",
+            "opening_balance_cents": 2000,
+            "invoiced_cents": 33000,
+            "paid_cents": 31000,
+            "refunded_cents": 2000,
+            "net_cash_cents": 29000,
+            "closing_balance_cents": 6000
+          },
+          {
+            "month": "2026-04-01",
+            "opening_balance_cents": 6000,
+            "invoiced_cents": 0,
+            "paid_cents": 0,
+            "refunded_cents": 0,
+            "net_cash_cents": 0,
+            "closing_balance_cents": 6000
+          }
+        ],
+        "invoice_balances": [
+          {
+            "invoice_id": "invoice-A-1",
+            "customer_id": "A",
+            "invoiced_cents": 10000,
+            "paid_cents": 10000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-2",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "invoiced_cents": 15000,
+            "paid_cents": 15000,
+            "refunded_cents": 2000,
+            "balance_cents": 2000
+          },
+          {
+            "invoice_id": "invoice-B-1",
+            "customer_id": "B",
+            "invoiced_cents": 8000,
+            "paid_cents": 8000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-B-2",
+            "customer_id": "B",
+            "invoiced_cents": 6000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 1000
+          },
+          {
+            "invoice_id": "invoice-B-3",
+            "customer_id": "B",
+            "invoiced_cents": 5000,
+            "paid_cents": 5000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-C-3",
+            "customer_id": "C",
+            "invoiced_cents": 9000,
+            "paid_cents": 9000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-2",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 4000,
+            "refunded_cents": 0,
+            "balance_cents": 0
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "invoiced_cents": 4000,
+            "paid_cents": 2000,
+            "refunded_cents": 0,
+            "balance_cents": 2000
+          },
+          {
+            "invoice_id": "late-invoice",
+            "customer_id": "E",
+            "invoiced_cents": 5000,
+            "paid_cents": 4000,
+            "refunded_cents": 0,
+            "balance_cents": 1000
+          }
+        ]
+      },
+      "metrics": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 18000,
+          "invoiced_cents": 23000,
+          "net_cash_cents": 22000,
+          "closing_balance_cents": 1000,
+          "growth_mrr_cents": 18000
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 25000,
+          "invoiced_cents": 25000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 2000,
+          "growth_mrr_cents": 4000
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 19000,
+          "invoiced_cents": 33000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 6000,
+          "growth_mrr_cents": 0
+        },
+        {
+          "month": "2026-04-01",
+          "growth_definition_version": 1,
+          "closing_mrr_cents": 19000,
+          "invoiced_cents": 0,
+          "net_cash_cents": 0,
+          "closing_balance_cents": 6000,
+          "growth_mrr_cents": 0
+        }
+      ],
+      "scorecard": [
+        {
+          "month": "2026-01-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 18000,
+          "closing_mrr_cents": 18000,
+          "net_cash_cents": 22000,
+          "closing_balance_cents": 1000
+        },
+        {
+          "month": "2026-02-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 4000,
+          "closing_mrr_cents": 25000,
+          "net_cash_cents": 24000,
+          "closing_balance_cents": 2000
+        },
+        {
+          "month": "2026-03-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 0,
+          "closing_mrr_cents": 19000,
+          "net_cash_cents": 29000,
+          "closing_balance_cents": 6000
+        },
+        {
+          "month": "2026-04-01",
+          "growth_definition_version": 1,
+          "growth_mrr_cents": 0,
+          "closing_mrr_cents": 19000,
+          "net_cash_cents": 0,
+          "closing_balance_cents": 6000
+        }
+      ]
+    }
+  ],
+  "metric_definition_changes": [
+    {
+      "month": "2026-01-01",
+      "before_cents": 18000,
+      "after_cents": 18000,
+      "delta_cents": 0
+    },
+    {
+      "month": "2026-02-01",
+      "before_cents": 4000,
+      "after_cents": 4000,
+      "delta_cents": 0
+    },
+    {
+      "month": "2026-03-01",
+      "before_cents": 0,
+      "after_cents": 9000,
+      "delta_cents": 9000
+    }
+  ],
+  "dbt_model_dependencies": {
+    "model.finance_subscriptions.history_subscription_changes": [
+      "source.finance_subscriptions.journal.subscription_changes"
+    ],
+    "model.finance_subscriptions.monthly_subscription_metrics": [
+      "model.finance_subscriptions.monthly_mrr_bridge",
+      "model.finance_subscriptions.monthly_cash_bridge"
+    ],
+    "model.finance_subscriptions.history_payments": [
+      "source.finance_subscriptions.journal.payments"
+    ],
+    "model.finance_subscriptions.stg_refunds": [
+      "model.finance_subscriptions.history_refunds"
+    ],
+    "model.finance_subscriptions.stg_invoices": [
+      "model.finance_subscriptions.history_invoices"
+    ],
+    "model.finance_subscriptions.subscription_intervals": [
+      "model.finance_subscriptions.stg_subscription_changes"
+    ],
+    "model.finance_subscriptions.report_parameters": [],
+    "model.finance_subscriptions.customer_mrr_bridge": [
+      "model.finance_subscriptions.stg_subscription_changes",
+      "model.finance_subscriptions.subscription_intervals",
+      "model.finance_subscriptions.report_months"
+    ],
+    "model.finance_subscriptions.monthly_mrr_bridge": [
+      "model.finance_subscriptions.report_months",
+      "model.finance_subscriptions.customer_mrr_bridge"
+    ],
+    "model.finance_subscriptions.stg_payments": [
+      "model.finance_subscriptions.history_payments"
+    ],
+    "model.finance_subscriptions.stg_subscription_changes": [
+      "model.finance_subscriptions.history_subscription_changes"
+    ],
+    "model.finance_subscriptions.invoice_balances": [
+      "model.finance_subscriptions.stg_payments",
+      "model.finance_subscriptions.report_parameters",
+      "model.finance_subscriptions.stg_refunds",
+      "model.finance_subscriptions.stg_invoices"
+    ],
+    "model.finance_subscriptions.history_invoices": [
+      "source.finance_subscriptions.journal.invoices"
+    ],
+    "model.finance_subscriptions.monthly_cash_bridge": [
+      "model.finance_subscriptions.stg_invoices",
+      "model.finance_subscriptions.stg_payments",
+      "model.finance_subscriptions.stg_refunds",
+      "model.finance_subscriptions.report_months"
+    ],
+    "model.finance_subscriptions.management_scorecard": [
+      "model.finance_subscriptions.monthly_subscription_metrics"
+    ],
+    "model.finance_subscriptions.report_months": [
+      "model.finance_subscriptions.report_parameters"
+    ],
+    "model.finance_subscriptions.history_refunds": [
+      "source.finance_subscriptions.journal.refunds"
+    ]
+  },
+  "limits": [
+    "Four raw revision ledgers are incremental; downstream views recompute the bounded reporting window.",
+    "Single-writer ingestion sequence; no multiwriter or high-volume performance claim.",
+    "Isolated development schemas; dbt does not provide an atomic multi-model publication here.",
+    "Only this validated evidence bundle is published after every check passes.",
+    "Source contract has no tombstone/deletion events; zero-value invoice corrections and cancellations retain history.",
+    "No cloud deployment, live users, human approval, production savings or unaided owner assessment."
+  ]
+}
