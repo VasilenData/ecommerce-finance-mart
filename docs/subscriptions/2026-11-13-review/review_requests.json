@@ -1,0 +1,1109 @@
+{
+  "schema_version": 1,
+  "source_sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+  "review_status": "pending_human_review",
+  "requests": [
+    {
+      "schema_version": 1,
+      "scope": "synthetic",
+      "review_status": "pending_human_review",
+      "source_sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+      "baseline_report_sha256": "8e40f130ba6656e194aa905bebf7732dfc2e6290935ec4831b9d5eb439ea59f9",
+      "candidate_report_sha256": "8e40f130ba6656e194aa905bebf7732dfc2e6290935ec4831b9d5eb439ea59f9",
+      "audit_sha256": "036a048b45772714ac96b2d5645d60a616deff864ec723d65d12b121103bc2e7",
+      "baseline_cutoff": "2026-04-01T00:00:00+00:00",
+      "candidate_cutoff": "2026-04-01T00:00:00+00:00",
+      "period_start": "2026-01-01",
+      "period_end_exclusive": "2026-04-01",
+      "currency": "GBP",
+      "unit": "integer pence",
+      "proposed_policy": {
+        "id": "every-change",
+        "label": "Every changed penny",
+        "absolute_cents": 1,
+        "relative_basis_points": null
+      },
+      "comparison_scope": "Monthly closing MRR, billed, net cash and closing balance; each invoice balance; period-end exposure.",
+      "policy_limit": "Illustrative triage only. A below-threshold or unchanged result is not approval. No ledger values change.",
+      "relative_rule": "Absolute OR relative, inclusive; absolute baseline denominator; nonzero change from zero requests review.",
+      "changed_metric_cells": [],
+      "flagged_metric_cell_count": 0,
+      "source_record_change_count": 0,
+      "period_end_exposure": {
+        "period_start": "2026-01-01",
+        "period_end_exclusive": "2026-04-01",
+        "knowledge_cutoff": "2026-04-01T00:00:00+00:00",
+        "grain": "invoice",
+        "unit": "integer pence",
+        "gross_unpaid_cents": 4000,
+        "credit_magnitude_cents": 0,
+        "net_balance_cents": 4000,
+        "unpaid_invoice_count": 2,
+        "credit_invoice_count": 0,
+        "invoices": [
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          }
+        ],
+        "check": {
+          "check": "gross unpaid - credit magnitude = period-end cash ledger",
+          "actual": 4000,
+          "expected": 4000,
+          "passed": true
+        }
+      },
+      "questions": [
+        "Do the complete-history assertion, knowledge cutoffs and invoice/payment relationships match the intended source contract?",
+        "Should a cash refund reopen the invoice obligation, or is a separate credit-note contract needed?",
+        "Are invoice credits transferable or refundable? No offset or collections action is authorized by this report.",
+        "Which changed months, customer commitments or invoices need source evidence before a corrected close is used?",
+        "Is the proposed triage threshold appropriate? A small or unchanged result is not proof of correctness or approval."
+      ],
+      "feedback_template": {
+        "reviewer": null,
+        "reviewed_at": null,
+        "definition_challenges": [],
+        "evidence_requested": [],
+        "proposed_changes": [],
+        "decision_rationale": null
+      },
+      "authorship_limit": "An exported request is not evidence that anyone reviewed, accepted or used these outputs.",
+      "request_sha256": "64bdb7b0acbae0f93dccccb4acce56f212506b3c4260147a98c9b7c7a600a952"
+    },
+    {
+      "schema_version": 1,
+      "scope": "synthetic",
+      "review_status": "pending_human_review",
+      "source_sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+      "baseline_report_sha256": "8e40f130ba6656e194aa905bebf7732dfc2e6290935ec4831b9d5eb439ea59f9",
+      "candidate_report_sha256": "8e40f130ba6656e194aa905bebf7732dfc2e6290935ec4831b9d5eb439ea59f9",
+      "audit_sha256": "036a048b45772714ac96b2d5645d60a616deff864ec723d65d12b121103bc2e7",
+      "baseline_cutoff": "2026-04-01T00:00:00+00:00",
+      "candidate_cutoff": "2026-04-01T00:00:00+00:00",
+      "period_start": "2026-01-01",
+      "period_end_exclusive": "2026-04-01",
+      "currency": "GBP",
+      "unit": "integer pence",
+      "proposed_policy": {
+        "id": "absolute-25",
+        "label": "At least £25",
+        "absolute_cents": 2500,
+        "relative_basis_points": null
+      },
+      "comparison_scope": "Monthly closing MRR, billed, net cash and closing balance; each invoice balance; period-end exposure.",
+      "policy_limit": "Illustrative triage only. A below-threshold or unchanged result is not approval. No ledger values change.",
+      "relative_rule": "Absolute OR relative, inclusive; absolute baseline denominator; nonzero change from zero requests review.",
+      "changed_metric_cells": [],
+      "flagged_metric_cell_count": 0,
+      "source_record_change_count": 0,
+      "period_end_exposure": {
+        "period_start": "2026-01-01",
+        "period_end_exclusive": "2026-04-01",
+        "knowledge_cutoff": "2026-04-01T00:00:00+00:00",
+        "grain": "invoice",
+        "unit": "integer pence",
+        "gross_unpaid_cents": 4000,
+        "credit_magnitude_cents": 0,
+        "net_balance_cents": 4000,
+        "unpaid_invoice_count": 2,
+        "credit_invoice_count": 0,
+        "invoices": [
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          }
+        ],
+        "check": {
+          "check": "gross unpaid - credit magnitude = period-end cash ledger",
+          "actual": 4000,
+          "expected": 4000,
+          "passed": true
+        }
+      },
+      "questions": [
+        "Do the complete-history assertion, knowledge cutoffs and invoice/payment relationships match the intended source contract?",
+        "Should a cash refund reopen the invoice obligation, or is a separate credit-note contract needed?",
+        "Are invoice credits transferable or refundable? No offset or collections action is authorized by this report.",
+        "Which changed months, customer commitments or invoices need source evidence before a corrected close is used?",
+        "Is the proposed triage threshold appropriate? A small or unchanged result is not proof of correctness or approval."
+      ],
+      "feedback_template": {
+        "reviewer": null,
+        "reviewed_at": null,
+        "definition_challenges": [],
+        "evidence_requested": [],
+        "proposed_changes": [],
+        "decision_rationale": null
+      },
+      "authorship_limit": "An exported request is not evidence that anyone reviewed, accepted or used these outputs.",
+      "request_sha256": "1817f8c8af4cd687c1e1ff8d4a4b616763e1e542c6cdfdefb6e7b81b880c1fb6"
+    },
+    {
+      "schema_version": 1,
+      "scope": "synthetic",
+      "review_status": "pending_human_review",
+      "source_sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+      "baseline_report_sha256": "8e40f130ba6656e194aa905bebf7732dfc2e6290935ec4831b9d5eb439ea59f9",
+      "candidate_report_sha256": "8e40f130ba6656e194aa905bebf7732dfc2e6290935ec4831b9d5eb439ea59f9",
+      "audit_sha256": "036a048b45772714ac96b2d5645d60a616deff864ec723d65d12b121103bc2e7",
+      "baseline_cutoff": "2026-04-01T00:00:00+00:00",
+      "candidate_cutoff": "2026-04-01T00:00:00+00:00",
+      "period_start": "2026-01-01",
+      "period_end_exclusive": "2026-04-01",
+      "currency": "GBP",
+      "unit": "integer pence",
+      "proposed_policy": {
+        "id": "absolute-25-or-5pct",
+        "label": "At least £25 or 5%",
+        "absolute_cents": 2500,
+        "relative_basis_points": 500
+      },
+      "comparison_scope": "Monthly closing MRR, billed, net cash and closing balance; each invoice balance; period-end exposure.",
+      "policy_limit": "Illustrative triage only. A below-threshold or unchanged result is not approval. No ledger values change.",
+      "relative_rule": "Absolute OR relative, inclusive; absolute baseline denominator; nonzero change from zero requests review.",
+      "changed_metric_cells": [],
+      "flagged_metric_cell_count": 0,
+      "source_record_change_count": 0,
+      "period_end_exposure": {
+        "period_start": "2026-01-01",
+        "period_end_exclusive": "2026-04-01",
+        "knowledge_cutoff": "2026-04-01T00:00:00+00:00",
+        "grain": "invoice",
+        "unit": "integer pence",
+        "gross_unpaid_cents": 4000,
+        "credit_magnitude_cents": 0,
+        "net_balance_cents": 4000,
+        "unpaid_invoice_count": 2,
+        "credit_invoice_count": 0,
+        "invoices": [
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          }
+        ],
+        "check": {
+          "check": "gross unpaid - credit magnitude = period-end cash ledger",
+          "actual": 4000,
+          "expected": 4000,
+          "passed": true
+        }
+      },
+      "questions": [
+        "Do the complete-history assertion, knowledge cutoffs and invoice/payment relationships match the intended source contract?",
+        "Should a cash refund reopen the invoice obligation, or is a separate credit-note contract needed?",
+        "Are invoice credits transferable or refundable? No offset or collections action is authorized by this report.",
+        "Which changed months, customer commitments or invoices need source evidence before a corrected close is used?",
+        "Is the proposed triage threshold appropriate? A small or unchanged result is not proof of correctness or approval."
+      ],
+      "feedback_template": {
+        "reviewer": null,
+        "reviewed_at": null,
+        "definition_challenges": [],
+        "evidence_requested": [],
+        "proposed_changes": [],
+        "decision_rationale": null
+      },
+      "authorship_limit": "An exported request is not evidence that anyone reviewed, accepted or used these outputs.",
+      "request_sha256": "387bef9f81c119f16ee8a8ea5aaaaa412a4eca1e8b389dc7f4ad10d37bb7f3c8"
+    },
+    {
+      "schema_version": 1,
+      "scope": "synthetic",
+      "review_status": "pending_human_review",
+      "source_sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+      "baseline_report_sha256": "8e40f130ba6656e194aa905bebf7732dfc2e6290935ec4831b9d5eb439ea59f9",
+      "candidate_report_sha256": "5d0914bf043577bdc16d541989503d25400f0d05c56b29a7e91a436db94d19e5",
+      "audit_sha256": "4e91db668e7383a63eb40b353480dca419d0cc9e505cef79a46b7038443fe99a",
+      "baseline_cutoff": "2026-04-01T00:00:00+00:00",
+      "candidate_cutoff": "2026-04-03T00:00:00+00:00",
+      "period_start": "2026-01-01",
+      "period_end_exclusive": "2026-04-01",
+      "currency": "GBP",
+      "unit": "integer pence",
+      "proposed_policy": {
+        "id": "every-change",
+        "label": "Every changed penny",
+        "absolute_cents": 1,
+        "relative_basis_points": null
+      },
+      "comparison_scope": "Monthly closing MRR, billed, net cash and closing balance; each invoice balance; period-end exposure.",
+      "policy_limit": "Illustrative triage only. A below-threshold or unchanged result is not approval. No ledger values change.",
+      "relative_rule": "Absolute OR relative, inclusive; absolute baseline denominator; nonzero change from zero requests review.",
+      "changed_metric_cells": [
+        {
+          "grain": "month",
+          "entity": "2026-02-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 24000,
+          "after_cents": 25000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "absolute threshold"
+          ]
+        },
+        {
+          "grain": "month",
+          "entity": "2026-03-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 18000,
+          "after_cents": 19000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "absolute threshold"
+          ]
+        }
+      ],
+      "flagged_metric_cell_count": 2,
+      "source_record_change_count": 1,
+      "period_end_exposure": {
+        "period_start": "2026-01-01",
+        "period_end_exclusive": "2026-04-01",
+        "knowledge_cutoff": "2026-04-03T00:00:00+00:00",
+        "grain": "invoice",
+        "unit": "integer pence",
+        "gross_unpaid_cents": 4000,
+        "credit_magnitude_cents": 0,
+        "net_balance_cents": 4000,
+        "unpaid_invoice_count": 2,
+        "credit_invoice_count": 0,
+        "invoices": [
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          }
+        ],
+        "check": {
+          "check": "gross unpaid - credit magnitude = period-end cash ledger",
+          "actual": 4000,
+          "expected": 4000,
+          "passed": true
+        }
+      },
+      "questions": [
+        "Do the complete-history assertion, knowledge cutoffs and invoice/payment relationships match the intended source contract?",
+        "Should a cash refund reopen the invoice obligation, or is a separate credit-note contract needed?",
+        "Are invoice credits transferable or refundable? No offset or collections action is authorized by this report.",
+        "Which changed months, customer commitments or invoices need source evidence before a corrected close is used?",
+        "Is the proposed triage threshold appropriate? A small or unchanged result is not proof of correctness or approval."
+      ],
+      "feedback_template": {
+        "reviewer": null,
+        "reviewed_at": null,
+        "definition_challenges": [],
+        "evidence_requested": [],
+        "proposed_changes": [],
+        "decision_rationale": null
+      },
+      "authorship_limit": "An exported request is not evidence that anyone reviewed, accepted or used these outputs.",
+      "request_sha256": "871e5f47c063ad70a824cdf8adac0b71415e8e244f1917123f8cb45f36abc62e"
+    },
+    {
+      "schema_version": 1,
+      "scope": "synthetic",
+      "review_status": "pending_human_review",
+      "source_sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+      "baseline_report_sha256": "8e40f130ba6656e194aa905bebf7732dfc2e6290935ec4831b9d5eb439ea59f9",
+      "candidate_report_sha256": "5d0914bf043577bdc16d541989503d25400f0d05c56b29a7e91a436db94d19e5",
+      "audit_sha256": "4e91db668e7383a63eb40b353480dca419d0cc9e505cef79a46b7038443fe99a",
+      "baseline_cutoff": "2026-04-01T00:00:00+00:00",
+      "candidate_cutoff": "2026-04-03T00:00:00+00:00",
+      "period_start": "2026-01-01",
+      "period_end_exclusive": "2026-04-01",
+      "currency": "GBP",
+      "unit": "integer pence",
+      "proposed_policy": {
+        "id": "absolute-25",
+        "label": "At least £25",
+        "absolute_cents": 2500,
+        "relative_basis_points": null
+      },
+      "comparison_scope": "Monthly closing MRR, billed, net cash and closing balance; each invoice balance; period-end exposure.",
+      "policy_limit": "Illustrative triage only. A below-threshold or unchanged result is not approval. No ledger values change.",
+      "relative_rule": "Absolute OR relative, inclusive; absolute baseline denominator; nonzero change from zero requests review.",
+      "changed_metric_cells": [
+        {
+          "grain": "month",
+          "entity": "2026-02-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 24000,
+          "after_cents": 25000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "below_proposed_threshold",
+          "reasons": []
+        },
+        {
+          "grain": "month",
+          "entity": "2026-03-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 18000,
+          "after_cents": 19000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "below_proposed_threshold",
+          "reasons": []
+        }
+      ],
+      "flagged_metric_cell_count": 0,
+      "source_record_change_count": 1,
+      "period_end_exposure": {
+        "period_start": "2026-01-01",
+        "period_end_exclusive": "2026-04-01",
+        "knowledge_cutoff": "2026-04-03T00:00:00+00:00",
+        "grain": "invoice",
+        "unit": "integer pence",
+        "gross_unpaid_cents": 4000,
+        "credit_magnitude_cents": 0,
+        "net_balance_cents": 4000,
+        "unpaid_invoice_count": 2,
+        "credit_invoice_count": 0,
+        "invoices": [
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          }
+        ],
+        "check": {
+          "check": "gross unpaid - credit magnitude = period-end cash ledger",
+          "actual": 4000,
+          "expected": 4000,
+          "passed": true
+        }
+      },
+      "questions": [
+        "Do the complete-history assertion, knowledge cutoffs and invoice/payment relationships match the intended source contract?",
+        "Should a cash refund reopen the invoice obligation, or is a separate credit-note contract needed?",
+        "Are invoice credits transferable or refundable? No offset or collections action is authorized by this report.",
+        "Which changed months, customer commitments or invoices need source evidence before a corrected close is used?",
+        "Is the proposed triage threshold appropriate? A small or unchanged result is not proof of correctness or approval."
+      ],
+      "feedback_template": {
+        "reviewer": null,
+        "reviewed_at": null,
+        "definition_challenges": [],
+        "evidence_requested": [],
+        "proposed_changes": [],
+        "decision_rationale": null
+      },
+      "authorship_limit": "An exported request is not evidence that anyone reviewed, accepted or used these outputs.",
+      "request_sha256": "69637c8be66905a179ac505236fe1336ba5beccc76738f01ca4c8ae15e14616d"
+    },
+    {
+      "schema_version": 1,
+      "scope": "synthetic",
+      "review_status": "pending_human_review",
+      "source_sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+      "baseline_report_sha256": "8e40f130ba6656e194aa905bebf7732dfc2e6290935ec4831b9d5eb439ea59f9",
+      "candidate_report_sha256": "5d0914bf043577bdc16d541989503d25400f0d05c56b29a7e91a436db94d19e5",
+      "audit_sha256": "4e91db668e7383a63eb40b353480dca419d0cc9e505cef79a46b7038443fe99a",
+      "baseline_cutoff": "2026-04-01T00:00:00+00:00",
+      "candidate_cutoff": "2026-04-03T00:00:00+00:00",
+      "period_start": "2026-01-01",
+      "period_end_exclusive": "2026-04-01",
+      "currency": "GBP",
+      "unit": "integer pence",
+      "proposed_policy": {
+        "id": "absolute-25-or-5pct",
+        "label": "At least £25 or 5%",
+        "absolute_cents": 2500,
+        "relative_basis_points": 500
+      },
+      "comparison_scope": "Monthly closing MRR, billed, net cash and closing balance; each invoice balance; period-end exposure.",
+      "policy_limit": "Illustrative triage only. A below-threshold or unchanged result is not approval. No ledger values change.",
+      "relative_rule": "Absolute OR relative, inclusive; absolute baseline denominator; nonzero change from zero requests review.",
+      "changed_metric_cells": [
+        {
+          "grain": "month",
+          "entity": "2026-02-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 24000,
+          "after_cents": 25000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "below_proposed_threshold",
+          "reasons": []
+        },
+        {
+          "grain": "month",
+          "entity": "2026-03-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 18000,
+          "after_cents": 19000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "relative threshold"
+          ]
+        }
+      ],
+      "flagged_metric_cell_count": 1,
+      "source_record_change_count": 1,
+      "period_end_exposure": {
+        "period_start": "2026-01-01",
+        "period_end_exclusive": "2026-04-01",
+        "knowledge_cutoff": "2026-04-03T00:00:00+00:00",
+        "grain": "invoice",
+        "unit": "integer pence",
+        "gross_unpaid_cents": 4000,
+        "credit_magnitude_cents": 0,
+        "net_balance_cents": 4000,
+        "unpaid_invoice_count": 2,
+        "credit_invoice_count": 0,
+        "invoices": [
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          }
+        ],
+        "check": {
+          "check": "gross unpaid - credit magnitude = period-end cash ledger",
+          "actual": 4000,
+          "expected": 4000,
+          "passed": true
+        }
+      },
+      "questions": [
+        "Do the complete-history assertion, knowledge cutoffs and invoice/payment relationships match the intended source contract?",
+        "Should a cash refund reopen the invoice obligation, or is a separate credit-note contract needed?",
+        "Are invoice credits transferable or refundable? No offset or collections action is authorized by this report.",
+        "Which changed months, customer commitments or invoices need source evidence before a corrected close is used?",
+        "Is the proposed triage threshold appropriate? A small or unchanged result is not proof of correctness or approval."
+      ],
+      "feedback_template": {
+        "reviewer": null,
+        "reviewed_at": null,
+        "definition_challenges": [],
+        "evidence_requested": [],
+        "proposed_changes": [],
+        "decision_rationale": null
+      },
+      "authorship_limit": "An exported request is not evidence that anyone reviewed, accepted or used these outputs.",
+      "request_sha256": "6c058538f5520278ec065426d1e9d182816829278a4a49fed7f92abf8d830ca9"
+    },
+    {
+      "schema_version": 1,
+      "scope": "synthetic",
+      "review_status": "pending_human_review",
+      "source_sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+      "baseline_report_sha256": "8e40f130ba6656e194aa905bebf7732dfc2e6290935ec4831b9d5eb439ea59f9",
+      "candidate_report_sha256": "88daa9bc3e6d5d8c58e9f5f9d94aa4d87af1ebed4a80140a11844f36ed1618da",
+      "audit_sha256": "462555ee75c9e15d29010a8f8ff660752e9896490447c2fffad04f75f5a1974b",
+      "baseline_cutoff": "2026-04-01T00:00:00+00:00",
+      "candidate_cutoff": "2026-04-04T00:00:00+00:00",
+      "period_start": "2026-01-01",
+      "period_end_exclusive": "2026-04-01",
+      "currency": "GBP",
+      "unit": "integer pence",
+      "proposed_policy": {
+        "id": "every-change",
+        "label": "Every changed penny",
+        "absolute_cents": 1,
+        "relative_basis_points": null
+      },
+      "comparison_scope": "Monthly closing MRR, billed, net cash and closing balance; each invoice balance; period-end exposure.",
+      "policy_limit": "Illustrative triage only. A below-threshold or unchanged result is not approval. No ledger values change.",
+      "relative_rule": "Absolute OR relative, inclusive; absolute baseline denominator; nonzero change from zero requests review.",
+      "changed_metric_cells": [
+        {
+          "grain": "month",
+          "entity": "2026-02-01",
+          "metric": "closing_balance_cents",
+          "before_cents": 0,
+          "after_cents": 1000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "absolute threshold"
+          ]
+        },
+        {
+          "grain": "month",
+          "entity": "2026-02-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 24000,
+          "after_cents": 25000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "absolute threshold"
+          ]
+        },
+        {
+          "grain": "month",
+          "entity": "2026-02-01",
+          "metric": "invoiced_cents",
+          "before_cents": 24000,
+          "after_cents": 25000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "absolute threshold"
+          ]
+        },
+        {
+          "grain": "month",
+          "entity": "2026-03-01",
+          "metric": "closing_balance_cents",
+          "before_cents": 4000,
+          "after_cents": 5000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "absolute threshold"
+          ]
+        },
+        {
+          "grain": "month",
+          "entity": "2026-03-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 18000,
+          "after_cents": 19000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "absolute threshold"
+          ]
+        },
+        {
+          "grain": "period end",
+          "entity": "2026-04-01",
+          "metric": "gross_unpaid_cents",
+          "before_cents": 4000,
+          "after_cents": 5000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "absolute threshold"
+          ]
+        },
+        {
+          "grain": "period end",
+          "entity": "2026-04-01",
+          "metric": "net_balance_cents",
+          "before_cents": 4000,
+          "after_cents": 5000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "absolute threshold"
+          ]
+        },
+        {
+          "grain": "period-end invoice",
+          "entity": "invoice-B-2",
+          "metric": "balance_cents",
+          "before_cents": 0,
+          "after_cents": 1000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "absolute threshold"
+          ]
+        }
+      ],
+      "flagged_metric_cell_count": 8,
+      "source_record_change_count": 2,
+      "period_end_exposure": {
+        "period_start": "2026-01-01",
+        "period_end_exclusive": "2026-04-01",
+        "knowledge_cutoff": "2026-04-04T00:00:00+00:00",
+        "grain": "invoice",
+        "unit": "integer pence",
+        "gross_unpaid_cents": 5000,
+        "credit_magnitude_cents": 0,
+        "net_balance_cents": 5000,
+        "unpaid_invoice_count": 3,
+        "credit_invoice_count": 0,
+        "invoices": [
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          },
+          {
+            "invoice_id": "invoice-B-2",
+            "customer_id": "B",
+            "balance_cents": 1000,
+            "classification": "unpaid"
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          }
+        ],
+        "check": {
+          "check": "gross unpaid - credit magnitude = period-end cash ledger",
+          "actual": 5000,
+          "expected": 5000,
+          "passed": true
+        }
+      },
+      "questions": [
+        "Do the complete-history assertion, knowledge cutoffs and invoice/payment relationships match the intended source contract?",
+        "Should a cash refund reopen the invoice obligation, or is a separate credit-note contract needed?",
+        "Are invoice credits transferable or refundable? No offset or collections action is authorized by this report.",
+        "Which changed months, customer commitments or invoices need source evidence before a corrected close is used?",
+        "Is the proposed triage threshold appropriate? A small or unchanged result is not proof of correctness or approval."
+      ],
+      "feedback_template": {
+        "reviewer": null,
+        "reviewed_at": null,
+        "definition_challenges": [],
+        "evidence_requested": [],
+        "proposed_changes": [],
+        "decision_rationale": null
+      },
+      "authorship_limit": "An exported request is not evidence that anyone reviewed, accepted or used these outputs.",
+      "request_sha256": "010ffb2f3c41eb55285ef905218d88bc86c14cc8173b8caef99bc5b28d5e7ed5"
+    },
+    {
+      "schema_version": 1,
+      "scope": "synthetic",
+      "review_status": "pending_human_review",
+      "source_sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+      "baseline_report_sha256": "8e40f130ba6656e194aa905bebf7732dfc2e6290935ec4831b9d5eb439ea59f9",
+      "candidate_report_sha256": "88daa9bc3e6d5d8c58e9f5f9d94aa4d87af1ebed4a80140a11844f36ed1618da",
+      "audit_sha256": "462555ee75c9e15d29010a8f8ff660752e9896490447c2fffad04f75f5a1974b",
+      "baseline_cutoff": "2026-04-01T00:00:00+00:00",
+      "candidate_cutoff": "2026-04-04T00:00:00+00:00",
+      "period_start": "2026-01-01",
+      "period_end_exclusive": "2026-04-01",
+      "currency": "GBP",
+      "unit": "integer pence",
+      "proposed_policy": {
+        "id": "absolute-25",
+        "label": "At least £25",
+        "absolute_cents": 2500,
+        "relative_basis_points": null
+      },
+      "comparison_scope": "Monthly closing MRR, billed, net cash and closing balance; each invoice balance; period-end exposure.",
+      "policy_limit": "Illustrative triage only. A below-threshold or unchanged result is not approval. No ledger values change.",
+      "relative_rule": "Absolute OR relative, inclusive; absolute baseline denominator; nonzero change from zero requests review.",
+      "changed_metric_cells": [
+        {
+          "grain": "month",
+          "entity": "2026-02-01",
+          "metric": "closing_balance_cents",
+          "before_cents": 0,
+          "after_cents": 1000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "below_proposed_threshold",
+          "reasons": []
+        },
+        {
+          "grain": "month",
+          "entity": "2026-02-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 24000,
+          "after_cents": 25000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "below_proposed_threshold",
+          "reasons": []
+        },
+        {
+          "grain": "month",
+          "entity": "2026-02-01",
+          "metric": "invoiced_cents",
+          "before_cents": 24000,
+          "after_cents": 25000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "below_proposed_threshold",
+          "reasons": []
+        },
+        {
+          "grain": "month",
+          "entity": "2026-03-01",
+          "metric": "closing_balance_cents",
+          "before_cents": 4000,
+          "after_cents": 5000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "below_proposed_threshold",
+          "reasons": []
+        },
+        {
+          "grain": "month",
+          "entity": "2026-03-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 18000,
+          "after_cents": 19000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "below_proposed_threshold",
+          "reasons": []
+        },
+        {
+          "grain": "period end",
+          "entity": "2026-04-01",
+          "metric": "gross_unpaid_cents",
+          "before_cents": 4000,
+          "after_cents": 5000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "below_proposed_threshold",
+          "reasons": []
+        },
+        {
+          "grain": "period end",
+          "entity": "2026-04-01",
+          "metric": "net_balance_cents",
+          "before_cents": 4000,
+          "after_cents": 5000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "below_proposed_threshold",
+          "reasons": []
+        },
+        {
+          "grain": "period-end invoice",
+          "entity": "invoice-B-2",
+          "metric": "balance_cents",
+          "before_cents": 0,
+          "after_cents": 1000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "below_proposed_threshold",
+          "reasons": []
+        }
+      ],
+      "flagged_metric_cell_count": 0,
+      "source_record_change_count": 2,
+      "period_end_exposure": {
+        "period_start": "2026-01-01",
+        "period_end_exclusive": "2026-04-01",
+        "knowledge_cutoff": "2026-04-04T00:00:00+00:00",
+        "grain": "invoice",
+        "unit": "integer pence",
+        "gross_unpaid_cents": 5000,
+        "credit_magnitude_cents": 0,
+        "net_balance_cents": 5000,
+        "unpaid_invoice_count": 3,
+        "credit_invoice_count": 0,
+        "invoices": [
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          },
+          {
+            "invoice_id": "invoice-B-2",
+            "customer_id": "B",
+            "balance_cents": 1000,
+            "classification": "unpaid"
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          }
+        ],
+        "check": {
+          "check": "gross unpaid - credit magnitude = period-end cash ledger",
+          "actual": 5000,
+          "expected": 5000,
+          "passed": true
+        }
+      },
+      "questions": [
+        "Do the complete-history assertion, knowledge cutoffs and invoice/payment relationships match the intended source contract?",
+        "Should a cash refund reopen the invoice obligation, or is a separate credit-note contract needed?",
+        "Are invoice credits transferable or refundable? No offset or collections action is authorized by this report.",
+        "Which changed months, customer commitments or invoices need source evidence before a corrected close is used?",
+        "Is the proposed triage threshold appropriate? A small or unchanged result is not proof of correctness or approval."
+      ],
+      "feedback_template": {
+        "reviewer": null,
+        "reviewed_at": null,
+        "definition_challenges": [],
+        "evidence_requested": [],
+        "proposed_changes": [],
+        "decision_rationale": null
+      },
+      "authorship_limit": "An exported request is not evidence that anyone reviewed, accepted or used these outputs.",
+      "request_sha256": "2b4bd74d67532425028df7c2d8c14d1f1dc5b15548c5debf11c2ac39de0e79a2"
+    },
+    {
+      "schema_version": 1,
+      "scope": "synthetic",
+      "review_status": "pending_human_review",
+      "source_sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+      "baseline_report_sha256": "8e40f130ba6656e194aa905bebf7732dfc2e6290935ec4831b9d5eb439ea59f9",
+      "candidate_report_sha256": "88daa9bc3e6d5d8c58e9f5f9d94aa4d87af1ebed4a80140a11844f36ed1618da",
+      "audit_sha256": "462555ee75c9e15d29010a8f8ff660752e9896490447c2fffad04f75f5a1974b",
+      "baseline_cutoff": "2026-04-01T00:00:00+00:00",
+      "candidate_cutoff": "2026-04-04T00:00:00+00:00",
+      "period_start": "2026-01-01",
+      "period_end_exclusive": "2026-04-01",
+      "currency": "GBP",
+      "unit": "integer pence",
+      "proposed_policy": {
+        "id": "absolute-25-or-5pct",
+        "label": "At least £25 or 5%",
+        "absolute_cents": 2500,
+        "relative_basis_points": 500
+      },
+      "comparison_scope": "Monthly closing MRR, billed, net cash and closing balance; each invoice balance; period-end exposure.",
+      "policy_limit": "Illustrative triage only. A below-threshold or unchanged result is not approval. No ledger values change.",
+      "relative_rule": "Absolute OR relative, inclusive; absolute baseline denominator; nonzero change from zero requests review.",
+      "changed_metric_cells": [
+        {
+          "grain": "month",
+          "entity": "2026-02-01",
+          "metric": "closing_balance_cents",
+          "before_cents": 0,
+          "after_cents": 1000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "changed from zero; relative percentage undefined"
+          ]
+        },
+        {
+          "grain": "month",
+          "entity": "2026-02-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 24000,
+          "after_cents": 25000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "below_proposed_threshold",
+          "reasons": []
+        },
+        {
+          "grain": "month",
+          "entity": "2026-02-01",
+          "metric": "invoiced_cents",
+          "before_cents": 24000,
+          "after_cents": 25000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "below_proposed_threshold",
+          "reasons": []
+        },
+        {
+          "grain": "month",
+          "entity": "2026-03-01",
+          "metric": "closing_balance_cents",
+          "before_cents": 4000,
+          "after_cents": 5000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "relative threshold"
+          ]
+        },
+        {
+          "grain": "month",
+          "entity": "2026-03-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 18000,
+          "after_cents": 19000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "relative threshold"
+          ]
+        },
+        {
+          "grain": "period end",
+          "entity": "2026-04-01",
+          "metric": "gross_unpaid_cents",
+          "before_cents": 4000,
+          "after_cents": 5000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "relative threshold"
+          ]
+        },
+        {
+          "grain": "period end",
+          "entity": "2026-04-01",
+          "metric": "net_balance_cents",
+          "before_cents": 4000,
+          "after_cents": 5000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "relative threshold"
+          ]
+        },
+        {
+          "grain": "period-end invoice",
+          "entity": "invoice-B-2",
+          "metric": "balance_cents",
+          "before_cents": 0,
+          "after_cents": 1000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true,
+          "triage": "review_requested",
+          "reasons": [
+            "changed from zero; relative percentage undefined"
+          ]
+        }
+      ],
+      "flagged_metric_cell_count": 6,
+      "source_record_change_count": 2,
+      "period_end_exposure": {
+        "period_start": "2026-01-01",
+        "period_end_exclusive": "2026-04-01",
+        "knowledge_cutoff": "2026-04-04T00:00:00+00:00",
+        "grain": "invoice",
+        "unit": "integer pence",
+        "gross_unpaid_cents": 5000,
+        "credit_magnitude_cents": 0,
+        "net_balance_cents": 5000,
+        "unpaid_invoice_count": 3,
+        "credit_invoice_count": 0,
+        "invoices": [
+          {
+            "invoice_id": "invoice-A-3",
+            "customer_id": "A",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          },
+          {
+            "invoice_id": "invoice-B-2",
+            "customer_id": "B",
+            "balance_cents": 1000,
+            "classification": "unpaid"
+          },
+          {
+            "invoice_id": "invoice-D-3",
+            "customer_id": "D",
+            "balance_cents": 2000,
+            "classification": "unpaid"
+          }
+        ],
+        "check": {
+          "check": "gross unpaid - credit magnitude = period-end cash ledger",
+          "actual": 5000,
+          "expected": 5000,
+          "passed": true
+        }
+      },
+      "questions": [
+        "Do the complete-history assertion, knowledge cutoffs and invoice/payment relationships match the intended source contract?",
+        "Should a cash refund reopen the invoice obligation, or is a separate credit-note contract needed?",
+        "Are invoice credits transferable or refundable? No offset or collections action is authorized by this report.",
+        "Which changed months, customer commitments or invoices need source evidence before a corrected close is used?",
+        "Is the proposed triage threshold appropriate? A small or unchanged result is not proof of correctness or approval."
+      ],
+      "feedback_template": {
+        "reviewer": null,
+        "reviewed_at": null,
+        "definition_challenges": [],
+        "evidence_requested": [],
+        "proposed_changes": [],
+        "decision_rationale": null
+      },
+      "authorship_limit": "An exported request is not evidence that anyone reviewed, accepted or used these outputs.",
+      "request_sha256": "da7e474b2d618a2c09eea11d9ac6380272b1d247359fde3ceb7f5364d393b9c3"
+    }
+  ]
+}
