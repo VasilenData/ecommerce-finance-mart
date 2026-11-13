@@ -1,0 +1,614 @@
+{
+  "schema_version": 1,
+  "source_sha256": "98b5e1f2c5ce74fa6473bb161b182d227b58198b43485e6e3b4cfc60468876a0",
+  "restatements": [
+    {
+      "baseline_cutoff": "2026-04-01T00:00:00+00:00",
+      "candidate_cutoff": "2026-04-03T00:00:00+00:00",
+      "period_start": "2026-01-01",
+      "period_end": "2026-04-01",
+      "currency": "GBP",
+      "scope": "synthetic",
+      "source_changes": [
+        {
+          "feed": "subscription_changes",
+          "record_id": "b-contract",
+          "change": "revision",
+          "changed_fields": [
+            "monthly_amount_cents",
+            "recorded_at",
+            "revision"
+          ],
+          "before": {
+            "record_id": "b-contract",
+            "revision": 1,
+            "recorded_at": "2026-02-05T12:00:00Z",
+            "subscription_id": "sub-b",
+            "customer_id": "B",
+            "effective_date": "2026-02-05",
+            "status": "active",
+            "monthly_amount_cents": 5000
+          },
+          "after": {
+            "record_id": "b-contract",
+            "revision": 2,
+            "recorded_at": "2026-04-02T12:00:00Z",
+            "subscription_id": "sub-b",
+            "customer_id": "B",
+            "effective_date": "2026-02-05",
+            "status": "active",
+            "monthly_amount_cents": 6000
+          }
+        }
+      ],
+      "monetary_deltas": [
+        {
+          "table": "monthly_mrr_bridge",
+          "month": "2026-02-01",
+          "metric": "contraction_mrr_cents",
+          "before_cents": 3000,
+          "after_cents": 2000,
+          "delta_cents": -1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "monthly_mrr_bridge",
+          "month": "2026-02-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 24000,
+          "after_cents": 25000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "monthly_mrr_bridge",
+          "month": "2026-03-01",
+          "metric": "opening_mrr_cents",
+          "before_cents": 24000,
+          "after_cents": 25000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "monthly_mrr_bridge",
+          "month": "2026-03-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 18000,
+          "after_cents": 19000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "customer_mrr_bridge",
+          "month": "2026-02-01",
+          "customer_id": "B",
+          "metric": "closing_mrr_cents",
+          "before_cents": 5000,
+          "after_cents": 6000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "customer_mrr_bridge",
+          "month": "2026-02-01",
+          "customer_id": "B",
+          "metric": "contraction_mrr_cents",
+          "before_cents": 3000,
+          "after_cents": 2000,
+          "delta_cents": -1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "customer_mrr_bridge",
+          "month": "2026-03-01",
+          "customer_id": "B",
+          "metric": "opening_mrr_cents",
+          "before_cents": 5000,
+          "after_cents": 6000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "customer_mrr_bridge",
+          "month": "2026-03-01",
+          "customer_id": "B",
+          "metric": "closing_mrr_cents",
+          "before_cents": 5000,
+          "after_cents": 6000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        }
+      ],
+      "checks": [
+        {
+          "check": "2026-01-01: customer deltas reconcile to opening_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-01-01: customer deltas reconcile to new_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-01-01: customer deltas reconcile to expansion_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-01-01: customer deltas reconcile to reactivation_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-01-01: customer deltas reconcile to contraction_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-01-01: customer deltas reconcile to churn_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-01-01: customer deltas reconcile to closing_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-02-01: customer deltas reconcile to opening_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-02-01: customer deltas reconcile to new_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-02-01: customer deltas reconcile to expansion_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-02-01: customer deltas reconcile to reactivation_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-02-01: customer deltas reconcile to contraction_mrr_cents",
+          "actual": -1000,
+          "expected": -1000,
+          "passed": true
+        },
+        {
+          "check": "2026-02-01: customer deltas reconcile to churn_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-02-01: customer deltas reconcile to closing_mrr_cents",
+          "actual": 1000,
+          "expected": 1000,
+          "passed": true
+        },
+        {
+          "check": "2026-03-01: customer deltas reconcile to opening_mrr_cents",
+          "actual": 1000,
+          "expected": 1000,
+          "passed": true
+        },
+        {
+          "check": "2026-03-01: customer deltas reconcile to new_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-03-01: customer deltas reconcile to expansion_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-03-01: customer deltas reconcile to reactivation_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-03-01: customer deltas reconcile to contraction_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-03-01: customer deltas reconcile to churn_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-03-01: customer deltas reconcile to closing_mrr_cents",
+          "actual": 1000,
+          "expected": 1000,
+          "passed": true
+        },
+        {
+          "check": "invoice deltas reconcile to period closing balance",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        }
+      ],
+      "interpretation": "Net report differences and visible source revisions; not causal allocation among simultaneous changes."
+    },
+    {
+      "baseline_cutoff": "2026-04-01T00:00:00+00:00",
+      "candidate_cutoff": "2026-04-04T00:00:00+00:00",
+      "period_start": "2026-01-01",
+      "period_end": "2026-04-01",
+      "currency": "GBP",
+      "scope": "synthetic",
+      "source_changes": [
+        {
+          "feed": "subscription_changes",
+          "record_id": "b-contract",
+          "change": "revision",
+          "changed_fields": [
+            "monthly_amount_cents",
+            "recorded_at",
+            "revision"
+          ],
+          "before": {
+            "record_id": "b-contract",
+            "revision": 1,
+            "recorded_at": "2026-02-05T12:00:00Z",
+            "subscription_id": "sub-b",
+            "customer_id": "B",
+            "effective_date": "2026-02-05",
+            "status": "active",
+            "monthly_amount_cents": 5000
+          },
+          "after": {
+            "record_id": "b-contract",
+            "revision": 2,
+            "recorded_at": "2026-04-02T12:00:00Z",
+            "subscription_id": "sub-b",
+            "customer_id": "B",
+            "effective_date": "2026-02-05",
+            "status": "active",
+            "monthly_amount_cents": 6000
+          }
+        },
+        {
+          "feed": "invoices",
+          "record_id": "invoice-B-2",
+          "change": "revision",
+          "changed_fields": [
+            "amount_cents",
+            "recorded_at",
+            "revision"
+          ],
+          "before": {
+            "record_id": "invoice-B-2",
+            "revision": 1,
+            "recorded_at": "2026-02-01T12:00:00Z",
+            "customer_id": "B",
+            "issued_date": "2026-02-01",
+            "amount_cents": 5000
+          },
+          "after": {
+            "record_id": "invoice-B-2",
+            "revision": 2,
+            "recorded_at": "2026-04-03T12:00:00Z",
+            "customer_id": "B",
+            "issued_date": "2026-02-01",
+            "amount_cents": 6000
+          }
+        }
+      ],
+      "monetary_deltas": [
+        {
+          "table": "monthly_mrr_bridge",
+          "month": "2026-02-01",
+          "metric": "contraction_mrr_cents",
+          "before_cents": 3000,
+          "after_cents": 2000,
+          "delta_cents": -1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "monthly_mrr_bridge",
+          "month": "2026-02-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 24000,
+          "after_cents": 25000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "monthly_mrr_bridge",
+          "month": "2026-03-01",
+          "metric": "opening_mrr_cents",
+          "before_cents": 24000,
+          "after_cents": 25000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "monthly_mrr_bridge",
+          "month": "2026-03-01",
+          "metric": "closing_mrr_cents",
+          "before_cents": 18000,
+          "after_cents": 19000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "customer_mrr_bridge",
+          "month": "2026-02-01",
+          "customer_id": "B",
+          "metric": "closing_mrr_cents",
+          "before_cents": 5000,
+          "after_cents": 6000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "customer_mrr_bridge",
+          "month": "2026-02-01",
+          "customer_id": "B",
+          "metric": "contraction_mrr_cents",
+          "before_cents": 3000,
+          "after_cents": 2000,
+          "delta_cents": -1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "customer_mrr_bridge",
+          "month": "2026-03-01",
+          "customer_id": "B",
+          "metric": "opening_mrr_cents",
+          "before_cents": 5000,
+          "after_cents": 6000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "customer_mrr_bridge",
+          "month": "2026-03-01",
+          "customer_id": "B",
+          "metric": "closing_mrr_cents",
+          "before_cents": 5000,
+          "after_cents": 6000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "monthly_cash_bridge",
+          "month": "2026-02-01",
+          "metric": "invoiced_cents",
+          "before_cents": 24000,
+          "after_cents": 25000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "monthly_cash_bridge",
+          "month": "2026-02-01",
+          "metric": "closing_balance_cents",
+          "before_cents": 0,
+          "after_cents": 1000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "monthly_cash_bridge",
+          "month": "2026-03-01",
+          "metric": "opening_balance_cents",
+          "before_cents": 0,
+          "after_cents": 1000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "monthly_cash_bridge",
+          "month": "2026-03-01",
+          "metric": "closing_balance_cents",
+          "before_cents": 4000,
+          "after_cents": 5000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "invoice_balances",
+          "invoice_id": "invoice-B-2",
+          "metric": "invoiced_cents",
+          "before_cents": 5000,
+          "after_cents": 6000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        },
+        {
+          "table": "invoice_balances",
+          "invoice_id": "invoice-B-2",
+          "metric": "balance_cents",
+          "before_cents": 0,
+          "after_cents": 1000,
+          "delta_cents": 1000,
+          "before_present": true,
+          "after_present": true
+        }
+      ],
+      "checks": [
+        {
+          "check": "2026-01-01: customer deltas reconcile to opening_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-01-01: customer deltas reconcile to new_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-01-01: customer deltas reconcile to expansion_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-01-01: customer deltas reconcile to reactivation_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-01-01: customer deltas reconcile to contraction_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-01-01: customer deltas reconcile to churn_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-01-01: customer deltas reconcile to closing_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-02-01: customer deltas reconcile to opening_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-02-01: customer deltas reconcile to new_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-02-01: customer deltas reconcile to expansion_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-02-01: customer deltas reconcile to reactivation_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-02-01: customer deltas reconcile to contraction_mrr_cents",
+          "actual": -1000,
+          "expected": -1000,
+          "passed": true
+        },
+        {
+          "check": "2026-02-01: customer deltas reconcile to churn_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-02-01: customer deltas reconcile to closing_mrr_cents",
+          "actual": 1000,
+          "expected": 1000,
+          "passed": true
+        },
+        {
+          "check": "2026-03-01: customer deltas reconcile to opening_mrr_cents",
+          "actual": 1000,
+          "expected": 1000,
+          "passed": true
+        },
+        {
+          "check": "2026-03-01: customer deltas reconcile to new_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-03-01: customer deltas reconcile to expansion_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-03-01: customer deltas reconcile to reactivation_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-03-01: customer deltas reconcile to contraction_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-03-01: customer deltas reconcile to churn_mrr_cents",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "check": "2026-03-01: customer deltas reconcile to closing_mrr_cents",
+          "actual": 1000,
+          "expected": 1000,
+          "passed": true
+        },
+        {
+          "check": "invoice deltas reconcile to period closing balance",
+          "actual": 1000,
+          "expected": 1000,
+          "passed": true
+        }
+      ],
+      "interpretation": "Net report differences and visible source revisions; not causal allocation among simultaneous changes."
+    }
+  ]
+}

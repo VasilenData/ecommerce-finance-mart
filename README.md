@@ -28,6 +28,8 @@ A separate synthetic subscription product explains why recurring run rate, invoi
 
 The explorer now traces restatements to **source revisions, customer/month differences and invoice balances**. Two comparisons with the original close pass 44 additional reconciliation checks. A corrected rate raises customer B's February and March MRR by £10; a corrected invoice adds £10 outstanding without collecting cash. The downloadable [restatement audit](docs/subscriptions/2026-11-12-restatement/restatements.json) preserves before/after values and distinguishes changes in knowledge from cash movement.
 
+The [close-review workflow](docs/STAKEHOLDER_REVIEW.md) separates gross unpaid invoices from credits, fixing a demonstrated case where £100 unpaid and £100 credit disappeared behind a £0 net balance. Three additional exposure reconciliations protect that distinction. Reviewers can compare three illustrative triage policies and download source-bound requests without changing reported amounts. The [new immutable release](docs/subscriptions/2026-11-13-review/) preserves the original closes and historical retail outputs. **Human review and stakeholder adoption remain pending**; generated requests and passing tests are not claimed as collaboration or business impact.
+
 ## What it demonstrates
 
 | Skill | Where to look |

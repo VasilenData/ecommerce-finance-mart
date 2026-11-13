@@ -1,6 +1,6 @@
 # Subscription analytics: preserve what was known at close
 
-**[View the decision explorer](https://vasilendata.github.io/ecommerce-finance-mart/subscriptions/)** · [SQL](../sql/70_subscriptions.sql) · [source contract and publisher](../mart/subscriptions.py) · [independent fixtures](../tests/test_subscriptions.py) · [release manifest](subscriptions/2026-11-12-restatement/manifest.json)
+**[View the decision explorer](https://vasilendata.github.io/ecommerce-finance-mart/subscriptions/)** · [SQL](../sql/70_subscriptions.sql) · [source contract and publisher](../mart/subscriptions.py) · [independent fixtures](../tests/test_subscriptions.py) · [release manifest](subscriptions/2026-11-13-review/manifest.json)
 
 An invoice correction changes billed amounts without collecting cash. A late subscription correction changes historical MRR without changing an earlier report's knowledge cutoff. Reporting these as one “revenue” number hides the reason for the difference.
 
@@ -40,6 +40,16 @@ The two comparisons run **44 additional blocking reconciliation checks**: custom
 
 These are net differences plus source-version provenance. They are **not a causal allocation of simultaneous changes**. The original immutable `2026-11-12` release remains available; the audited release is a separate directory.
 
+### A review request that preserves decision context
+
+The `2026-11-13-review` release adds reconciled gross unpaid invoice amounts and credit balances, plus nine exportable review requests (three cutoffs × three illustrative triage policies). It preserves both earlier release directories and all original report values. Three additional exposure checks enforce **gross unpaid − credit magnitude = period-end cash ledger balance**.
+
+This fixes a demonstrated decision risk: £100 unpaid on one invoice and £100 credit on another can net to zero without resolving either balance. Period-end exposure is always labeled separately from the selected reporting month. Unpaid is not classified as overdue or collectible because due dates and credit-note policy are absent.
+
+The policy comparison monitors monthly MRR, billed/cash/balance changes and invoice/exposure changes without modifying any reported amounts. Opposite monthly changes remain visible even if the quarter total is unchanged. Content-bound JSON requests identify exact source, reports, audit, scope and proposed policy. Every request remains **pending human review**, including zero-delta and below-threshold cases. Thresholds are illustrative, not approved accounting materiality; content hashes are not identity signatures.
+
+See the [reviewer worksheet, reproduced issue and hand-calculated policy examples](STAKEHOLDER_REVIEW.md), [request builder](../mart/subscription_review.py), [independent tests](../tests/test_subscription_review.py) and [published requests](subscriptions/2026-11-13-review/review_requests.json). No stakeholder participation, feedback, commercial adoption or approval is claimed.
+
 ## Contract
 
 | Feed | Logical grain | Business date | References / value |
@@ -65,6 +75,7 @@ Payments must reference an invoice visible at the same cutoff and cannot precede
 - **Billed amount:** latest visible invoice face value grouped by issue month. It is neither contract bookings nor recognized revenue.
 - **Net cash:** receipts by paid date minus refunds by refunded date. It is not a measure of earned revenue.
 - **Invoice balance:** invoice face value minus payments plus refunds. Negative balances remain visible as customer credits. Cash refunds do not cancel the invoice obligation; credit notes, write-offs and a general ledger are not modeled.
+- **Gross unpaid and credit exposure:** sum positive invoice balances and the magnitude of negative balances separately at the reporting-window end. They are not aged receivables, permission to net invoices or an authorization to collect or refund.
 - **Bookings:** intentionally absent; contract total commitments and signing events are not in the source.
 - **Recognized revenue:** intentionally absent; performance obligations and recognition schedules are not in the source. No IFRS/GAAP claim is made.
 - **Forecasts, causal recommendations, tenant authorization and real payment integrations:** not implemented. The decision brief suggests review actions from observed synthetic movements; it does not claim intervention results.
@@ -106,6 +117,7 @@ The repository owner owns this synthetic contract, metric definitions and releas
 pip install -r requirements-dev.txt
 python -m pytest -q tests/test_subscriptions.py
 python -m pytest -q tests/test_subscription_restatements.py
+python -m pytest -q tests/test_subscription_review.py
 python -m mart.subscriptions --output dist/subscriptions-demo
 # An explicit single snapshot or different complete-month window:
 python -m mart.subscriptions --output dist/subscriptions-march \

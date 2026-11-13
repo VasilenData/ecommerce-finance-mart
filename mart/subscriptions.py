@@ -263,6 +263,7 @@ def publish(source_path: Path, output: Path, cutoffs=DEFAULT_CUTOFFS, start="202
     """Publish a new directory after all reports pass; never replace an existing release."""
     from mart.subscription_report import render
     from mart.subscription_restatements import compare_reports
+    from mart.subscription_review import POLICIES, build_review_packet, invoice_exposure
 
     if output.exists():
         raise FileExistsError(f"Immutable release already exists: {output}")
@@ -279,7 +280,13 @@ def publish(source_path: Path, output: Path, cutoffs=DEFAULT_CUTOFFS, start="202
         restatements = [compare_reports(source, reports[0], report) for report in reports[1:]]
         bundle = {"schema_version": 1, "scope": "Synthetic subscription analytics exercise; not commercial operating evidence.",
                   "source_sha256": digest(staging / "source.json"), "reports": reports, "restatements": restatements}
+        audits = [compare_reports(source, reports[0], reports[0]), *restatements]
+        bundle["invoice_exposures"] = [invoice_exposure(report) for report in reports]
+        bundle["review_packets"] = [build_review_packet(bundle["source_sha256"], reports[0], report, audit, policy)
+                                    for report, audit in zip(reports, audits, strict=True) for policy in POLICIES]
         write_json(staging / "report.json", bundle)
+        write_json(staging / "review_requests.json", {"schema_version": 1, "source_sha256": bundle["source_sha256"],
+                                                     "review_status": "pending_human_review", "requests": bundle["review_packets"]})
         write_json(staging / "restatements.json", {"schema_version": 1, "source_sha256": bundle["source_sha256"],
                                                   "restatements": restatements})
         with (staging / "restatement_deltas.csv").open("w", encoding="utf-8", newline="") as stream:
@@ -298,7 +305,8 @@ def publish(source_path: Path, output: Path, cutoffs=DEFAULT_CUTOFFS, start="202
                 writer.writeheader()
                 writer.writerows(exported)
         (staging / "index.html").write_text(render(bundle), encoding="utf-8")
-        code = ["mart/subscriptions.py", "mart/subscription_report.py", "mart/subscription_restatements.py", "sql/70_subscriptions.sql"]
+        code = ["mart/subscriptions.py", "mart/subscription_report.py", "mart/subscription_restatements.py",
+                "mart/subscription_review.py", "sql/70_subscriptions.sql"]
         # Raw source hashes identify the executed bytes even with uncommitted local changes.
         manifest = {"schema_version": 1, "source_sha256": bundle["source_sha256"],
                     "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -308,6 +316,8 @@ def publish(source_path: Path, output: Path, cutoffs=DEFAULT_CUTOFFS, start="202
                     "executed_code": [{"path": name, "sha256": digest(ROOT / name)} for name in code],
                     "checks_passed": sum(len(report["checks"]) for report in reports),
                     "restatement_checks_passed": sum(len(report["checks"]) for report in restatements),
+                    "invoice_exposure_checks_passed": len(bundle["invoice_exposures"]),
+                    "review_requests": len(bundle["review_packets"]), "human_review_status": "pending",
                     "artifacts": [{"path": path.name, "sha256": digest(path), "bytes": path.stat().st_size}
                                   for path in sorted(staging.iterdir())]}
         write_json(staging / "manifest.json", manifest)
