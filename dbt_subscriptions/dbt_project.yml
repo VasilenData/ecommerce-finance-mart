@@ -1,0 +1,15 @@
+name: finance_subscriptions
+version: 1.0.0
+config-version: 2
+profile: finance_subscriptions
+model-paths: [models]
+test-paths: [tests]
+clean-targets: [target]
+models:
+  finance_subscriptions:
+    +materialized: view
+vars:
+  knowledge_cutoff: '2026-04-04T00:00:00Z'
+  period_start: '2026-01-01'
+  period_end: '2026-04-01'
+  growth_definition: 1
