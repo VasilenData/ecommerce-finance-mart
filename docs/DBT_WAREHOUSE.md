@@ -6,6 +6,8 @@ The same subscription definitions now have a dbt implementation. Four append-onl
 
 [Read the dated execution evidence](dbt-warehouse/2026-11-13/) · [dbt models](../dbt_subscriptions/models/) · [exercise and independent oracle](../mart/dbt_warehouse.py) · [two-adapter CI](../.github/workflows/dbt-warehouse.yml)
 
+The separate [invoice schema migration](SCHEMA_MIGRATION.md) adds an opt-in v2 contract for gross unpaid amounts and credits while preserving v1 exactly. Its publisher freezes validated candidate tables and switches the five stable consumer views together, with failure and rollback checks. This extends the original evidence-only runner; it does not turn `dbt build` itself into an atomic publication.
+
 ## What changed, and why
 
 A source correction can belong to an earlier business month. A delayed delivery can even have an older `recorded_at` than records already loaded. Filtering incrementally on either date would silently omit a legitimate invoice or payment.
