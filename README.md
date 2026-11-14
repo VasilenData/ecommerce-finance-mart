@@ -157,6 +157,8 @@ docs/       explorer, workbook, metrics, data quality report, charts
 
 The four SQL layers are ported to Spark SQL in [`databricks/`](databricks/). The original verification matched 20 of 20 counts and totals against DuckDB. The subsequent zero-denominator and cohort-grid fixes are mirrored in the port but have not been rerun on Databricks. See [databricks/README.md](databricks/README.md) for the recorded evidence, dialect changes and limits.
 
+A [self-contained revalidation notebook](databricks/REVALIDATION.md) now carries raw edge-case fixtures and a freshly executed full-source DuckDB reference. It is ready to run in the existing Free Edition workspace, with isolated schemas and a downloadable result. Local comparator tests and reference preparation do not renew the hosted parity claim; that requires the actual Databricks run.
+
 ## Open-source tools used
 
 DuckDB (all SQL and the star schema), pandas (reading the source workbook), openpyxl (building the workbook with formulas and charts), matplotlib (README charts), pytest and ruff (tests and lint), LibreOffice (headless formula recalculation).

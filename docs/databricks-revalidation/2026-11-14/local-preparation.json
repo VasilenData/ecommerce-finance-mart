@@ -1,0 +1,118 @@
+{
+  "prepared_date": "2026-11-14",
+  "hosted_status": "NOT_RUN",
+  "blocker": "The authenticated Databricks console explicitly rejects automated browser control; the approved Genie connector is disabled/unavailable. User-run notebook evidence is pending.",
+  "base_commit": "1613e9c2a200a2e74989c5d5c5d35a58481f40b2",
+  "source_csv_sha256": "834ba7c3c25bcd1d4fdc20b969b6f4f6da5e84b611036bbd18ba47ce3569e542",
+  "code_lf_sha256": {
+    "databricks\\01_build_core.sql": "a1ec68a6b35a86782dfd59ef61c2832bbe165532d9bf1c58dc8979c45ce10391",
+    "databricks\\02_build_marts.sql": "faf8324ffd5199f7dc3aa1f525487b92c48c260cc7c0644b39d1e7099ee834d0",
+    "sql\\10_staging.sql": "2a1686a669491727ce631dd1837f4982a38a30702f630e0d4544401ecde8e800",
+    "sql\\20_classify.sql": "7cc57e32f2a40acca7f9da9fbbab55fa8f7e8460df3ce116b8b9fe1c0306f37c",
+    "sql\\30_core.sql": "a4709b1a33a457684c6dd5122a6c94053290e9ed88c93d4a6290404a0e9dc91e",
+    "sql\\40_marts.sql": "f5f84cd1c470b12538aafa22214726c34c1242a727ff3402bca3d4894b155575",
+    "seeds\\country_map.csv": "85b6cdea1e959b74d1c8b791e993081eea9db7f7a3e196fc5b9d5db17f0a40e9",
+    "seeds\\stock_code_types.csv": "69272bd916cfe3b25a8884bca55cddcd904e563f7abb6edb693b120ef012e51a"
+  },
+  "notebook_sha256": "03249bb64e5a5d40511231abae3ce76ccab8068e146cc7a80fa738ea0d85c41a",
+  "notebook_bytes": 782834,
+  "reference_runtime": {
+    "duckdb": "2.0.0",
+    "python": "3.12.14"
+  },
+  "reference_record_sha256": "eb1e4a67d54d66c7993de168b0115cb78c8fb6ebbefd810e4911545af70b1c07",
+  "raw_signature_contract": "Count, distinct/min/max line IDs and eight commutative sums of SHA-256 32-bit chunks over JSON arrays of all logical raw fields. Not a cloud-file SHA-256.",
+  "full_raw_signature": [
+    1067371,
+    1067371,
+    1,
+    1067371,
+    2295450624311619,
+    2295238303553331,
+    2290416921060692,
+    2292530772271528,
+    2291791826230971,
+    2291156992620084,
+    2293936094133307,
+    2291766765404375
+  ],
+  "full_table_counts": {
+    "stg_lines": 1067371,
+    "line_classified": 1067371,
+    "quarantine_lines": 40363,
+    "fact_lines_base": 1027008,
+    "dim_customer": 5939,
+    "fact_lines": 1027008,
+    "dim_product": 4739,
+    "dim_date": 739,
+    "fact_invoice": 48360,
+    "mart_monthly": 25,
+    "mart_customer_rfm": 5852,
+    "mart_cohort": 325,
+    "mart_product": 4720,
+    "mart_country": 42,
+    "mart_explorer": 643,
+    "mart_explorer_product": 4369,
+    "as_of": 1
+  },
+  "full_exact_amounts": {
+    "gross_sales": "19643861.6370",
+    "returns": "-716462.5700",
+    "quick_reversals": "-312457.8000",
+    "kept_amount": "18855330.1980",
+    "quarantined_amount": "431920.3700"
+  },
+  "full_row_comparison": {
+    "dim_customer": 5939,
+    "dim_product": 4739,
+    "dim_date": 739,
+    "mart_monthly": 25,
+    "mart_customer_rfm": 5852,
+    "mart_cohort": 325,
+    "mart_product": 4720,
+    "mart_country": 42,
+    "mart_explorer": 643,
+    "mart_explorer_product": 4369,
+    "as_of": 1
+  },
+  "fixture_names": [
+    "returns_only_and_cohort",
+    "fully_reversed"
+  ],
+  "local_checks": {
+    "pytest": {
+      "passed": 185,
+      "skipped": 1,
+      "skip_reason": "historical full-data pytest expects data/raw_online_retail_II.csv in clone; separate fresh full-source reference build executed against cached CSV and passed all blocking checks"
+    },
+    "node": {
+      "passed": 14
+    },
+    "ruff": "PASS",
+    "focused_comparator_and_edge_tests": 18,
+    "notebook_compile": "PASS",
+    "sql_parse": {
+      "tool": "sqlglot 30.31.0",
+      "build_statements": 21,
+      "source_signature_query": "PASS",
+      "scope": "Parsing is not Databricks execution"
+    },
+    "v1_v2_reference_equivalence": "PASS"
+  },
+  "acceptance": {
+    "full_relation_counts": 17,
+    "full_row_tables": 11,
+    "full_row_count": 27394,
+    "expected_check_count": 111,
+    "money": "exact",
+    "floating_absolute_tolerance": 1e-09,
+    "floating_relative_tolerance": 1e-12
+  },
+  "limits": [
+    "No new Databricks job has executed yet.",
+    "Full large staging/fact relations are checked by counts, money and verdicts; row multisets are compared for all fixture relations and 11 full-data dimensions/marts.",
+    "No dbt-on-Databricks, cloud performance, cost or sustained-operation claim."
+  ],
+  "original_handoff_notebook_sha256": "6fc191b9bf5520e89a6702a73ba59edc18de82353cfe63af8245e0a18567c86e",
+  "publication_notebook_revision": "v2: formatted generated Python imports/string literals; added standard notebook cell IDs. Same SQL and source hashes; both references compare equal by all comparison rules."
+}
