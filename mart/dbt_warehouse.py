@@ -279,7 +279,7 @@ class Warehouse:
         }
 
     def table(self, name):
-        if name not in {*MART_KEYS, "monthly_subscription_metrics", "management_scorecard"}:
+        if name not in {*MART_KEYS, "invoice_balances_v2", "monthly_subscription_metrics", "management_scorecard"}:
             raise ValueError("Unknown evidence table")
         with self.connection() as con:
             cursor = con.execute(f"SELECT * FROM {self.schema}.{name}")
@@ -291,7 +291,7 @@ class Warehouse:
                 }
                 for values in cursor.fetchall()
             ]
-        keys = MART_KEYS.get(name, ("month",))
+        keys = MART_KEYS.get(name, ("invoice_id",) if name == "invoice_balances_v2" else ("month",))
         return sorted(rows, key=lambda row: tuple(row[key] for key in keys))
 
     def close(self):
