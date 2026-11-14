@@ -8,6 +8,8 @@ This is a port of plain SQL scripts, not dbt models. The repo's pipeline is `mar
 
 The table below records the original full-dataset comparison. Later fixes retain returns-only months, guard zero denominators and include observed zero-activity cohort months. Those changes are fixture-tested in DuckDB and mirrored in the SQL port; rerun the verification scripts on Databricks before claiming renewed parity for those edge cases.
 
+The [current revalidation notebook](REVALIDATION.md) now packages the exact SQL port, raw edge-case fixtures and a fresh full-source DuckDB reference. It compares all 17 derived relation counts, exact money and classification groups, plus 27,394 rows across 11 full-data dimensions/marts. **Hosted execution is still pending**; the authenticated console rejects automated browser control, so an actual manual run or supported connector is required.
+
 I ran the DuckDB build first and recorded the numbers, then ran the port and compared. All 20 table counts and money totals are identical, including the totals to 3 decimals.
 
 | Table | DuckDB | Databricks |
