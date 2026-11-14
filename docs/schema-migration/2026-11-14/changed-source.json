@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "currency": "GBP",
+  "scope": "synthetic",
+  "complete_subscription_history": true,
+  "subscription_changes": [],
+  "invoices": [
+    {
+      "record_id": "i1",
+      "revision": 1,
+      "recorded_at": "2026-01-01T12:00:00Z",
+      "customer_id": "A",
+      "issued_date": "2026-01-01",
+      "amount_cents": 10000
+    },
+    {
+      "record_id": "i2",
+      "revision": 1,
+      "recorded_at": "2026-01-01T12:00:00Z",
+      "customer_id": "A",
+      "issued_date": "2026-01-01",
+      "amount_cents": 5000
+    }
+  ],
+  "payments": [
+    {
+      "record_id": "p1",
+      "revision": 1,
+      "recorded_at": "2026-01-02T12:00:00Z",
+      "invoice_id": "i1",
+      "paid_date": "2026-01-02",
+      "amount_cents": 12000
+    },
+    {
+      "record_id": "p2",
+      "revision": 1,
+      "recorded_at": "2026-01-02T12:00:00Z",
+      "invoice_id": "i2",
+      "paid_date": "2026-01-02",
+      "amount_cents": 1000
+    },
+    {
+      "record_id": "late",
+      "revision": 1,
+      "recorded_at": "2026-01-02T00:00:00Z",
+      "invoice_id": "i2",
+      "paid_date": "2026-01-02",
+      "amount_cents": 1500
+    }
+  ],
+  "refunds": [
+    {
+      "record_id": "r1",
+      "revision": 1,
+      "recorded_at": "2026-01-03T12:00:00Z",
+      "payment_id": "p1",
+      "refunded_date": "2026-01-03",
+      "amount_cents": 500
+    },
+    {
+      "record_id": "r1",
+      "revision": 2,
+      "recorded_at": "2026-04-03T00:00:00Z",
+      "payment_id": "p1",
+      "refunded_date": "2026-01-03",
+      "amount_cents": 1000
+    }
+  ]
+}

@@ -1,0 +1,1178 @@
+{
+  "schema_version": 1,
+  "adapter": "duckdb",
+  "recorded_at_utc": "2026-11-14T15:29:57.102070+00:00",
+  "scope": "Synthetic local/disposable database exercise; no Databricks or production execution",
+  "execution_environment": "Windows-11-10.0.26300-SP0",
+  "source_commit": "uncommitted-local",
+  "ci_run_id": null,
+  "source_files": {
+    "mart/schema_migration.py": "4b61638f05ce3c245f168e682c38b96fe51f19c5d036371cb3f3948eecd7cee0",
+    "mart/dbt_warehouse.py": "d28979e73a0266bc02d1d40e55d0674bc96b4dc1e0f544647962e0d42f7c9f4a",
+    "mart/subscriptions.py": "29876a3dc769857728d11499a8d402a0857696de07c261bab34d35c31846119e",
+    "requirements-dbt.txt": "84241afe0be4d12027772bf85bda884375a0c4c494274ebb375dc57da3e70b29",
+    "tests/test_schema_migration.py": "26b1d1cdfd016cc539d54475ba13470b5666db4777f0546f7c7e8170bd4b02da",
+    ".github/workflows/dbt-warehouse.yml": "0f93ccabe70d28365d68128d9dbe342e92f33b35f0d621ff312cda0138413e50",
+    "dbt_subscriptions/dbt_project.yml": "afd1e808ed9c94aa9e24d65669e0c860a7092dc5078569c458c1c669a8a766d8",
+    "dbt_subscriptions/profiles.yml": "33c5397c9c5fe3ad3a6bd371e9cc8e1edb87bde796ba4edead633a48491f1d48",
+    "dbt_subscriptions/models/customer_mrr_bridge.sql": "00cadb8b9205715b6467bde82d6c2e166deec5290fad6f96b221bb037b36e722",
+    "dbt_subscriptions/models/history_invoices.sql": "ac840f76b4f934eb0f6f1b16084de0515deb55c9d1d8a5805664023422f1991a",
+    "dbt_subscriptions/models/history_payments.sql": "c40b2fc60098123703c1966350658311002d80477d89952fd7961cd1a283f234",
+    "dbt_subscriptions/models/history_refunds.sql": "497e5541c940f3d88ccfd665114d77749faf5eb25ed68815c8acad1a9b849436",
+    "dbt_subscriptions/models/history_subscription_changes.sql": "1bd00562b192bee7edce9f2145beab859f5cf0d454ef00b8ebd29fef899489b9",
+    "dbt_subscriptions/models/invoice_balances.sql": "36274287b601fdbbd5f92438ac3704f39c59608b0ab50737471c9fef0db97571",
+    "dbt_subscriptions/models/invoice_balances_v2.sql": "fc73c16924e571b50ce44b5e2b3c70724b315b330d9cfacadec9b7a6a4e4153c",
+    "dbt_subscriptions/models/management_scorecard.sql": "12b6f192f6632c73f4c81d62feccab7edf8b7e07a16922c397f3edb8f18ebcdd",
+    "dbt_subscriptions/models/monthly_cash_bridge.sql": "93f6c7f90eb6f3e73acd4d0bc7f3adc174e5bc3e64bcdf3a4c698392cae949e6",
+    "dbt_subscriptions/models/monthly_mrr_bridge.sql": "4ee3c51b76512543b160eaac35b798791c158d4834c50e383cb6ad419d31c963",
+    "dbt_subscriptions/models/monthly_subscription_metrics.sql": "9d3044fc119434f58104b85c199ace65fb035d6e95f643c6472c58ceed732c31",
+    "dbt_subscriptions/models/report_months.sql": "4226797855253a52ac5733221fa2efa823e9267817b8eb84876c550cc46e0f46",
+    "dbt_subscriptions/models/report_parameters.sql": "e99956313fe1382428b3da2ab1a7f7767891edbf83f0bf9c623e7c149f361ee7",
+    "dbt_subscriptions/models/schema.yml": "99086da6778167ceff25595fa98b3e159503664bb5c0c28883fb950283cb0995",
+    "dbt_subscriptions/models/stg_invoices.sql": "aca8cc3dac67ab4e9e69e7fd41a5e91beb7332e95fb36247c4ba384d718e1192",
+    "dbt_subscriptions/models/stg_payments.sql": "80cc3d6ea14796cdd786154bc5ad038ffa712a07443adba7bade3071ff9fe341",
+    "dbt_subscriptions/models/stg_refunds.sql": "5f9919f96c215c01521782dcb8ebd4478e328786688204e86742261f12bb6458",
+    "dbt_subscriptions/models/stg_subscription_changes.sql": "7ca36c1a134a18afbe234b3c75d75ffe7e07b527a9bc44bdf12886c0bdfebfd7",
+    "dbt_subscriptions/models/subscription_intervals.sql": "a244245d1b19a6b4f90c6230091c7576ef4515a5dfba15d22de921bd16f27c1e",
+    "dbt_subscriptions/tests/bridge_reconciliation.sql": "73ec22c9619724e82411d50b5b8896ccdf362585b21980d782e457827d93bf85",
+    "dbt_subscriptions/tests/invoice_balance_versions.sql": "b1b0fd8e9893c8fc561af021d4dbf8745a0b9f7c3267f4924e3c88e54cdb1107",
+    "dbt_subscriptions/tests/source_revision_identity.sql": "1bb65a55b7a39f129624e94ef899887a713821ca76e363c5e5d6d1e037cb16c2"
+  },
+  "checks": [
+    {
+      "name": "hand calculated unpaid and credit cannot be netted",
+      "passed": true
+    },
+    {
+      "name": "v1 remains an exact compatibility projection",
+      "passed": true
+    },
+    {
+      "name": "late backfill and correction append two identities",
+      "passed": true
+    },
+    {
+      "name": "candidate dbt changes cannot alter published close",
+      "passed": true
+    },
+    {
+      "name": "incremental backfill equals independent oracle",
+      "passed": true
+    },
+    {
+      "name": "invalid migration preserves all published rows",
+      "passed": true
+    },
+    {
+      "name": "late backfill full refresh equals independent oracle",
+      "passed": true
+    },
+    {
+      "name": "incremental and full refresh match row for row",
+      "passed": true
+    },
+    {
+      "name": "interrupted promotion rolls back every view and pointer",
+      "passed": true
+    },
+    {
+      "name": "reader pinned before concurrent promotion retains original release",
+      "passed": true
+    },
+    {
+      "name": "both consumers switch to the validated release",
+      "passed": true
+    },
+    {
+      "name": "corrected hand calculated exposure",
+      "passed": true
+    },
+    {
+      "name": "rollback restores byte identical close",
+      "passed": true
+    },
+    {
+      "name": "fresh rebuild reproduces frozen close bytes",
+      "passed": true
+    }
+  ],
+  "runs": [
+    {
+      "scenario": "migration_baseline",
+      "full_refresh": false,
+      "knowledge_cutoff": "2026-04-01T00:00:00Z",
+      "growth_definition": 1,
+      "elapsed_seconds": 5.697,
+      "nodes": [
+        {
+          "id": "model.finance_subscriptions.report_parameters",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_invoices_ingestion_sequence.8f6eeec8e4",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_payments_ingestion_sequence.40662c7e7e",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_refunds_ingestion_sequence.b1de0bc748",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_subscription_changes_ingestion_sequence.a1d68cfc25",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_invoices_ingestion_sequence.6f89759383",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_payments_ingestion_sequence.7e72fc0927",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_refunds_ingestion_sequence.8409011571",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_subscription_changes_ingestion_sequence.549f52de67",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.report_months",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_report_months_month.8b9e5124db",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_report_months_month.e32b2b9b22",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_invoices_ingestion_sequence.5c5574d154",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_invoices_ingestion_sequence.aaca82a03a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_payments_ingestion_sequence.69467c918d",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_payments_ingestion_sequence.4c3809f4b0",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_refunds_ingestion_sequence.76bca03ffe",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_refunds_ingestion_sequence.a8673087b6",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_subscription_changes_ingestion_sequence.1ae5e1e377",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_revision_identity",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_subscription_changes_ingestion_sequence.84dd450536",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances.v1",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_cash_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.subscription_intervals",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_v1_invoice_id.8bbf6a81de",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_v1_invoice_id.e82b3f8808",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_cash_bridge_month.436a278011",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_cash_bridge_month.d18583318e",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.customer_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances.v2",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.invoice_balance_versions",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_v2_invoice_id.9c9d6bc60b",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_v2_invoice_id.a21bab71be",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.bridge_reconciliation",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_mrr_bridge_month.0ff61935f2",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_mrr_bridge_month.8e6639519f",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_subscription_metrics",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_subscription_metrics_month.d403743760",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_subscription_metrics_month.81a0f45147",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.management_scorecard",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_management_scorecard_month.cf6fb8a5ac",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_management_scorecard_month.75c138045b",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "scenario": "migration_late_backfill",
+      "full_refresh": false,
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "growth_definition": 1,
+      "elapsed_seconds": 5.471,
+      "nodes": [
+        {
+          "id": "model.finance_subscriptions.report_parameters",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_invoices_ingestion_sequence.8f6eeec8e4",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_payments_ingestion_sequence.40662c7e7e",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_refunds_ingestion_sequence.b1de0bc748",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_subscription_changes_ingestion_sequence.a1d68cfc25",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_invoices_ingestion_sequence.6f89759383",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_payments_ingestion_sequence.7e72fc0927",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_refunds_ingestion_sequence.8409011571",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_subscription_changes_ingestion_sequence.549f52de67",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.report_months",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_report_months_month.8b9e5124db",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_report_months_month.e32b2b9b22",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_invoices_ingestion_sequence.5c5574d154",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_invoices_ingestion_sequence.aaca82a03a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_payments_ingestion_sequence.69467c918d",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_payments_ingestion_sequence.4c3809f4b0",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_refunds_ingestion_sequence.76bca03ffe",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_refunds_ingestion_sequence.a8673087b6",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_subscription_changes_ingestion_sequence.1ae5e1e377",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_revision_identity",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_subscription_changes_ingestion_sequence.84dd450536",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances.v1",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_cash_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.subscription_intervals",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_v1_invoice_id.8bbf6a81de",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_v1_invoice_id.e82b3f8808",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_cash_bridge_month.436a278011",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_cash_bridge_month.d18583318e",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.customer_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances.v2",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.invoice_balance_versions",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_v2_invoice_id.9c9d6bc60b",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_v2_invoice_id.a21bab71be",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.bridge_reconciliation",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_mrr_bridge_month.0ff61935f2",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_mrr_bridge_month.8e6639519f",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_subscription_metrics",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_subscription_metrics_month.d403743760",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_subscription_metrics_month.81a0f45147",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.management_scorecard",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_management_scorecard_month.cf6fb8a5ac",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_management_scorecard_month.75c138045b",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "scenario": "migration_full_refresh",
+      "full_refresh": true,
+      "knowledge_cutoff": "2026-04-04T00:00:00Z",
+      "growth_definition": 1,
+      "elapsed_seconds": 4.132,
+      "nodes": [
+        {
+          "id": "model.finance_subscriptions.report_parameters",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_invoices_ingestion_sequence.8f6eeec8e4",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_payments_ingestion_sequence.40662c7e7e",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_refunds_ingestion_sequence.b1de0bc748",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_subscription_changes_ingestion_sequence.a1d68cfc25",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_invoices_ingestion_sequence.6f89759383",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_payments_ingestion_sequence.7e72fc0927",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_refunds_ingestion_sequence.8409011571",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_subscription_changes_ingestion_sequence.549f52de67",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.report_months",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_report_months_month.8b9e5124db",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_report_months_month.e32b2b9b22",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_invoices_ingestion_sequence.5c5574d154",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_invoices_ingestion_sequence.aaca82a03a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_payments_ingestion_sequence.69467c918d",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_payments_ingestion_sequence.4c3809f4b0",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_refunds_ingestion_sequence.76bca03ffe",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_refunds_ingestion_sequence.a8673087b6",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_subscription_changes_ingestion_sequence.1ae5e1e377",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_revision_identity",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_subscription_changes_ingestion_sequence.84dd450536",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances.v1",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_cash_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.subscription_intervals",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_v1_invoice_id.8bbf6a81de",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_v1_invoice_id.e82b3f8808",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_cash_bridge_month.436a278011",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_cash_bridge_month.d18583318e",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.customer_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances.v2",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.invoice_balance_versions",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_v2_invoice_id.9c9d6bc60b",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_v2_invoice_id.a21bab71be",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.bridge_reconciliation",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_mrr_bridge_month.0ff61935f2",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_mrr_bridge_month.8e6639519f",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_subscription_metrics",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_subscription_metrics_month.d403743760",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_subscription_metrics_month.81a0f45147",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.management_scorecard",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_management_scorecard_month.cf6fb8a5ac",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_management_scorecard_month.75c138045b",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "scenario": "reproduce_frozen_close",
+      "full_refresh": true,
+      "knowledge_cutoff": "2026-04-01T00:00:00Z",
+      "growth_definition": 1,
+      "elapsed_seconds": 5.104,
+      "nodes": [
+        {
+          "id": "model.finance_subscriptions.report_parameters",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_invoices_ingestion_sequence.8f6eeec8e4",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_payments_ingestion_sequence.40662c7e7e",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_refunds_ingestion_sequence.b1de0bc748",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_not_null_journal_subscription_changes_ingestion_sequence.a1d68cfc25",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_invoices_ingestion_sequence.6f89759383",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_payments_ingestion_sequence.7e72fc0927",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_refunds_ingestion_sequence.8409011571",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_unique_journal_subscription_changes_ingestion_sequence.549f52de67",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.report_months",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.history_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_report_months_month.8b9e5124db",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_report_months_month.e32b2b9b22",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_invoices_ingestion_sequence.5c5574d154",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_invoices_ingestion_sequence.aaca82a03a",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_payments_ingestion_sequence.69467c918d",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_payments_ingestion_sequence.4c3809f4b0",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_refunds_ingestion_sequence.76bca03ffe",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_refunds_ingestion_sequence.a8673087b6",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_history_subscription_changes_ingestion_sequence.1ae5e1e377",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.source_revision_identity",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_history_subscription_changes_ingestion_sequence.84dd450536",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_invoices",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_payments",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_refunds",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.stg_subscription_changes",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances.v1",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_cash_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.subscription_intervals",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_v1_invoice_id.8bbf6a81de",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_v1_invoice_id.e82b3f8808",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_cash_bridge_month.436a278011",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_cash_bridge_month.d18583318e",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.customer_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.invoice_balances.v2",
+          "status": "success"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_mrr_bridge",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.invoice_balance_versions",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_invoice_balances_v2_invoice_id.9c9d6bc60b",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_invoice_balances_v2_invoice_id.a21bab71be",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.bridge_reconciliation",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_mrr_bridge_month.0ff61935f2",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_mrr_bridge_month.8e6639519f",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.monthly_subscription_metrics",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_monthly_subscription_metrics_month.d403743760",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_monthly_subscription_metrics_month.81a0f45147",
+          "status": "pass"
+        },
+        {
+          "id": "model.finance_subscriptions.management_scorecard",
+          "status": "success"
+        },
+        {
+          "id": "test.finance_subscriptions.not_null_management_scorecard_month.cf6fb8a5ac",
+          "status": "pass"
+        },
+        {
+          "id": "test.finance_subscriptions.unique_management_scorecard_month.75c138045b",
+          "status": "pass"
+        }
+      ]
+    }
+  ],
+  "releases": [
+    {
+      "release_id": "close_v1",
+      "rows_sha256": "b3d4e0c39488d3ef77e639170f28e6651f1edb2643d67a7588360179b88a6759",
+      "rows": {
+        "monthly_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 0
+          }
+        ],
+        "customer_mrr_bridge": [],
+        "monthly_cash_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 15000,
+            "paid_cents": 13000,
+            "refunded_cents": 500,
+            "net_cash_cents": 12500,
+            "closing_balance_cents": 2500
+          },
+          {
+            "month": "2026-02-01",
+            "opening_balance_cents": 2500,
+            "invoiced_cents": 0,
+            "paid_cents": 0,
+            "refunded_cents": 0,
+            "net_cash_cents": 0,
+            "closing_balance_cents": 2500
+          },
+          {
+            "month": "2026-03-01",
+            "opening_balance_cents": 2500,
+            "invoiced_cents": 0,
+            "paid_cents": 0,
+            "refunded_cents": 0,
+            "net_cash_cents": 0,
+            "closing_balance_cents": 2500
+          }
+        ],
+        "invoice_balances": [
+          {
+            "invoice_id": "i1",
+            "customer_id": "A",
+            "invoiced_cents": 10000,
+            "paid_cents": 12000,
+            "refunded_cents": 500,
+            "balance_cents": -1500
+          },
+          {
+            "invoice_id": "i2",
+            "customer_id": "A",
+            "invoiced_cents": 5000,
+            "paid_cents": 1000,
+            "refunded_cents": 0,
+            "balance_cents": 4000
+          }
+        ],
+        "invoice_balances_v2": [
+          {
+            "invoice_id": "i1",
+            "customer_id": "A",
+            "invoiced_cents": 10000,
+            "paid_cents": 12000,
+            "refunded_cents": 500,
+            "net_balance_cents": -1500,
+            "gross_unpaid_cents": 0,
+            "credit_cents": 1500
+          },
+          {
+            "invoice_id": "i2",
+            "customer_id": "A",
+            "invoiced_cents": 5000,
+            "paid_cents": 1000,
+            "refunded_cents": 0,
+            "net_balance_cents": 4000,
+            "gross_unpaid_cents": 4000,
+            "credit_cents": 0
+          }
+        ]
+      }
+    },
+    {
+      "release_id": "close_v2",
+      "rows_sha256": "cd8cac4a7519aca919c978b9c76edc19ea93da49d9fd9ed7fafe8865f1f774b7",
+      "rows": {
+        "monthly_mrr_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 0
+          },
+          {
+            "month": "2026-02-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 0
+          },
+          {
+            "month": "2026-03-01",
+            "opening_mrr_cents": 0,
+            "new_mrr_cents": 0,
+            "expansion_mrr_cents": 0,
+            "reactivation_mrr_cents": 0,
+            "contraction_mrr_cents": 0,
+            "churn_mrr_cents": 0,
+            "closing_mrr_cents": 0
+          }
+        ],
+        "customer_mrr_bridge": [],
+        "monthly_cash_bridge": [
+          {
+            "month": "2026-01-01",
+            "opening_balance_cents": 0,
+            "invoiced_cents": 15000,
+            "paid_cents": 14500,
+            "refunded_cents": 1000,
+            "net_cash_cents": 13500,
+            "closing_balance_cents": 1500
+          },
+          {
+            "month": "2026-02-01",
+            "opening_balance_cents": 1500,
+            "invoiced_cents": 0,
+            "paid_cents": 0,
+            "refunded_cents": 0,
+            "net_cash_cents": 0,
+            "closing_balance_cents": 1500
+          },
+          {
+            "month": "2026-03-01",
+            "opening_balance_cents": 1500,
+            "invoiced_cents": 0,
+            "paid_cents": 0,
+            "refunded_cents": 0,
+            "net_cash_cents": 0,
+            "closing_balance_cents": 1500
+          }
+        ],
+        "invoice_balances": [
+          {
+            "invoice_id": "i1",
+            "customer_id": "A",
+            "invoiced_cents": 10000,
+            "paid_cents": 12000,
+            "refunded_cents": 1000,
+            "balance_cents": -1000
+          },
+          {
+            "invoice_id": "i2",
+            "customer_id": "A",
+            "invoiced_cents": 5000,
+            "paid_cents": 2500,
+            "refunded_cents": 0,
+            "balance_cents": 2500
+          }
+        ],
+        "invoice_balances_v2": [
+          {
+            "invoice_id": "i1",
+            "customer_id": "A",
+            "invoiced_cents": 10000,
+            "paid_cents": 12000,
+            "refunded_cents": 1000,
+            "net_balance_cents": -1000,
+            "gross_unpaid_cents": 0,
+            "credit_cents": 1000
+          },
+          {
+            "invoice_id": "i2",
+            "customer_id": "A",
+            "invoiced_cents": 5000,
+            "paid_cents": 2500,
+            "refunded_cents": 0,
+            "net_balance_cents": 2500,
+            "gross_unpaid_cents": 2500,
+            "credit_cents": 0
+          }
+        ]
+      }
+    }
+  ],
+  "limits": [
+    "Single writer; no concurrent promotion protocol or production grants.",
+    "Multi-query consumers pin a release ID/schema; repeatable read alone does not pin view definitions.",
+    "Snapshots are workflow-frozen and rechecked before promotion, not protected from a database administrator.",
+    "Fault injection proves transaction rollback after observed DDL, not process-kill or power-loss recovery.",
+    "Original close reproduction uses its frozen source, not only a knowledge cutoff after late deliveries."
+  ]
+}

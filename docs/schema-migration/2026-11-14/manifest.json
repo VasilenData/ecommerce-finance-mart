@@ -1,0 +1,62 @@
+{
+  "recorded_at_utc": "2026-11-14T15:32:48.919387+00:00",
+  "scope": "Synthetic fixture, locally executed on Windows; not hosted CI or Databricks",
+  "base_commit": "eb5dda192f7a16eb7bf978db7ca13f1d76c7ab2a",
+  "execution_environment": "Windows-11-10.0.26300-SP0",
+  "runtime_versions": {
+    "dbt-core": "1.12.7",
+    "dbt-duckdb": "1.11.1",
+    "dbt-postgres": "1.10.0",
+    "duckdb": "2.0.0",
+    "psycopg": "3.2.12",
+    "pytest": "9.2.0",
+    "ruff": "0.17.5"
+  },
+  "postgres_server_version": "17.11",
+  "validation": {
+    "pytest_passed": 196,
+    "pytest_skipped": 1,
+    "pytest_skip": "Historical full-data test needs clone-local raw CSV; existing data/retail transformations unchanged.",
+    "javascript_passed": 14,
+    "ruff": "PASS",
+    "migration_checks_per_adapter": 14,
+    "migration_dbt_builds_per_adapter": 4,
+    "existing_regression_checks_per_adapter": 39,
+    "existing_regression_dbt_builds_per_adapter": 9,
+    "dbt_nodes_per_build": 51,
+    "cross_adapter_release_rows": "PASS",
+    "cross_adapter_existing_reports": "PASS"
+  },
+  "hosted_ci_status": "NOT_RUN_FOR_THIS_CHANGE",
+  "hosted_databricks_status": "NOT_RUN",
+  "artifacts": {
+    "duckdb-local.json": {
+      "sha256": "10c269fbe417cdd9301e8c31d9b8836216eda912600a7bcab087233119708a20",
+      "bytes": 41992
+    },
+    "postgres-local.json": {
+      "sha256": "2d2c9f52bb3b5a07edc8cbcb4fce0e73cdff39b67d6bf4b75b3c835132e18c1f",
+      "bytes": 41994
+    },
+    "regression-duckdb-local.json": {
+      "sha256": "eec5dc6bbb1a27a6e63ec278817cf36ecd7137accabe1cb20acec0a33f5e955c",
+      "bytes": 175591
+    },
+    "regression-postgres-local.json": {
+      "sha256": "a74a2d3029516672f69cacc9ebf4f91da7842ba7e5452016c3a3ff38cc0a42ec",
+      "bytes": 175626
+    },
+    "baseline-source.json": {
+      "sha256": "20f05fc142a51ff6ea69848dfa33dc3dc6852070c283292efe3f412242c64638",
+      "bytes": 1213
+    },
+    "changed-source.json": {
+      "sha256": "56e727bda5af8583ffb9d9f2326eafb8636f31cde83777e50ef466cc741eb7e5",
+      "bytes": 1615
+    },
+    "index.html": {
+      "sha256": "c8543ab6342c5d408bd92a082e45a4e38d7d115627fb9ea2e77a62f626bd7ec7",
+      "bytes": 4309
+    }
+  }
+}
