@@ -8,7 +8,7 @@ permissions:
 jobs:
   reconcile:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     services:
       postgres:
         image: postgres:17@sha256:846a7ddaa67a4b354ae1d21087b683901aa6113a4ed626d3787cfbf6c85e3e07
@@ -30,11 +30,15 @@ jobs:
           cache: pip
           cache-dependency-path: requirements-dbt.txt
       - run: pip install -r requirements-dbt.txt pytest
-      - run: python -m pytest -q tests/test_dbt_warehouse.py
+      - run: python -m pytest -q tests/test_dbt_warehouse.py tests/test_schema_migration.py
       - name: Exercise local warehouse adapter
         run: python -m mart.dbt_warehouse --adapter duckdb --output dist/dbt-duckdb
       - name: Exercise PostgreSQL warehouse adapter
         run: python -m mart.dbt_warehouse --adapter postgres --output dist/dbt-postgres
+      - name: Exercise versioned schema migration on both adapters
+        run: |
+          python -m mart.schema_migration --adapter duckdb --output dist/migration-duckdb
+          python -m mart.schema_migration --adapter postgres --output dist/migration-postgres
       - name: Reconcile both executed adapters
         run: |
           python - <<'PY'
@@ -48,6 +52,13 @@ jobs:
               for name, digest in report['source_files'].items():
                   assert hashlib.sha256(Path(name).read_bytes()).hexdigest() == digest, name
           print('Executed adapters match row for row, including definition changes.')
+          migrations = [json.loads(Path(f'dist/migration-{adapter}/evidence.json').read_text()) for adapter in ('duckdb', 'postgres')]
+          assert migrations[0]['releases'] == migrations[1]['releases']
+          for report in migrations:
+              assert report['checks'] and all(row['passed'] for row in report['checks'])
+              for name, digest in report['source_files'].items():
+                  assert hashlib.sha256(Path(name).read_bytes()).hexdigest() == digest, name
+          print('Versioned contracts, promotion, rollback and frozen close reproduction agree on both adapters.')
           PY
       - uses: actions/upload-artifact@v4
         if: always()
@@ -56,5 +67,7 @@ jobs:
           path: |
             dist/dbt-duckdb/
             dist/dbt-postgres/
+            dist/migration-duckdb/
+            dist/migration-postgres/
           if-no-files-found: error
           retention-days: 30
