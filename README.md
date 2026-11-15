@@ -6,6 +6,12 @@ Messy retail transactions go in. A normalized star schema, finance and customer 
 
 **Implementation scope:** Python and DuckDB run the complete pipeline. The [Databricks SQL port](databricks/README.md) reproduces the transformation layers. The BigQuery experiment described there loads the already-built monthly mart; it is not a port of the full pipeline. The checked-in implementation and verification SQL cover DuckDB and Databricks.
 
+## Usage-to-finance reconciliation
+
+Meterwork's actual restricted-API outputs feed a separate synthetic USD reporting domain. The receiver independently rates source events, preserves statement revisions, separates unpaid balances from credits and keeps the last good release when a delivery fails validation. A late correction reduces the invoice by **150 cents**; its **1,500-microUSD** residual change explains the sub-cent difference. The bounded exercise passes **30 checks**, including eight rejected deliveries that preserve the published report. This is simulated billing and collections, not real revenue or customer adoption.
+
+[View the reconciliation](https://vasilendata.github.io/ecommerce-finance-mart/meterwork-bridge/2026-11-15/) · [Inspect the contract and recovery](docs/METERWORK_BRIDGE.md)
+
 ## Customer future-value extension
 
 [Open the customer prediction report](https://vasilendata.github.io/ecommerce-finance-mart/customer-value/) · [method and reproducible commands](docs/customer_value.md)
