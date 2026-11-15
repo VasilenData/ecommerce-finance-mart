@@ -55,4 +55,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Verify local import source identity and downloadable templates
+        run: node scripts/build-import.mjs --check
       - run: node --test tests_js/*.test.mjs
+      - name: Exercise a new user's private local import path with synthetic files
+        run: |
+          node scripts/import-finance.mjs --invoices docs/import/sample-invoices.csv --payments docs/import/sample-payments.csv --as-of 2026-03-31 --validate-only
+          node scripts/import-finance.mjs --invoices docs/import/sample-invoices.csv --payments docs/import/sample-payments.csv --as-of 2026-03-31 --output dist/local-import
+      - uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-local-import-${{ github.sha }}
+          path: dist/local-import/
+          if-no-files-found: error
+          retention-days: 30
