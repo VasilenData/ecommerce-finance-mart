@@ -16,6 +16,13 @@ Meterwork's actual restricted-API outputs feed a separate synthetic USD reportin
 
 [View the reconciliation](https://vasilendata.github.io/ecommerce-finance-mart/meterwork-bridge/2026-11-15/) · [Inspect the contract and recovery](docs/METERWORK_BRIDGE.md)
 
+**Receiver integrity and abrupt recovery:** stored reports now verify their accepted
+digest and identity before being returned. A synthetic exercise kills the receiver
+after an observed insert and after an uncommitted pointer change, then reopens the
+database, verifies the unchanged prior close and reconciles a retry. Its **32 checks**
+also cover stored-report corruption and exact restoration. [Inspect the defect,
+dated evidence and recovery boundary](docs/RECEIVER_RECOVERY.md).
+
 ## Customer future-value extension
 
 [Open the customer prediction report](https://vasilendata.github.io/ecommerce-finance-mart/customer-value/) · [method and reproducible commands](docs/customer_value.md)

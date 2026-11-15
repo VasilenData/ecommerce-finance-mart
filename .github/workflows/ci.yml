@@ -17,15 +17,21 @@ jobs:
       - run: python -m pytest -q
       - name: Reconcile actual Meterwork source bundles and reject invalid deliveries
         run: python -m mart.meterwork_bridge_exercise --output dist/meterwork-bridge
+      - name: Observe receiver process death and verify exact recovery
+        run: python -m mart.bridge_recovery --output dist/bridge-recovery
+      - name: Fetch the source revision matching the immutable historical receipt
+        run: git fetch --no-tags --depth=1 origin cbc8d335c84c914b702752834bfe8b2267913eaa
       - name: Verify published integration evidence
         run: |
           python - <<'PY'
-          import hashlib, json
+          import hashlib, json, subprocess
           from pathlib import Path
           report = json.loads(Path('docs/meterwork-bridge/2026-11-15/evidence.json').read_bytes())
           assert report['check_count'] == 30 and all(row['passed'] for row in report['checks'])
           for name, digest in report['source_files_sha256'].items():
-              assert hashlib.sha256(Path(name).read_bytes()).hexdigest() == digest, name
+              # This receipt predates receiver hardening; preserve and verify its actual source.
+              original = subprocess.check_output(['git', 'show', 'cbc8d335c84c914b702752834bfe8b2267913eaa:' + name])
+              assert hashlib.sha256(original).hexdigest() == digest, name
           for name, digest in report['fixture_files_sha256'].items():
               path = Path('fixtures/meterwork-bridge/2026-11-15') / name
               assert hashlib.sha256(path.read_bytes()).hexdigest() == digest, name
@@ -33,7 +39,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: meterwork-bridge-${{ github.sha }}
-          path: dist/meterwork-bridge/
+          path: |
+            dist/meterwork-bridge/
+            dist/bridge-recovery/
           if-no-files-found: error
           retention-days: 30
       - name: Build a reconciled subscription decision release
