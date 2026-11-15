@@ -10,6 +10,21 @@ Messy retail transactions go in. A normalized star schema, finance and customer 
 
 **Implementation scope:** Python and DuckDB run the complete pipeline. The [Databricks SQL port](databricks/README.md) reproduces the transformation layers. The BigQuery experiment described there loads the already-built monthly mart; it is not a port of the full pipeline. The checked-in implementation and verification SQL cover DuckDB and Databricks.
 
+## Reconcile your own invoice and payment files
+
+[Open the private local workbench](https://vasilendata.github.io/ecommerce-finance-mart/import/) · [Read the CSV contract and first-run commands](docs/LOCAL_IMPORT.md)
+
+Choose two local CSVs and an as-of date to see gross unpaid, overdue and overpaid invoices, trace each calculation to payments, and export invoice/customer balances with source fingerprints. The browser reads and calculates locally: no upload, telemetry or account. Try the clearly labeled synthetic sample before using your files. A separate strict GBP contract accepts positive integer pence and allocated payments; credits, refunds and prepayments are outside v1. Exact retries collapse, conflicting IDs reject the whole replacement, and a failed import preserves the last accepted result. This workflow does not change the historical or synthetic subscription outputs below.
+
+For a local command with the same calculation engine (Node 22+, no packages):
+
+```bash
+node scripts/import-finance.mjs --invoices docs/import/sample-invoices.csv --payments docs/import/sample-payments.csv --as-of 2026-03-31 --validate-only
+node scripts/import-finance.mjs --invoices docs/import/sample-invoices.csv --payments docs/import/sample-payments.csv --as-of 2026-03-31 --output dist/my-first-import
+```
+
+The output directory must be new. Replace the sample paths with your complete CSV snapshot; keep private data outside `docs/` and source control. The [contract](docs/LOCAL_IMPORT.md) covers bounded inputs, duplicate/omission counts, business-date limitations, deterministic exports and recovery.
+
 ## Usage-to-finance reconciliation
 
 Meterwork's actual restricted-API outputs feed a separate synthetic USD reporting domain. The receiver independently rates source events, preserves statement revisions, separates unpaid balances from credits and keeps the last good release when a delivery fails validation. A late correction reduces the invoice by **150 cents**; its **1,500-microUSD** residual change explains the sub-cent difference. The bounded exercise passes **30 checks**, including eight rejected deliveries that preserve the published report. This is simulated billing and collections, not real revenue or customer adoption.
