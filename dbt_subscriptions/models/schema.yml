@@ -61,6 +61,17 @@ models:
       - name: month
         data_tests: [unique, not_null]
   - name: invoice_balances
+    description: Version 1 preserves signed balance_cents; opt-in version 2 separates unpaid exposure and credits.
+    latest_version: 1
+    versions:
+      - v: 1
+        defined_in: invoice_balances
+        config:
+          alias: invoice_balances
+      - v: 2
+        defined_in: invoice_balances_v2
+        config:
+          alias: invoice_balances_v2
     columns:
       - name: invoice_id
         data_tests: [unique, not_null]

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finance Mart — safe invoice schema migration</title>
+<style>body{font:17px/1.6 system-ui,sans-serif;background:#f7f9fc;color:#182638;margin:0}main{max-width:920px;margin:auto;padding:48px 24px}a{color:#155b9c}h1{line-height:1.2;font-size:2.2rem}h2{margin-top:2em}table{border-collapse:collapse;width:100%;background:white}td,th{border:1px solid #d8e0eb;padding:12px;text-align:left}code{font-size:.9em}aside{border-left:4px solid #155b9c;padding:10px 20px;background:#eaf2fa}.table{overflow:auto}li{margin-bottom:8px}</style></head>
+<body><main><p><a href="../../">Finance Mart</a> / Engineering evidence · 14 November 2026</p>
+<h1>Change the invoice schema.<br>Preserve the original close.</h1>
+<p>The signed invoice balance can hide unpaid exposure by netting credits. An opt-in dbt v2 contract separates gross unpaid amounts and credits while keeping every v1 column and value available.</p>
+<aside><strong>Observed scope:</strong> synthetic fixtures executed locally on DuckDB 2.0.0 and a separate PostgreSQL 17.11 database. No cloud deployment, new Databricks result, stakeholder adoption or production savings is claimed.</aside>
+<h2>What changed</h2><p>Native dbt versions keep v1 as the default. Five validated physical snapshots feed stable consumer views, promoted together with the active-release pointer in one transaction. A multi-query reader pins an immutable release schema; it does not assume repeatable read freezes mutable view definitions.</p>
+<div class="table"><table><thead><tr><th>Case</th><th>Gross unpaid</th><th>Credit</th><th>Net position</th></tr></thead><tbody>
+<tr><td>Original close: two invoices, two payments, one refund</td><td>£40</td><td>£15</td><td>£25</td></tr>
+<tr><td>Delayed £15 payment and refund corrected to £10</td><td>£25</td><td>£10</td><td>£15</td></tr>
+</tbody></table></div>
+<h2>Verified behavior</h2><ul>
+<li>Each adapter passed <strong>14 migration checks and four dbt builds</strong>; all 51 nodes passed in each build.</li>
+<li>Complete incremental and full-refresh rows match an independent Python oracle and match between adapters.</li>
+<li>A corrupted candidate and an interruption after the second view replacement preserve all previous stable views and the active pointer.</li>
+<li>A second connection promotes after a reader pins its release. The reader still returns its original complete output.</li>
+<li>Rollback restores canonical output bytes. A fresh warehouse rebuild from the frozen source reproduces the original close.</li>
+<li>The existing nine-build, 39-check dbt regression also passes on both adapters; it is retained coverage, not a new capability.</li>
+</ul>
+<h2>Inspect the evidence</h2><ul>
+<li><a href="duckdb-local.json">DuckDB migration execution</a> · <a href="postgres-local.json">PostgreSQL migration execution</a></li>
+<li><a href="regression-duckdb-local.json">DuckDB regression</a> · <a href="regression-postgres-local.json">PostgreSQL regression</a></li>
+<li><a href="baseline-source.json">Baseline synthetic source</a> · <a href="changed-source.json">Correction/backfill source</a></li>
+<li><a href="manifest.json">Runtime versions, checksums and validation manifest</a></li>
+<li><a href="https://github.com/VasilenData/ecommerce-finance-mart/blob/main/docs/SCHEMA_MIGRATION.md">Migration plan, consumer contract and limitations</a></li>
+<li><a href="https://github.com/VasilenData/ecommerce-finance-mart/blob/main/mart/schema_migration.py">Inspect the publisher and exercise</a></li>
+</ul><h2>Boundaries</h2><p>One writer; workflow-frozen snapshots, not protection against a database administrator. Controlled exception recovery is not a process-kill or power-loss benchmark. Multi-query clients must pin a release schema. A knowledge cutoff alone cannot reconstruct a source snapshot after delayed deliveries. Version 1 is retained; no real consumer sign-off or retirement is invented.</p>
+<p>Repository checks: 196 Python tests passed, one unchanged historical raw-data test skipped; 14 JavaScript tests and lint passed. These downloads record local execution. Hosted CI for this change and the separate manual Databricks rerun are pending.</p>
+</main></body></html>
