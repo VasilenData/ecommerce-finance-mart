@@ -2,3 +2,13 @@
 docs/subscriptions/** -text
 docs/dbt-warehouse/** -text
 subscriptions/*.json -text
+# Immutable integration fixtures and evidence are hashed over exact committed bytes.
+fixtures/meterwork-bridge/** -text
+docs/meterwork-bridge/** -text
+docs/bridge-recovery/** -text
+# These integration receipts also identify exact executable source bytes.
+mart/meterwork_bridge.py -text
+mart/meterwork_bridge_exercise.py -text
+mart/bridge_recovery.py -text
+tests/test_meterwork_bridge.py -text
+tests/test_bridge_recovery.py -text
