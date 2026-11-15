@@ -28,6 +28,10 @@ class Rejected(ValueError):
         super().__init__(detail)
 
 
+class StoredReleaseError(RuntimeError):
+    """A persisted release failed its read contract; do not serve or overwrite it."""
+
+
 def canonical(value):
     return json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False)
 
@@ -403,21 +407,66 @@ class Bridge:
                 "code VARCHAR, detail VARCHAR, preserved_report_sha VARCHAR)"
             )
 
+    @staticmethod
+    def _checked_report(row):
+        """Verify a stored logical report against its accepted digest and identity.
+
+        This detects accidental storage drift. The digest shares the database trust
+        boundary and does not protect against an administrator rewriting both.
+        """
+        bundle_hash, sequence, cash_hash, raw, expected = row
+        try:
+            report = json.loads(raw)
+            valid = (
+                isinstance(report, dict)
+                and sha(report) == expected
+                and report["bundle_sha256"] == bundle_hash
+                and type(report["sequence"]) is int
+                and report["sequence"] == sequence
+                and report["cash_sha256"] == cash_hash
+            )
+        except (TypeError, ValueError, KeyError, OverflowError) as error:
+            raise StoredReleaseError("Stored release is not a valid report") from error
+        if not valid:
+            raise StoredReleaseError("Stored release fingerprint or identity differs; restore a verified backup")
+        return report
+
     def current(self, con=None):
         if con is None:
             with duckdb.connect(self.path, read_only=True) as connection:
                 return self.current(connection)
         row = con.execute(
-            "SELECT report_json FROM meterwork_usd.active a JOIN meterwork_usd.deliveries d ON d.bundle_sha=a.bundle_sha"
+            "SELECT a.bundle_sha,d.sequence,d.cash_sha,d.report_json,d.report_sha "
+            "FROM meterwork_usd.active a LEFT JOIN meterwork_usd.deliveries d ON d.bundle_sha=a.bundle_sha"
         ).fetchone()
-        return json.loads(row[0]) if row else None
+        if row is None and con.execute("SELECT count(*) FROM meterwork_usd.deliveries").fetchone()[0]:
+            raise StoredReleaseError("Retained releases exist without an active pointer")
+        return self._checked_report(row) if row else None
 
     def release(self, bundle_hash):
         with duckdb.connect(self.path, read_only=True) as con:
-            row = con.execute("SELECT report_json FROM meterwork_usd.deliveries WHERE bundle_sha=?", [bundle_hash]).fetchone()
-            return json.loads(row[0]) if row else None
+            row = con.execute(
+                "SELECT bundle_sha,sequence,cash_sha,report_json,report_sha FROM meterwork_usd.deliveries WHERE bundle_sha=?", [bundle_hash]
+            ).fetchone()
+            return self._checked_report(row) if row else None
 
-    def receive(self, directory, cash, expected_hash, *, fail_after_insert=False):
+    def audit(self):
+        """Check every retained report, including history that is no longer active."""
+        with duckdb.connect(self.path, read_only=True) as con:
+            con.execute("BEGIN")
+            rows = con.execute(
+                "SELECT bundle_sha,sequence,cash_sha,report_json,report_sha FROM meterwork_usd.deliveries ORDER BY sequence"
+            ).fetchall()
+            reports = [self._checked_report(row) for row in rows]
+            current = self.current(con)
+            con.execute("COMMIT")
+        return {
+            "verified_releases": len(reports),
+            "active_bundle_sha256": current["bundle_sha256"] if current else None,
+            "report_sha256": {row["bundle_sha256"]: sha(row) for row in reports},
+        }
+
+    def receive(self, directory, cash, expected_hash, *, fail_after_insert=False, _after_insert=None, _after_promote=None):
         prior = self.current()
         try:
             manifest, payload, rated = decode_bundle(directory, expected_hash)
@@ -430,15 +479,17 @@ class Bridge:
                 con.execute("BEGIN")
                 try:
                     duplicate = con.execute(
-                        "SELECT cash_sha, report_sha FROM meterwork_usd.deliveries WHERE bundle_sha=?", [expected_hash]
+                        "SELECT bundle_sha,sequence,cash_sha,report_json,report_sha FROM meterwork_usd.deliveries WHERE bundle_sha=?",
+                        [expected_hash],
                     ).fetchone()
                     if duplicate:
-                        require(duplicate[0] == cash_hash, "immutable_cash", "Cash snapshot changed for an existing delivery")
+                        self._checked_report(duplicate)
+                        require(duplicate[2] == cash_hash, "immutable_cash", "Cash snapshot changed for an existing delivery")
                         con.execute("COMMIT")
                         return {
                             "status": "replayed",
                             "bundle_sha256": expected_hash,
-                            "original_report_sha256": duplicate[1],
+                            "original_report_sha256": duplicate[4],
                             "active_report_sha256": sha(prior) if prior else None,
                         }
                     active = con.execute(
@@ -555,8 +606,12 @@ class Bridge:
                     )
                     if fail_after_insert:
                         raise Rejected("injected_failure", "Controlled failure after validated delivery insert and before promotion")
+                    if _after_insert is not None:
+                        _after_insert(con)
                     con.execute("DELETE FROM meterwork_usd.active")
                     con.execute("INSERT INTO meterwork_usd.active VALUES (1,?)", [expected_hash])
+                    if _after_promote is not None:
+                        _after_promote(con)
                     con.execute("COMMIT")
                     return {"status": "accepted", "bundle_sha256": expected_hash, "report_sha256": sha(report), "totals": totals}
                 except BaseException:
