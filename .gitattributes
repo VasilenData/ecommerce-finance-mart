@@ -12,3 +12,6 @@ mart/meterwork_bridge_exercise.py -text
 mart/bridge_recovery.py -text
 tests/test_meterwork_bridge.py -text
 tests/test_bridge_recovery.py -text
+# Local import provenance and generated browser identity use exact LF source bytes.
+docs/import/** text eol=lf
+scripts/*.mjs text eol=lf
