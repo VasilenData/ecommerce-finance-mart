@@ -15,6 +15,27 @@ jobs:
       - run: python -m ruff check .
       # The real-data test skips itself when data/ is absent.
       - run: python -m pytest -q
+      - name: Reconcile actual Meterwork source bundles and reject invalid deliveries
+        run: python -m mart.meterwork_bridge_exercise --output dist/meterwork-bridge
+      - name: Verify published integration evidence
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          report = json.loads(Path('docs/meterwork-bridge/2026-11-15/evidence.json').read_bytes())
+          assert report['check_count'] == 30 and all(row['passed'] for row in report['checks'])
+          for name, digest in report['source_files_sha256'].items():
+              assert hashlib.sha256(Path(name).read_bytes()).hexdigest() == digest, name
+          for name, digest in report['fixture_files_sha256'].items():
+              path = Path('fixtures/meterwork-bridge/2026-11-15') / name
+              assert hashlib.sha256(path.read_bytes()).hexdigest() == digest, name
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: meterwork-bridge-${{ github.sha }}
+          path: dist/meterwork-bridge/
+          if-no-files-found: error
+          retention-days: 30
       - name: Build a reconciled subscription decision release
         run: python -m mart.subscriptions --output dist/subscriptions
       - uses: actions/upload-artifact@v4
